@@ -5,7 +5,7 @@ function PostItem({ id, title, author, time, hit, comments }) {
         <li className="grid grid-cols-7 items-center border-b border-gray-200 py-2 text-sm">
             <div className="text-center text-gray-500">{"자유"}</div>
             <div className="col-span-3">
-                <a href="#" className="text-gray-800 hover:text-blue-500 hover:underline">
+                <a href={`/view/${id}`} className="text-gray-800 hover:text-blue-500 hover:underline">
                     {title}
                 </a>
                 {comments > 0 && (
@@ -15,14 +15,14 @@ function PostItem({ id, title, author, time, hit, comments }) {
             <div className="text-center text-gray-500">{author.grade}기 {author.name}</div>
             <div className="text-center text-gray-500">{time}</div>
             <div className="text-center text-gray-500">{hit}</div>
-        </li>
+        </li >
     );
 }
 
 function BulletinBoard() {
     const posts = [
         {
-            "id": 110,
+            "id": 0,
             "writer": {
                 "id": 10,
                 "grade": 38,
@@ -35,7 +35,7 @@ function BulletinBoard() {
             "comment": 13
         },
         {
-            "id": 111,
+            "id": 1,
             "writer": {
                 "id": 11,
                 "grade": 38,
@@ -47,7 +47,7 @@ function BulletinBoard() {
             "hit": 17,
             "comment": 6
         }, {
-            "id": 111,
+            "id": 2,
             "writer": {
                 "id": 11,
                 "grade": 38,

@@ -55,14 +55,14 @@ function Navbar() {
                             <div className="absolute mt-2 py-2 w-40 bg-white rounded-lg shadow-xl z-50">
                                 <a href="/board" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">전체 글 보기</a>
                                 <hr />
-                                <a href="/board" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">자유게시판</a>
-                                <a href="/board" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">공모전 및 대회</a>
+                                <a href="/board/1" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">자유게시판</a>
+                                <a href="/board/2" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">공모전 및 대회</a>
                                 <hr />
-                                <a href="#" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">건의사항</a>
-                                <a href="#" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">장부</a>
-                                <a href="#" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">회의록</a>
+                                <a href="/board/3" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">건의사항</a>
+                                <a href="/board/4" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">장부</a>
+                                <a href="/board/5" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">회의록</a>
                                 <hr />
-                                <a href="#" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">(구) 게시판</a>
+                                <a href="/board/6" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">(구) 게시판</a>
 
 
                             </div>
