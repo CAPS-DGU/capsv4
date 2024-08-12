@@ -35,7 +35,7 @@ public class Books {
     @Column(name = "book_code")
     private String code;
 
-    @OneToOne(mappedBy = "book")
+    @OneToOne(mappedBy = "book", fetch = FetchType.LAZY)
     private BookFile bookFile;
 
     @OneToMany(mappedBy = "book")
