@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: capsv4
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+
+logging.level:
+    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
