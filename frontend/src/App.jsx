@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from './pages/MainPage.jsx';
 import BoardPage from './pages/BoardPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import JoinPage from './pages/JoinPage';
 import WritePage from './pages/WritePage.jsx';
 import IntroPage from './pages/IntroPage.jsx';
 import ViewPage from './pages/ViewPage.jsx';
@@ -21,6 +22,7 @@ function App() {
             <Route path=":board_id" element={<BoardPage />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/join" element={<JoinPage />} />
           <Route path="/write" element={<WritePage />} />
           <Route path="/view" element={<ViewPage />} >
             <Route path=":view_id" element={<ViewPage />} />
