@@ -22,7 +22,7 @@ function Navbar() {
     };
 
     return (
-        <nav className="p-4 bg-black">
+        <nav className="p-4 bg-black" >
             <div className="container mx-auto">
                 {/* Logo */}
                 <div className="flex justify-center">
@@ -32,9 +32,9 @@ function Navbar() {
                 </div>
 
                 {/* Menu Items for Desktop */}
-                <div className="justify-center hidden mt-4 space-x-6 md:flex" onMouseLeave={closeDropdown}>
+                <div className="justify-center hidden mt-4 space-x-6 md:flex" >
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseOver={() => toggleDropdown(0)}>
+                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(0)}>
                             ABOUT
                         </a>
                         {dropdownOpen === 0 && (
@@ -48,21 +48,21 @@ function Navbar() {
                         )}
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseOver={() => toggleDropdown(1)}>
+                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(1)}>
                             STUDY
                         </a>
                         {dropdownOpen === 1 && (
-                            <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl">
+                            <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl" >
                                 <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">스터디 목록</a>
                             </div>
                         )}
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseOver={() => toggleDropdown(2)}>
+                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(2)}>
                             FORUM
                         </a>
                         {dropdownOpen === 2 && (
-                            <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl">
+                            <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl" >
                                 <a href="/board" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">전체 글 보기</a>
                                 <hr />
                                 <a href="/board/1" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">자유게시판</a>
@@ -77,7 +77,7 @@ function Navbar() {
                         )}
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseOver={() => toggleDropdown(3)}>
+                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(3)}>
                             UTIL
                         </a>
                         {dropdownOpen === 3 && (
@@ -88,16 +88,18 @@ function Navbar() {
                             </div>
                         )}
                     </div>
-                    <div className="relative" onMouseOver={closeDropdown}>
-                        <a href="#" className="text-white hover:text-gray-400">
+                    <div className="relative" onMouseEnter={closeDropdown}>
+                        <a href="/gallery" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
                             GALLERY
                         </a>
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400">
+                        <a href="/wiki" className="text-white hover:text-gray-400">
                             WIKI
                         </a>
                     </div>
+
+                    {/*로그인*/}
                     <div className="relative">
                         <a href="/login" className="text-white hover:text-gray-400">
                             LOGIN
@@ -167,7 +169,7 @@ function Navbar() {
                                 </div>
                             )}
                         </div>
-                        {/* Other mobile menu items... */}<div className="relative" onMouseOver={closeDropdown}>
+                        {/* Other mobile menu items... */}<div className="relative" onMouseEnter={closeDropdown}>
                             <a href="#" className="text-white hover:text-gray-400">
                                 GALLERY
                             </a>
