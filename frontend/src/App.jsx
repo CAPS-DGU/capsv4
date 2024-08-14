@@ -7,7 +7,8 @@ import BoardPage from './pages/BoardPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import JoinPage from './pages/JoinPage';
 import WritePage from './pages/WritePage.jsx';
-import IntroPage from './pages/IntroPage.jsx';
+import WikiPage from './pages/WikiPage.jsx';
+import WikiEditPage from './pages/WikiEditPage.jsx';
 import ViewPage from './pages/ViewPage.jsx';
 import NavBar from './components/NavBar.jsx';
 function App() {
@@ -27,7 +28,13 @@ function App() {
           <Route path="/view" element={<ViewPage />} >
             <Route path=":view_id" element={<ViewPage />} />
           </Route>
-          <Route path="/intro" element={<IntroPage />} />
+          <Route path="/wiki" element={<WikiEditPage />}>
+            <Route path="/wiki/edit" element={<WikiEditPage />}>
+              <Route path="/wiki/edit/:wiki_title" element={<WikiEditPage />} />
+            </Route>
+          </Route>
+
+          <Route path="/intro" element={<WikiPage />} />
 
         </Routes>
       </BrowserRouter>
