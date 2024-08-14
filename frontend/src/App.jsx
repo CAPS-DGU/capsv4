@@ -40,6 +40,10 @@ function App() {
 
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/intro" element={<WikiPage />} />
+          <Route path="/history" element={<WikiPage />} />
+          <Route path="/rule" element={<WikiPage />} />
+          <Route path="/executive" element={<WikiPage />} />
+          <Route path="/homepage" element={<WikiPage />} />
 
         </Routes>
       </BrowserRouter >

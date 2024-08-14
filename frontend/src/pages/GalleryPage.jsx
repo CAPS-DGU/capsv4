@@ -116,12 +116,6 @@ const GalleryPage = () => {
       </div>
     );
   }
-
-  return (
-    <div className="p-4">
-      <GalleryList posts={placeholderData} />
-    </div>
-  );
-};
+}
 
 export default GalleryPage;
