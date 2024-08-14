@@ -1,99 +1,98 @@
   {/*경고메세지 추가 예정: 비정상 입력 시, 박스안에 빨간색으로 메세지 추가*/}
 
-import React from 'react';
-import NameInput from '../components/JoinInput/NameInput';
-import SemesterSelect from '../components/JoinInput/SemesterSelect';
-import EmailInput from '../components/JoinInput/EmailInput';
-import IdInput from '../components/JoinInput/IdInput';
-import PasswordInput from '../components/JoinInput/PasswordInput';
-
-const JoinPage = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('회원가입이 완료되었습니다!');
-  };
-
-  return (
-    <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6">회원가입</h2>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">이름</label>
-          <input
-            type="text"
-            placeholder="이름"
-            className="w-full h-10 text-base border-0 rounded-lg outline-none px-3 bg-gray-200"
-            required
+  import React, { useState } from 'react';
+  import NameInput from '../components/JoinInput/NameInput';
+  import IdInput from '../components/JoinInput/IdInput';
+  import PasswordInput from '../components/JoinInput/PasswordInput';
+  import EmailInput from '../components/JoinInput/EmailInput';
+  import SemesterSelect from '../components/JoinInput/SemesterSelect';
+  
+  const JoinPage = () => {
+    const [name, setName] = useState('');
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [semester, setSemester] = useState('');
+    const [errors, setErrors] = useState({});
+  
+    const validateForm = () => {
+      const newErrors = {};
+  
+      // 이름 유효성 검사
+      if (!/^[가-힣]{2,4}$/.test(name)) {
+        newErrors.name = '이름은 2~4글자의 한글이어야 합니다.';
+      }
+  
+      // 아이디 유효성 검사
+      if (!/^[a-zA-Z0-9]{4,12}$/.test(id)) {
+        newErrors.id = '아이디는 4~12글자의 영문 대소문자와 숫자만 가능합니다.';
+      }
+  
+      // 비밀번호 유효성 검사
+      if (!/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{8,20}$/.test(password)) {
+        newErrors.password = '비밀번호는 8~20글자의 영문 대소문자와 숫자 1개 이상이 포함되어야 합니다.';
+      }
+  
+      // 비밀번호 확인 유효성 검사
+      if (password !== confirmPassword) {
+        newErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
+      }
+  
+      // 이메일 유효성 검사
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        newErrors.email = '유효한 이메일 주소를 입력해주세요.';
+      }
+  
+      // 기수 선택 유효성 검사
+      if (!semester) {
+        newErrors.semester = '기수를 선택해주세요. 회원이 아니시면 "비회원"을 선택해주세요.';
+      }
+  
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (validateForm()) {
+        alert('회원가입이 완료되었습니다!');
+        // 실제 회원가입 처리 로직을 여기에 추가 
+      }
+    };
+  
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <form onSubmit={handleSubmit} className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold mb-6">회원가입</h2>
+  
+          <NameInput name={name} setName={setName} error={errors.name} />
+          <IdInput id={id} setId={setId} error={errors.id} />
+          <PasswordInput
+            label="비밀번호"
+            password={password}
+            setPassword={setPassword}
+            error={errors.password}
           />
-        </div>
-
-        {/* 기수 선택 필드 */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">기수</label>
-          <select
-            className="w-full h-10 text-base border-0 rounded-lg outline-none px-3 bg-gray-200"
-            required
+          <PasswordInput
+            label="비밀번호 확인"
+            password={confirmPassword}
+            setPassword={setConfirmPassword}
+            error={errors.confirmPassword}
+          />
+          <EmailInput email={email} setEmail={setEmail} error={errors.email} />
+          <SemesterSelect semester={semester} setSemester={setSemester} error={errors.semester} />
+  
+          <button
+            type="submit"
+            className="w-full h-10 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
           >
-            <option value="">비회원</option>
-            {[...Array(38).keys()].map((_, index) => (
-              <option key={index + 1} value={`${index + 1}기`}>
-                {index + 1}기 {/*만약 가장 최근 기수이면 기수 옆에 '(신입생)'이라고 쓰기, 38-index 말고 역순 출력 방법?...*/}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">이메일</label>
-          <input
-            type="email"
-            placeholder="이메일"
-            className="w-full h-10 text-base border-0 rounded-lg outline-none px-3 bg-gray-200"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">아이디</label>
-          <input
-            type="text"
-            placeholder="아이디"
-            className="w-full h-10 text-base border-0 rounded-lg outline-none px-3 bg-gray-200"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">비밀번호</label>
-          <input
-            type="password"
-            placeholder="비밀번호"
-            className="w-full h-10 text-base border-0 rounded-lg outline-none px-3 bg-gray-200"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">비밀번호 확인</label>
-          <input
-            type="password"
-            placeholder="비밀번호 확인"
-            className="w-full h-10 text-base border-0 rounded-lg outline-none px-3 bg-gray-200"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full h-10 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
-        >
-          회원가입
-        </button>
-      </form>
-    </div>
-  );
-};
-
-export default JoinPage;
-
+            회원가입
+          </button>
+        </form>
+      </div>
+    );
+  };
+  
+  export default JoinPage;
+  

@@ -81,20 +81,20 @@ function Navbar() {
                         )}
                     </div>
                     <div className="relative" onMouseOver={closeDropdown}>
-                        <a href="#" className="text-white hover:text-gray-400" onMouseOver={closeDropdown} >
+                        <a href="/gallery" className="text-white hover:text-gray-400" onMouseOver={closeDropdown} >
                             GALLERY
                         </a>
-
                     </div>
                     <div className="relative">
                         <a href="#" className="text-white hover:text-gray-400">
                             WIKI
                         </a>
-
                     </div>
+
+                    {/*로그인*/}
                     <div className="relative">
                         <a href="/login" className="text-white hover:text-gray-400" >
-                            LOGIN
+                            LOGIN 
                         </a>
 
                     </div>
