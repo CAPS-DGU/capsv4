@@ -1,121 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import GalleryList from '../components/GalleryList/GalleryList';
 
-const placeholderData = [
-  {
-    "id": 110,
-    "writer": {
-      "id": 10,
-      "grade": 38,
-      "name": "홍길동"
-    },
-    "isDeleted": 0,
-    "isModified": 0,
-    "category": 3,
-    "title": "안녕하세요.",
-    "time": "2024-08-07 16:20:32",
-    "hit": 37,
-    "content": "오늘부터 ...",
-    "like": 6,
-    "comment": [
-      {
-        "id": 37,
-        "userId": 112,
-        "isDeleted": 0,
-        "targetId": 0,
-        "content": "좋아요!",
-        "time": "2024-08-07 15:52:37"
-      },
-      {
-        "id": 38,
-        "userId": 113,
-        "isDeleted": 0,
-        "targetId": 37,
-        "content": "저도 좋아요!",
-        "time": "2024-08-07 15:54:23"
-      }
-    ],
-    "files": [
-      {
-        "fileId": 232,
-        "name": "회의록.hwp"
-      },
-      {
-        "fileId": 233,
-        "name": "장부.xlsx"
-      }
-    ]
-  }, {
-    "id": 110,
-    "writer": {
-      "id": 10,
-      "grade": 38,
-      "name": "홍길동"
-    },
-    "isDeleted": 0,
-    "isModified": 0,
-    "category": 3,
-    "title": "안녕하세요.",
-    "time": "2024-08-07 16:20:32",
-    "hit": 37,
-    "content": "오늘부터 ...",
-    "like": 6,
-    "comment": [
-      {
-        "id": 37,
-        "userId": 112,
-        "isDeleted": 0,
-        "targetId": 0,
-        "content": "좋아요!",
-        "time": "2024-08-07 15:52:37"
-      },
-      {
-        "id": 38,
-        "userId": 113,
-        "isDeleted": 0,
-        "targetId": 37,
-        "content": "저도 좋아요!",
-        "time": "2024-08-07 15:54:23"
-      }
-    ],
-    "files": [
-      {
-        "fileId": 232,
-        "name": "회의록.hwp"
-      },
-      {
-        "fileId": 233,
-        "name": "장부.xlsx"
-      }
-    ]
-  }
-];
+const GalleryData = [ //임시데이터
+  { id: 1, title: '1번 게시물', author: '38기 작성자1', date: '2024-08-14', likes: 1, comments: 2, views: 45, imageSrc: '/src/assets/1.jpg' },
+  { id: 2, title: '2번 게시물', author: '38기 작성자2', date: '2024-08-14', likes: 2, comments: 0, views: 45, imageSrc: '/src/assets/2.jpg' },
+  { id: 3, title: '3번 게시물', author: '38기 작성자3', date: '2024-08-14', likes: 3, comments: 1, views: 45, imageSrc: '/src/assets/3.jpg' },
+  { id: 4, title: '4번 게시물', author: '38기 작성자4', date: '2024-08-14', likes: 4, comments: 4, views: 45, imageSrc: '/src/assets/4.jpg' },
+  { id: 5, title: '5번 게시물', author: '38기 작성자5', date: '2024-08-14', likes: 4, comments: 0, views: 45, imageSrc: '/src/assets/5.jpg' },
+  { id: 6, title: '6번 게시물', author: '38기 작성자6', date: '2024-08-14', likes: 0, comments: 3, views: 45, imageSrc: '/src/assets/6.jpg' },
+]
 
 const GalleryPage = () => {
-  const [selectedPost, setSelectedPost] = useState(null);
+  return (
+    <div className="p-4">
+      <GalleryList posts={GalleryData} />
+    </div>
+  );
+};
 
-  const handleDetailsClick = (id) => {
-    const post = placeholderData.find((item) => item.id === id);
-    setSelectedPost(post);
-  };
-
-  const handleBackClick = () => {
-    setSelectedPost(null);
-  };
-
-  if (selectedPost) {
-    return (
-      <div className="p-4">
-        <button onClick={handleBackClick} className="px-4 py-2 mb-4 bg-gray-300">
-          뒤로가기
-        </button>
-        <h1 className="mb-4 text-2xl font-bold">{selectedPost.title}</h1>
-        <img src={selectedPost.imageSrc} alt={selectedPost.title} className="object-cover w-full h-64 mb-4" />
-        <p>{selectedPost.details}</p>
-        <p>❤️ {selectedPost.likes}</p>
-      </div>
-    );
-  }
-}
-
-export default GalleryPage;
+export default GalleryPage; 
