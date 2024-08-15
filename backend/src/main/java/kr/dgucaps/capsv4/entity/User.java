@@ -1,19 +1,22 @@
 package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
 @Getter
 @Table(name = "user_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +25,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_permission")
     private UserPermission permission;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + permission.toString()));
+    }
 
     private String userId;
 
@@ -50,6 +58,18 @@ public class User {
 
     @Column(name = "user_last_login_date")
     private LocalDate lastLoginDate;
+
+    @Builder
+    public User(String userId, String password, String name, Integer grade, String email) {
+        this.permission = UserPermission.NEW_MEMBER;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.grade = grade;
+        this.email = email;
+        this.point = 0;
+        this.totalPoint = 0;
+    }
 
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
@@ -89,4 +109,29 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<EventQuizApply> quizApplies = new ArrayList<>();
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
