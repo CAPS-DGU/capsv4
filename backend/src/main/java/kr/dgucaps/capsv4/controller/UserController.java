@@ -3,6 +3,7 @@ package kr.dgucaps.capsv4.controller;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.CreateUserRequest;
 import kr.dgucaps.capsv4.dto.request.LoginRequest;
+import kr.dgucaps.capsv4.dto.request.TokenRenewalRequest;
 import kr.dgucaps.capsv4.dto.response.JwtToken;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.UserService;
@@ -30,5 +31,11 @@ public class UserController {
     public ResponseEntity<DataResponse> login(@RequestBody @Valid LoginRequest request) {
         JwtToken jwtToken = userService.login(request);
         return ResponseEntity.ok(DataResponse.builder().message("로그인 성공").data(jwtToken).build());
+    }
+
+    @PostMapping("/token/renewal")
+    public ResponseEntity<DataResponse> renewalToken(@RequestBody @Valid TokenRenewalRequest request) {
+        JwtToken jwtToken = userService.renewalToken(request);
+        return ResponseEntity.ok(DataResponse.builder().message("토큰 재발급 성공").data(jwtToken).build());
     }
 }

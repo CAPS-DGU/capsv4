@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.CreateUserRequest;
 import kr.dgucaps.capsv4.dto.request.LoginRequest;
+import kr.dgucaps.capsv4.dto.request.TokenRenewalRequest;
 import kr.dgucaps.capsv4.dto.response.JwtToken;
 import kr.dgucaps.capsv4.exception.DuplicateUserException;
 import kr.dgucaps.capsv4.repository.UserRepository;
@@ -37,7 +38,16 @@ public class UserService {
         return jwtTokenProvider.generateToken(authentication);
     }
 
-    public void isDuplicated(String userId) {
+    public JwtToken renewalToken(TokenRenewalRequest request) {
+        String token = request.getRefreshToken();
+        if (jwtTokenProvider.validateToken(token)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            return jwtTokenProvider.generateToken(authentication);
+        }
+        return null;
+    }
+
+    private void isDuplicated(String userId) {
         if (userRepository.existsByUserId(userId)) {
             throw new DuplicateUserException("이미 사용중인 사용자명 입니다.");
         }

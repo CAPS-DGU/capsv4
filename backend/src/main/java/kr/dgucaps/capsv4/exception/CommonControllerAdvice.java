@@ -38,7 +38,6 @@ public class CommonControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().message("회원가입 오류").details(ex.getMessage()).build());
     }
 
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorResponse> handleGlobalExceptions(Exception ex) {

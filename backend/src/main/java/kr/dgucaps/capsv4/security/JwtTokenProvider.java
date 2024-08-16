@@ -52,6 +52,8 @@ public class JwtTokenProvider {
                 .compact();
 
         String refreshToken = Jwts.builder()
+                .subject(authentication.getName())
+                .claim("auth", authorities)
                 .expiration(refreshTokenExpiresIn)
                 .signWith(getSecretKey())
                 .compact();
@@ -106,6 +108,9 @@ public class JwtTokenProvider {
                     .getPayload();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
+        } catch (Exception e) {
+            log.error("Failed to parse JWT claims", e);
+            throw new RuntimeException("Failed to parse JWT claims", e);
         }
     }
 }
