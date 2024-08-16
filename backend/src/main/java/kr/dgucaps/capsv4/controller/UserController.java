@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.controller;
 
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.CreateUserRequest;
+import kr.dgucaps.capsv4.dto.request.FindUserIdRequest;
 import kr.dgucaps.capsv4.dto.request.LoginRequest;
 import kr.dgucaps.capsv4.dto.request.TokenRenewalRequest;
 import kr.dgucaps.capsv4.dto.response.JwtToken;
@@ -31,6 +32,11 @@ public class UserController {
     public ResponseEntity<DataResponse> login(@RequestBody @Valid LoginRequest request) {
         JwtToken jwtToken = userService.login(request);
         return ResponseEntity.ok(DataResponse.builder().message("로그인 성공").data(jwtToken).build());
+    }
+
+    @PostMapping("/user/findUserId")
+    public ResponseEntity<DataResponse> findUserId(@RequestBody @Valid FindUserIdRequest request) {
+        return ResponseEntity.ok(DataResponse.builder().message("사용자 아이디 찾기 성공").data(userService.findUserId(request)).build());
     }
 
     @PostMapping("/token/renewal")

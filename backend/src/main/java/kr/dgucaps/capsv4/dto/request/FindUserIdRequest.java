@@ -4,8 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class TokenRenewalRequest {
+public class FindUserIdRequest {
 
     @NotBlank
-    private String refreshToken;
+    private String name;
+
+    @NotBlank
+    private String email;
 }
