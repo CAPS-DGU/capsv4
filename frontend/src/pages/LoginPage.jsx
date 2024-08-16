@@ -38,7 +38,7 @@ const JoinLink = () => (
 const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('님, 로그인을 환영합니다! 10 포인트 지급!');
+    alert('로그인을 환영합니다! 10 포인트 지급!');
   };
 
   return (

@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import JoinPage from './pages/JoinPage';
 import WritePage from './pages/WritePage.jsx';
 import NavBar from './components/NavBar.jsx';
+import LibraryPage from './pages/LibraryPage.jsx';
 function App() {
 
   return (
@@ -21,8 +22,8 @@ function App() {
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/join" element={<JoinPage />} />
-            <Route path="/write" element={<WritePage />} />
-          </Routes>
+            <Route path="/write" element={<WritePage />} />            
+            <Route path="/library" element={<LibraryPage />} />          </Routes>
       </BrowserRouter>
     </>
   )
