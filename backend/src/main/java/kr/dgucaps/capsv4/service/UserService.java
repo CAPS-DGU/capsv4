@@ -48,6 +48,10 @@ public class UserService {
         return FindUserIdResponse.builder().userId(user.getUserId()).build();
     }
 
+    public void validateUserId(String userId) {
+        isDuplicated(userId);
+    }
+
     public JwtToken renewalToken(TokenRenewalRequest request) {
         String token = request.getRefreshToken();
         if (jwtTokenProvider.validateToken(token)) {

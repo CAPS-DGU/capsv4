@@ -22,3 +22,9 @@ logging.level:
 
 jwt:
   secret: ${JWT_SECRET_KEY}
+
+springdoc:
+  swagger-ui:
+    path: /api
+    groups-order: desc
+    operations-sorter: method

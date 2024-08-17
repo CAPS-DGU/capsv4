@@ -31,10 +31,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorization ->
                         authorization
                                 .requestMatchers(HttpMethod.POST, "/user", "/user/login", "/user/findUserId").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/user/**/validate").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user/{userId}/validate").permitAll()
                                 .requestMatchers("/test").hasRole("MEMBER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class).build();
     }
