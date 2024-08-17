@@ -40,10 +40,10 @@ function Navbar() {
                         {dropdownOpen === 0 && (
                             <div className="absolute z-50 w-40 py-1 mt-1 bg-white rounded-lg shadow-xl">
                                 <a href="/intro" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 소개</a>
-                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 연혁</a>
-                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 회칙</a>
-                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 집행부 소개</a>
-                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 홈페이지 정보</a>
+                                <a href="/history" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 연혁</a>
+                                <a href="/rule" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 회칙</a>
+                                <a href="/executive" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 집행부 소개</a>
+                                <a href="/homepage" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 홈페이지 정보</a>
                             </div>
                         )}
                     </div>
@@ -88,7 +88,12 @@ function Navbar() {
                             </div>
                         )}
                     </div>
+
                     <div className="relative" onMouseEnter={closeDropdown}>
+                        <a href="/event" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
+                            EVENT
+                        </a>
+                    </div><div className="relative" onMouseEnter={closeDropdown}>
                         <a href="/gallery" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
                             GALLERY
                         </a>
@@ -169,7 +174,13 @@ function Navbar() {
                                 </div>
                             )}
                         </div>
-                        {/* Other mobile menu items... */}<div className="relative" onMouseEnter={closeDropdown}>
+                        {/* Other mobile menu items... */}
+                        <div className="relative" onMouseEnter={closeDropdown}>
+                            <a href="#" className="text-white hover:text-gray-400">
+                                EVENT
+                            </a>
+                        </div>
+                        <div className="relative" onMouseEnter={closeDropdown}>
                             <a href="#" className="text-white hover:text-gray-400">
                                 GALLERY
                             </a>
