@@ -1,10 +1,8 @@
 package kr.dgucaps.capsv4.service;
 
-import kr.dgucaps.capsv4.dto.request.CreateUserRequest;
-import kr.dgucaps.capsv4.dto.request.FindUserIdRequest;
-import kr.dgucaps.capsv4.dto.request.LoginRequest;
-import kr.dgucaps.capsv4.dto.request.TokenRenewalRequest;
+import kr.dgucaps.capsv4.dto.request.*;
 import kr.dgucaps.capsv4.dto.response.FindUserIdResponse;
+import kr.dgucaps.capsv4.dto.response.GetUserResponse;
 import kr.dgucaps.capsv4.dto.response.JwtToken;
 import kr.dgucaps.capsv4.entity.User;
 import kr.dgucaps.capsv4.exception.DuplicateUserException;
@@ -44,12 +42,51 @@ public class UserService {
 
     public FindUserIdResponse findUserId(FindUserIdRequest request) {
         User user = userRepository.findByNameAndEmail(request.getName(), request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new UsernameNotFoundException("해당 정보와 일치하는 회원이 존재하지 않습니다."));
         return FindUserIdResponse.builder().userId(user.getUserId()).build();
     }
 
     public void validateUserId(String userId) {
         isDuplicated(userId);
+    }
+
+    public GetUserResponse getUser(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+        return GetUserResponse.builder()
+                .id(user.getId())
+                .permission(user.getPermission())
+                .userId(user.getUserId())
+                .name(user.getName())
+                .grade(user.getGrade())
+                .email(user.getEmail())
+                .comment(user.getComment())
+                .imageName(user.getImageName())
+                .point(user.getPoint())
+                .totalPoint(user.getTotalPoint())
+                .lastLoginDate(user.getLastLoginDate())
+                .isDeleted(user.getIsDeleted())
+                .build();
+
+    }
+
+    @Transactional
+    public void updateUser(String userId, ModifyUserRequest request) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+        if (request.getPassword() != null)
+            user.updatePassword(passwordEncoder.encode(request.getPassword()));
+        if (request.getComment() != null)
+            user.updateComment(request.getComment());
+    }
+
+    @Transactional
+    public void deleteUser(String userId) {
+        if (userRepository.existsByUserId(userId)) {
+            userRepository.deleteByUserId(userId);
+        } else {
+            throw new UsernameNotFoundException("해당 회원을 찾을 수 없습니다.");
+        }
     }
 
     public JwtToken renewalToken(TokenRenewalRequest request) {

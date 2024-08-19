@@ -3,10 +3,7 @@ package kr.dgucaps.capsv4.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import kr.dgucaps.capsv4.dto.request.CreateUserRequest;
-import kr.dgucaps.capsv4.dto.request.FindUserIdRequest;
-import kr.dgucaps.capsv4.dto.request.LoginRequest;
-import kr.dgucaps.capsv4.dto.request.TokenRenewalRequest;
+import kr.dgucaps.capsv4.dto.request.*;
 import kr.dgucaps.capsv4.dto.response.JwtToken;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.UserService;
@@ -47,6 +44,26 @@ public class UserController {
     public ResponseEntity<DataResponse> validateUserId(@PathVariable("userId") String userId) {
         userService.validateUserId(userId);
         return ResponseEntity.ok(DataResponse.builder().message("사용 가능한 아이디").build());
+    }
+
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "회원 조회", description = "회원 정보 조회")
+    public ResponseEntity<DataResponse> getUser(@PathVariable("userId") String userId) {
+        return ResponseEntity.ok(DataResponse.builder().message("회원 조회 성공").data(userService.getUser(userId)).build());
+    }
+
+    @PatchMapping("/user/{userId}")
+    @Operation(summary = "회원 정보 수정", description = "수정이 필요하지 않은 필드는 null")
+    public ResponseEntity<DataResponse> updateUser(@PathVariable("userId") String userId, @RequestBody @Valid ModifyUserRequest request) {
+        userService.updateUser(userId, request);
+        return ResponseEntity.ok(DataResponse.builder().message("회원 수정 성공").build());
+    }
+
+    @DeleteMapping("/user/{userId}")
+    @Operation(summary = "회원 탈퇴")
+    public ResponseEntity<DataResponse> deleteUser(@PathVariable("userId") String userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(DataResponse.builder().message("회원 탈퇴 성공").build());
     }
 
     @PostMapping("/token/renewal")
