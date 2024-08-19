@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +42,18 @@ public class Board {
 
     @Column(name = "board_content")
     private String content;
+
+    @Builder
+    public Board(User user, Integer category, String title, String content) {
+        this.user = user;
+        this.isDeleted = false;
+        this.isModified = false;
+        this.category = category;
+        this.title = title;
+        this.datetime = LocalDateTime.now();
+        this.hit = 0;
+        this.content = content;
+    }
 
     @OneToMany(mappedBy = "board")
     private List<BoardModify> boardModifies = new ArrayList<>();
