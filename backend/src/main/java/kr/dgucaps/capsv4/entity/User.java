@@ -2,6 +2,8 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,8 @@ import java.util.List;
 @Getter
 @Table(name = "user_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE user_tb SET user_id = CONCAT('[deleted]', user_id), is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 public class User implements UserDetails {
 
     @Id
@@ -59,6 +63,8 @@ public class User implements UserDetails {
     @Column(name = "user_last_login_date")
     private LocalDate lastLoginDate;
 
+    private Boolean isDeleted;
+
     @Builder
     public User(String userId, String password, String name, Integer grade, String email) {
         this.permission = UserPermission.NEW_MEMBER;
@@ -69,6 +75,7 @@ public class User implements UserDetails {
         this.email = email;
         this.point = 0;
         this.totalPoint = 0;
+        this.isDeleted = false;
     }
 
     @OneToMany(mappedBy = "user")
@@ -109,6 +116,14 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<EventQuizApply> quizApplies = new ArrayList<>();
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateComment(String comment) {
+        this.comment = comment;
+    }
 
     @Override
     public String getUsername() {
