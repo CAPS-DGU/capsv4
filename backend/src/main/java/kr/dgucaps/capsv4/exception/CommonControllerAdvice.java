@@ -42,7 +42,7 @@ public class CommonControllerAdvice {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleFindUserId(Exception ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.builder().message("사용자 아이디 찾기 오류").details(ex.getMessage()).build());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.builder().message("사용자명을 찾을 수 없습니다").details(ex.getMessage()).build());
     }
 
     @ExceptionHandler(Exception.class)
