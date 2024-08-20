@@ -12,8 +12,11 @@ import WikiPage from './pages/WikiPage.jsx';
 import WikiEditPage from './pages/WikiEditPage.jsx';
 import ViewPage from './pages/ViewPage.jsx';
 import NavBar from './components/NavBar.jsx';
+import LibraryPage from './pages/LibraryPage.jsx';
 import EventPage from './pages/EventPage.jsx';
 import EventDetailPage from './pages/EventDetailPage.jsx';
+import StudyPage from './pages/StudyPage.jsx';
+import StudyDetailPage from './pages/StudyDetailPage.jsx';
 function App() {
 
   return (
@@ -48,7 +51,10 @@ function App() {
           <Route path="/rule" element={<WikiPage />} />
           <Route path="/executive" element={<WikiPage />} />
           <Route path="/homepage" element={<WikiPage />} />
-
+          <Route path="/library" element={<LibraryPage />} />
+          <Route path="/study" element={<StudyPage />} />
+          <Route path="/study/:study_id" element={<StudyDetailPage />} />
+          <Route path="/study/create" element={<div>스터디 만들기 페이지</div>} />
         </Routes>
       </BrowserRouter >
     </>

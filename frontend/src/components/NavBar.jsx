@@ -82,7 +82,7 @@ function Navbar() {
                         </a>
                         {dropdownOpen === 3 && (
                             <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl">
-                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 도서관</a>
+                                <a href="/library" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 도서관</a>
                                 <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 활동 랭킹</a>
                                 <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">오늘의 학식</a>
                             </div>
