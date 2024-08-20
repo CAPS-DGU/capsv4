@@ -17,6 +17,8 @@ import EventPage from './pages/EventPage.jsx';
 import EventDetailPage from './pages/EventDetailPage.jsx';
 import StudyPage from './pages/StudyPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
+import RankingPage from './pages/RankingPage.jsx';
+
 function App() {
 
   return (
@@ -55,8 +57,11 @@ function App() {
           <Route path="/study" element={<StudyPage />} />
           <Route path="/study/:study_id" element={<StudyDetailPage />} />
           <Route path="/study/create" element={<div>스터디 만들기 페이지</div>} />
+          <Route path="/ranking" element={<RankingPage />} /> 
+
         </Routes>
-      </BrowserRouter >
+      </BrowserRouter>
+
     </>
   )
 }
