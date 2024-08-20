@@ -10,6 +10,8 @@ import JoinPage from './pages/JoinPage';
 import WritePage from './pages/WritePage.jsx';
 import NavBar from './components/NavBar.jsx';
 import LibraryPage from './pages/LibraryPage.jsx';
+import RankingPage from './pages/RankingPage.jsx';
+
 function App() {
 
   return (
@@ -23,7 +25,9 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/join" element={<JoinPage />} />
             <Route path="/write" element={<WritePage />} />            
-            <Route path="/library" element={<LibraryPage />} />          </Routes>
+            <Route path="/library" element={<LibraryPage />} />          
+            <Route path="/ranking" element={<RankingPage />} /> 
+            </Routes>
       </BrowserRouter>
     </>
   )

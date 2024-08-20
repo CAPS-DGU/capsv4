@@ -12,8 +12,13 @@ const GalleryData = [ //임시데이터
 
 const GalleryPage = () => {
   return (
-    <div className="p-4">
-      <GalleryList posts={GalleryData} />
+    <div className="flex flex-col items-center">
+      <div className="w-full max-w-6xl">
+        <h1 className="text-2xl m-4 text-gray-500 text-center">갤러리</h1>
+        <div className="p-4">
+          <GalleryList posts={GalleryData} />
+        </div>
+      </div>
     </div>
   );
 };
