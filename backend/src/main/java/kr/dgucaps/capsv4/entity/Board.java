@@ -5,7 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.List;
 @Getter
 @Table(name = "board_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE board_tb SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 public class Board {
 
     @Id
@@ -65,7 +68,10 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
-    @BatchSize(size = 10)
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
+
+    public void updateHit() {
+        this.hit++;
+    }
 }

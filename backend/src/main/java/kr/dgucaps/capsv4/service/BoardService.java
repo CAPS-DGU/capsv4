@@ -3,6 +3,7 @@ package kr.dgucaps.capsv4.service;
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
 import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
 import kr.dgucaps.capsv4.dto.response.GetBoardListResponse;
+import kr.dgucaps.capsv4.dto.response.GetBoardResponse;
 import kr.dgucaps.capsv4.entity.Board;
 import kr.dgucaps.capsv4.entity.BoardLike;
 import kr.dgucaps.capsv4.entity.UploadFile;
@@ -88,5 +89,51 @@ public class BoardService {
                         .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    public GetBoardResponse getBoard(Integer boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다"));
+        board.updateHit();
+        return GetBoardResponse.builder()
+                .id(board.getId())
+                .writer(GetBoardResponse.Writer.builder()
+                        .id(board.getUser().getId())
+                        .grade(board.getUser().getGrade())
+                        .name(board.getUser().getName())
+                        .build())
+                .isDeleted(board.getIsDeleted())
+                .isModified(board.getIsModified())
+                .category(board.getCategory())
+                .title(board.getTitle())
+                .time(board.getDatetime())
+                .hit(board.getHit())
+                .content(board.getContent())
+                .like(board.getBoardLikes().size())
+                .comment(board.getComments().stream()
+                        .map(comment -> GetBoardResponse.Comment.builder()
+                                .id(comment.getId())
+                                .writer(GetBoardResponse.Writer.builder()
+                                        .id(comment.getUser().getId())
+                                        .grade(comment.getUser().getGrade())
+                                        .name(comment.getUser().getName())
+                                        .build())
+                                .isDeleted(comment.getIsDeleted())
+                                .targetId(comment.getTarget())
+                                .content(comment.getContent())
+                                .time(comment.getDateTime())
+                                .build()
+                        )
+                        .collect(Collectors.toList())
+                )
+                .files(board.getUploadFiles().stream()
+                        .map(file -> GetBoardResponse.File.builder()
+                                .fileId(file.getId())
+                                .name(file.getTitle())
+                                .build()
+                        )
+                        .collect(Collectors.toList())
+                )
+                .build();
     }
 }

@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
 import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
@@ -43,5 +44,11 @@ public class BoardController {
     @Operation(summary = "카테고리별 게시글 목록 조회")
     public ResponseEntity<DataResponse> getBoardList(@ParameterObject @Valid GetBoardListParameter parameter) {
         return ResponseEntity.ok(DataResponse.builder().message("게시글 목록 조회 성공").data(boardService.getBoardListByCategory(parameter)).build());
+    }
+
+    @GetMapping("/board/{boardId}")
+    @Operation(summary = "게시글 조회")
+    public ResponseEntity<DataResponse> getBoard(@PathVariable("boardId") Integer boardId) {
+        return ResponseEntity.ok(DataResponse.builder().message("게시글 조회 성공").data(boardService.getBoard(boardId)).build());
     }
 }
