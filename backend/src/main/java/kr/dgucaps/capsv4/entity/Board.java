@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
+    @BatchSize(size = 10)
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 }

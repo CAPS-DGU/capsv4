@@ -3,16 +3,16 @@ package kr.dgucaps.capsv4.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
+import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -37,5 +37,11 @@ public class BoardController {
     public ResponseEntity<DataResponse> likeBoard(@PathVariable("boardId") Integer boardId) {
         boardService.likeBoard(boardId);
         return ResponseEntity.ok(DataResponse.builder().message("게시글 좋아요 성공").build());
+    }
+
+    @GetMapping("/board/{category}")
+    public ResponseEntity<DataResponse> getBoardList(@PathVariable("category") Integer category,
+                                                     @ParameterObject GetBoardListParameter parameter) {
+        return ResponseEntity.ok(DataResponse.builder().message("게시글 목록 조회 성공").data(boardService.getBoardListByCategory(category, parameter)).build());
     }
 }

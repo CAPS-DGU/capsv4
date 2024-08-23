@@ -1,6 +1,8 @@
 package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
+import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
+import kr.dgucaps.capsv4.dto.response.GetBoardListResponse;
 import kr.dgucaps.capsv4.entity.Board;
 import kr.dgucaps.capsv4.entity.BoardLike;
 import kr.dgucaps.capsv4.entity.UploadFile;
@@ -10,12 +12,17 @@ import kr.dgucaps.capsv4.repository.BoardRepository;
 import kr.dgucaps.capsv4.repository.UserRepository;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,5 +56,32 @@ public class BoardService {
                         .board(board)
                         .user(user)
                         .build());
+    }
+
+    public List<GetBoardListResponse> getBoardListByCategory(Integer category, GetBoardListParameter parameter) {
+        Pageable pageable = PageRequest.of(parameter.getPage(), 10);
+        String search = parameter.getSearch();
+        Page<Board> boards;
+        if (search != null && !search.isEmpty()) {
+            boards = boardRepository.findByCategoryAndTitleContaining(category, search, pageable);
+        } else {
+            boards = boardRepository.findByCategory(category, pageable);
+        }
+        return boards.stream()
+                .map(board -> GetBoardListResponse.builder()
+                        .id(board.getId())
+                        .writer(GetBoardListResponse.Writer.builder()
+                                .id(board.getUser().getId())
+                                .grade(board.getUser().getGrade())
+                                .name(board.getUser().getName())
+                                .build())
+                        .category(board.getCategory())
+                        .title(board.getTitle())
+                        .time(board.getDatetime())
+                        .hit(board.getHit())
+                        .comments(board.getComments().size())
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 }
