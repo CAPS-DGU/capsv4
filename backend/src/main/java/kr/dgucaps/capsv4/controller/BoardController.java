@@ -39,10 +39,9 @@ public class BoardController {
         return ResponseEntity.ok(DataResponse.builder().message("게시글 좋아요 성공").build());
     }
 
-    @GetMapping("/board/{category}")
+    @GetMapping("/board")
     @Operation(summary = "카테고리별 게시글 목록 조회")
-    public ResponseEntity<DataResponse> getBoardList(@PathVariable("category") Integer category,
-                                                     @ParameterObject GetBoardListParameter parameter) {
-        return ResponseEntity.ok(DataResponse.builder().message("게시글 목록 조회 성공").data(boardService.getBoardListByCategory(category, parameter)).build());
+    public ResponseEntity<DataResponse> getBoardList(@ParameterObject @Valid GetBoardListParameter parameter) {
+        return ResponseEntity.ok(DataResponse.builder().message("게시글 목록 조회 성공").data(boardService.getBoardListByCategory(parameter)).build());
     }
 }

@@ -61,9 +61,10 @@ public class BoardService {
                         .build());
     }
 
-    public List<GetBoardListResponse> getBoardListByCategory(Integer category, GetBoardListParameter parameter) {
+    public List<GetBoardListResponse> getBoardListByCategory(GetBoardListParameter parameter) {
         Pageable pageable = PageRequest.of(parameter.getPage(), 10);
         String search = parameter.getSearch();
+        Integer category = parameter.getCategory();
         Page<Board> boards;
         if (search != null && !search.isEmpty()) {
             boards = boardRepository.findByCategoryAndTitleContaining(category, search, pageable);
