@@ -36,6 +36,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/user/{userId}/validate", "/board", "/study", "/wiki", "/wiki/random").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers( "/","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                                .requestMatchers("/upload/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class).build();

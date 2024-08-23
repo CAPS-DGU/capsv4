@@ -68,6 +68,8 @@ public class GetBoardResponse {
 
         private Integer fileId;
 
-        private String name;
+        private String url;
+
+        private String title;
     }
 }
