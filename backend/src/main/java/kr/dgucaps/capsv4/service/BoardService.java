@@ -2,15 +2,11 @@ package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
 import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
+import kr.dgucaps.capsv4.dto.request.ModifyBoardRequest;
 import kr.dgucaps.capsv4.dto.response.GetBoardListResponse;
 import kr.dgucaps.capsv4.dto.response.GetBoardResponse;
-import kr.dgucaps.capsv4.entity.Board;
-import kr.dgucaps.capsv4.entity.BoardLike;
-import kr.dgucaps.capsv4.entity.UploadFile;
-import kr.dgucaps.capsv4.entity.User;
-import kr.dgucaps.capsv4.repository.BoardLikeRepository;
-import kr.dgucaps.capsv4.repository.BoardRepository;
-import kr.dgucaps.capsv4.repository.UserRepository;
+import kr.dgucaps.capsv4.entity.*;
+import kr.dgucaps.capsv4.repository.*;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +30,9 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final UploadFileService uploadFileService;
+    private final UploadFileRepository uploadFileRepository;
     private final BoardLikeRepository boardLikeRepository;
+    private final BoardModifyRepository boardModifyRepository;
 
     @Transactional
     public void createBoard(CreateBoardRequest request) throws IOException {
@@ -137,5 +136,41 @@ public class BoardService {
                         .collect(Collectors.toList())
                 )
                 .build();
+    }
+
+    @Transactional
+    public void modifyBoard(Integer boardId, ModifyBoardRequest request) throws IOException {
+        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
+                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+        if (!user.getUserId().equals(board.getUser().getUserId())) {
+            throw new AccessDeniedException("해당 게시글을 수정할 권한이 없습니다");
+        }
+        BoardModify boardModify = BoardModify.builder()
+                .board(board)
+                .category(board.getCategory())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .build();
+        boardModifyRepository.save(boardModify);
+        board.markModified();
+        if (request.getCategory() != null) {
+            board.updateCategory(request.getCategory());
+        }
+        if (request.getTitle() != null) {
+            board.updateTitle(request.getTitle());
+        }
+        if (request.getContent() != null) {
+            board.updateContent(request.getContent());
+        }
+        if (request.getFiles() != null && !request.getFiles().isEmpty()) {
+            uploadFileRepository.deleteAll(board.getUploadFiles());
+            board.getUploadFiles().clear();
+            for (MultipartFile file : request.getFiles()) {
+                UploadFile uploadFile = uploadFileService.store(file, board);
+                board.getUploadFiles().add(uploadFile);
+            }
+        }
     }
 }

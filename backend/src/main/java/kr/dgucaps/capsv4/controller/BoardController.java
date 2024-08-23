@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
 import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
+import kr.dgucaps.capsv4.dto.request.ModifyBoardRequest;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +51,14 @@ public class BoardController {
     @Operation(summary = "게시글 조회")
     public ResponseEntity<DataResponse> getBoard(@PathVariable("boardId") Integer boardId) {
         return ResponseEntity.ok(DataResponse.builder().message("게시글 조회 성공").data(boardService.getBoard(boardId)).build());
+    }
+
+    @PatchMapping(value = "/board/{boardId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "게시글 수정", description = "파일 미포함시 '-' 표시 눌러 업로드칸 제거 후 Send empty value 체크 해제 해야합니다!")
+    @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
+    public ResponseEntity<DataResponse> modifyBoard(@PathVariable("boardId") Integer boardId,
+                                                    @ModelAttribute @Valid ModifyBoardRequest request)throws IOException {
+        boardService.modifyBoard(boardId, request);
+        return ResponseEntity.ok(DataResponse.builder().message("게시글 수정 성공").build());
     }
 }

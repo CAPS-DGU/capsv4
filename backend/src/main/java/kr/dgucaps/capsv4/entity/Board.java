@@ -74,4 +74,20 @@ public class Board {
     public void updateHit() {
         this.hit++;
     }
+
+    public void updateCategory(Integer category) {
+        this.category = category;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void markModified() {
+        this.isModified = true;
+    }
 }

@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,13 @@ public class BoardModify {
 
     @Column(name = "board_content")
     private String content;
+
+    @Builder
+    public BoardModify(Board board, String title, Integer category, String content) {
+        this.board = board;
+        this.title = title;
+        this.category = category;
+        this.datetime = LocalDateTime.now();
+        this.content = content;
+    }
 }
