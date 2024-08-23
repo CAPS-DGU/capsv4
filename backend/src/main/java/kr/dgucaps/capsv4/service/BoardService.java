@@ -2,8 +2,10 @@ package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
 import kr.dgucaps.capsv4.entity.Board;
+import kr.dgucaps.capsv4.entity.BoardLike;
 import kr.dgucaps.capsv4.entity.UploadFile;
 import kr.dgucaps.capsv4.entity.User;
+import kr.dgucaps.capsv4.repository.BoardLikeRepository;
 import kr.dgucaps.capsv4.repository.BoardRepository;
 import kr.dgucaps.capsv4.repository.UserRepository;
 import kr.dgucaps.capsv4.security.SecurityUtil;
@@ -23,6 +25,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final UploadFileService uploadFileService;
+    private final BoardLikeRepository boardLikeRepository;
 
     @Transactional
     public void createBoard(CreateBoardRequest request) throws IOException {
@@ -34,5 +37,17 @@ public class BoardService {
             UploadFile uploadFile = uploadFileService.store(file, board);
             board.getUploadFiles().add(uploadFile);
         }
+    }
+
+    @Transactional
+    public void likeBoard(Integer boardId) {
+        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
+                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+        boardLikeRepository.save(BoardLike.builder()
+                        .board(board)
+                        .user(user)
+                        .build());
     }
 }

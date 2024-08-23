@@ -52,6 +52,12 @@ public class CommonControllerAdvice {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ErrorResponse.builder().message("권한이 없습니다").details(ex.getMessage()).build());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().message("잘못된 요청입니다").details(ex.getMessage()).build());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorResponse> handleGlobalExceptions(Exception ex) {

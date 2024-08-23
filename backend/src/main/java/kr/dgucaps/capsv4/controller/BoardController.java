@@ -30,4 +30,12 @@ public class BoardController {
         boardService.createBoard(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(DataResponse.builder().message("게시글 작성 성공").build());
     }
+
+    @PostMapping("/board/{boardId}/like")
+    @Operation(summary = "게시글 좋아요")
+    @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
+    public ResponseEntity<DataResponse> likeBoard(@PathVariable("boardId") Integer boardId) {
+        boardService.likeBoard(boardId);
+        return ResponseEntity.ok(DataResponse.builder().message("게시글 좋아요 성공").build());
+    }
 }
