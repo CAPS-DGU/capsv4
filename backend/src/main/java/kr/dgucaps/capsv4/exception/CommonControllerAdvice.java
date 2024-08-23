@@ -58,6 +58,12 @@ public class CommonControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().message("잘못된 요청입니다").details(ex.getMessage()).build());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorResponse.builder().message("CONFLICT").details(ex.getMessage()).build());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorResponse> handleGlobalExceptions(Exception ex) {
