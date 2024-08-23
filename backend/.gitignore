@@ -38,3 +38,6 @@ out/
 
 ### Datasource ###
 src/main/resources/application.properties
+
+### File Upload ###
+upload
