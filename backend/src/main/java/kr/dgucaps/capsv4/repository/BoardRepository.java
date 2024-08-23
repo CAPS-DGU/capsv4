@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 
-    @EntityGraph(attributePaths = {"boardLike", "user"})
+    @EntityGraph(attributePaths = {"user"})
     Page<Board> findByCategory(Integer category, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"boardLike", "user"})
+    @EntityGraph(attributePaths = {"user"})
     Page<Board> findByCategoryAndTitleContaining(Integer category, String search, Pageable pageable);
 }

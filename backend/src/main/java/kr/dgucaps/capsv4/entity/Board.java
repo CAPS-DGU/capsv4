@@ -59,8 +59,8 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<BoardModify> boardModifies = new ArrayList<>();
 
-    @OneToOne(mappedBy = "board", fetch = FetchType.LAZY)
-    private BoardLike boardLike;
+    @OneToMany(mappedBy = "board")
+    private List<BoardLike> boardLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
     private List<UploadFile> uploadFiles = new ArrayList<>();

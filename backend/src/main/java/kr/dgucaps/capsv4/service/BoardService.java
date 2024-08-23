@@ -52,6 +52,9 @@ public class BoardService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+        if (boardLikeRepository.existsByBoardAndUser(board, user)) {
+            throw new IllegalStateException("이미 좋아요 한 게시글입니다");
+        }
         boardLikeRepository.save(BoardLike.builder()
                         .board(board)
                         .user(user)
@@ -80,6 +83,7 @@ public class BoardService {
                         .time(board.getDatetime())
                         .hit(board.getHit())
                         .comments(board.getComments().size())
+                        .likes(board.getBoardLikes().size())
                         .build()
                 )
                 .collect(Collectors.toList());
