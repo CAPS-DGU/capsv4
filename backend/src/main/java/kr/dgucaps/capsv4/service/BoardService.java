@@ -173,4 +173,16 @@ public class BoardService {
             }
         }
     }
+
+    @Transactional
+    public void deleteBoard(Integer boardId) throws AccessDeniedException {
+        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
+                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+        if (!user.getUserId().equals(board.getUser().getUserId())) {
+            throw new AccessDeniedException("해당 게시글을 삭제할 권한이 없습니다");
+        }
+        boardRepository.delete(board);
+    }
 }
