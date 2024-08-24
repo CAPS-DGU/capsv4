@@ -2,8 +2,11 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +14,8 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "comment_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE comment_tb SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 public class Comment {
 
     @Id
@@ -35,4 +40,14 @@ public class Comment {
 
     @Column(name = "comment_time")
     private LocalDateTime dateTime;
+
+    @Builder
+    public Comment(Board board, User user, Integer target, String content) {
+        this.board = board;
+        this.user = user;
+        this.isDeleted = false;
+        this.target = target;
+        this.content = content;
+        this.dateTime = LocalDateTime.now();
+    }
 }
