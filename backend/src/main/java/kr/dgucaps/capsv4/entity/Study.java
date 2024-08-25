@@ -2,9 +2,12 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,4 +64,19 @@ public class Study {
 
     @OneToMany(mappedBy = "study")
     private List<StudyTutee> studyTutees = new ArrayList<>();
+
+    @Builder
+    public Study(User user, String title, String category, String description, StudyDay day, String location, StudyType type, Integer maxParticipants) {
+        this.maker = user;
+        this.title = title;
+        this.category = category;
+        this.description = description;
+        this.year = Year.now().getValue();
+        this.semester = StudySemester.fromMonth(LocalDate.now().getMonth());
+        this.day = day;
+        this.location = location;
+        this.type = type;
+        this.maxParticipants = maxParticipants;
+        this.isDeleted = false;
+    }
 }
