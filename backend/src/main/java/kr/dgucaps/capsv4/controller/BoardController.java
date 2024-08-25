@@ -50,6 +50,7 @@ public class BoardController {
 
     @GetMapping("/board/{boardId}")
     @Operation(summary = "게시글 조회")
+    @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
     public ResponseEntity<DataResponse> getBoard(@PathVariable("boardId") Integer boardId) {
         return ResponseEntity.ok(DataResponse.builder().message("게시글 조회 성공").data(boardService.getBoard(boardId)).build());
     }

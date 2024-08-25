@@ -8,6 +8,7 @@ import kr.dgucaps.capsv4.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class CommentController {
 
     @PostMapping("/comment")
     @Operation(summary = "댓글 작성")
+    @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
     public ResponseEntity<DataResponse> createComment(CreateCommentRequest request) {
         commentService.createComment(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(DataResponse.builder().message("댓글 작성 성공").build());
@@ -29,6 +31,7 @@ public class CommentController {
 
     @DeleteMapping("/comment/{commentId}")
     @Operation(summary = "댓글 삭제")
+    @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
     public ResponseEntity<DataResponse> deleteComment(@PathVariable Integer commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity.ok(DataResponse.builder().message("댓글 삭제 성공").build());
