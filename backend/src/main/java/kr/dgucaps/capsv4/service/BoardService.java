@@ -110,20 +110,9 @@ public class BoardService {
                 .hit(board.getHit())
                 .content(board.getContent())
                 .like(board.getBoardLikes().size())
-                .comment(board.getComments().stream()
-                        .map(comment -> GetBoardResponse.Comment.builder()
-                                .id(comment.getId())
-                                .writer(GetBoardResponse.Writer.builder()
-                                        .id(comment.getUser().getId())
-                                        .grade(comment.getUser().getGrade())
-                                        .name(comment.getUser().getName())
-                                        .build())
-                                .isDeleted(comment.getIsDeleted())
-                                .targetId(comment.getTarget())
-                                .content(comment.getContent())
-                                .time(comment.getDateTime())
-                                .build()
-                        )
+                .comments(board.getComments().stream()
+                        .filter(comment -> comment.getTarget() == 0)
+                        .map(comment -> mapToCommentDto(comment, board.getComments()))
                         .collect(Collectors.toList())
                 )
                 .files(board.getUploadFiles().stream()
@@ -184,5 +173,25 @@ public class BoardService {
             throw new AccessDeniedException("해당 게시글을 삭제할 권한이 없습니다");
         }
         boardRepository.delete(board);
+    }
+
+    private GetBoardResponse.Comment mapToCommentDto(Comment comment, List<Comment> allComments) {
+        return GetBoardResponse.Comment.builder()
+                .id(comment.getId())
+                .writer(GetBoardResponse.Writer.builder()
+                        .id(comment.getUser().getId())
+                        .grade(comment.getUser().getGrade())
+                        .name(comment.getUser().getName())
+                        .build())
+                .isDeleted(comment.getIsDeleted())
+                .targetId(comment.getTarget())
+                .content(comment.getContent())
+                .time(comment.getDateTime())
+                .comments(allComments.stream()
+                        .filter(reply -> reply.getTarget().equals(comment.getId()))
+                        .map(reply -> mapToCommentDto(reply, allComments))
+                        .collect(Collectors.toList())
+                )
+                .build();
     }
 }

@@ -41,7 +41,7 @@ public class GetBoardResponse {
 
     private Integer like;
 
-    private List<Comment> comment;
+    private List<Comment> comments;
 
     @Data
     @Builder
@@ -58,6 +58,8 @@ public class GetBoardResponse {
         private String content;
 
         private LocalDateTime time;
+
+        private List<Comment> comments;
     }
 
     private List<File> files;
