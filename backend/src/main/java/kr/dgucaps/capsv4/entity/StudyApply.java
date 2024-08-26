@@ -29,10 +29,18 @@ public class StudyApply {
     @Column(name = "apply_time")
     private LocalDateTime dateTime;
 
+    @Enumerated(EnumType.STRING)
+    private StudyApplyStatus status;
+
     @Builder
     public StudyApply(Study study, User user) {
         this.study = study;
         this.user = user;
         this.dateTime = LocalDateTime.now();
+        this.status = StudyApplyStatus.PENDING;
+    }
+
+    public void changeStatus(StudyApplyStatus status) {
+        this.status = status;
     }
 }
