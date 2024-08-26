@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -15,6 +17,8 @@ import java.util.List;
 @Getter
 @Table(name = "study_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE study_tb SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 public class Study {
 
     @Id
@@ -78,5 +82,33 @@ public class Study {
         this.type = type;
         this.maxParticipants = maxParticipants;
         this.isDeleted = false;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateCategory(String category) {
+        this.category = category;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
+
+    public void updateDay(StudyDay day) {
+        this.day = day;
+    }
+
+    public void updateLocation(String location) {
+        this.location = location;
+    }
+
+    public void updateType(StudyType type) {
+        this.type = type;
+    }
+
+    public void updateMaxParticipants(Integer maxParticipants) {
+        this.maxParticipants = maxParticipants;
     }
 }

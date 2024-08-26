@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudyTuteeRepository extends JpaRepository<StudyTutee, Integer> {
+
+    void deleteByStudyIdAndUserId(Integer studyId, Integer userId);
 }
