@@ -50,7 +50,7 @@ public class StudyController {
     @Operation(summary = "스터디 조회")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
     public ResponseEntity<DataResponse> getStudy(@PathVariable("studyId") Integer studyId) {
-        return ResponseEntity.ok(DataResponse.builder().message("스토디 조회 성공").data(studyService.getStudy(studyId)).build());
+        return ResponseEntity.ok(DataResponse.builder().message("스터디 조회 성공").data(studyService.getStudy(studyId)).build());
     }
 
     @PostMapping("/study/accept")
