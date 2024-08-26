@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +30,13 @@ public class StudyController {
     public ResponseEntity<DataResponse> createStudy(@ModelAttribute CreateStudyRequest request) throws IOException {
         studyService.createStudy(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(DataResponse.builder().message("스터디 생성 성공").build());
+    }
+
+    @PostMapping("/study/apply/{studyId}")
+    @Operation(summary = "스터디 지원")
+    @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
+    public ResponseEntity<DataResponse> applyStudy(@PathVariable("studyId") Integer studyId) {
+        studyService.applyStudy(studyId);
+        return ResponseEntity.ok(DataResponse.builder().message("스터디 지원 성공").build());
     }
 }

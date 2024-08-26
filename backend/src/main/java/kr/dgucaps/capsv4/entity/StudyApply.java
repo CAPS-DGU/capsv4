@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,11 @@ public class StudyApply {
 
     @Column(name = "apply_time")
     private LocalDateTime dateTime;
+
+    @Builder
+    public StudyApply(Study study, User user) {
+        this.study = study;
+        this.user = user;
+        this.dateTime = LocalDateTime.now();
+    }
 }
