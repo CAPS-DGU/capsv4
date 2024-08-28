@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.CreateWikiRequest;
 import kr.dgucaps.capsv4.dto.request.ModifyWikiRequest;
+import kr.dgucaps.capsv4.dto.response.GetRandomWikiResponse;
 import kr.dgucaps.capsv4.dto.response.GetWikiHistoryResponse;
 import kr.dgucaps.capsv4.dto.response.GetWikiResponse;
 import kr.dgucaps.capsv4.entity.User;
@@ -88,5 +89,12 @@ public class WikiService {
                 .content(request.getContent())
                 .build();
         wikiRepository.save(wiki);
+    }
+
+    public GetRandomWikiResponse getRandomWiki() {
+        String title = wikiRepository.findRandomTitle();
+        return GetRandomWikiResponse.builder()
+                .title(title)
+                .build();
     }
 }

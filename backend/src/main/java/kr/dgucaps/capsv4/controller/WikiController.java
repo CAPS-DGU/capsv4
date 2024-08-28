@@ -52,4 +52,10 @@ public class WikiController {
         wikiService.modifyWiki(request);
         return ResponseEntity.ok(DataResponse.builder().message("위키 수정 성공").build());
     }
+
+    @GetMapping("/wiki/random")
+    @Operation(summary = "랜덤 위키", description = "무작위 title을 응답합니다")
+    public ResponseEntity<DataResponse> getRandomWiki() {
+        return ResponseEntity.ok(DataResponse.builder().message("랜덤 위키 조회 성공").data(wikiService.getRandomWiki()).build());
+    }
 }
