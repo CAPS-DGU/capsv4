@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,13 @@ public class Wiki {
 
     @Column(name = "wiki_time")
     private LocalDateTime dateTime;
+
+    @Builder
+    public Wiki(User writer, String title, String content) {
+        this.writer = writer;
+        this.isDeleted = false;
+        this.title = title;
+        this.content = content;
+        this.dateTime = LocalDateTime.now();
+    }
 }
