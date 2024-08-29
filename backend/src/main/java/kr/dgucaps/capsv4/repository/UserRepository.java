@@ -2,7 +2,9 @@ package kr.dgucaps.capsv4.repository;
 
 import kr.dgucaps.capsv4.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -14,4 +16,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByNameAndEmail(String name, String email);
 
     void deleteByUserId(String userId);
+
+    @Query("SELECT u FROM User u ORDER BY u.totalPoint DESC")
+    List<User> findAllUsersOrderByTotalPointDesc();
+
+    @Query("SELECT u FROM User u ORDER BY u.point DESC")
+    List<User> findAllUsersOrderByPointDesc();
 }
