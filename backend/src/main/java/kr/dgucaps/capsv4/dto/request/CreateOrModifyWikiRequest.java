@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CreateWikiRequest {
+public class CreateOrModifyWikiRequest {
 
     @NotBlank
     private String title;

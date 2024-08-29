@@ -20,4 +20,6 @@ public interface WikiRepository extends JpaRepository<Wiki, Integer> {
 
     @Query("SELECT w.title FROM Wiki w WHERE w.isDeleted = false ORDER BY RAND() LIMIT 1")
     String findRandomTitle();
+
+    boolean existsByTitleAndIsDeletedFalse(String title);
 }

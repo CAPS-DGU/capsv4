@@ -1,7 +1,6 @@
 package kr.dgucaps.capsv4.service;
 
-import kr.dgucaps.capsv4.dto.request.CreateWikiRequest;
-import kr.dgucaps.capsv4.dto.request.ModifyWikiRequest;
+import kr.dgucaps.capsv4.dto.request.CreateOrModifyWikiRequest;
 import kr.dgucaps.capsv4.dto.response.GetRandomWikiResponse;
 import kr.dgucaps.capsv4.dto.response.GetWikiHistoryResponse;
 import kr.dgucaps.capsv4.dto.response.GetWikiResponse;
@@ -28,9 +27,12 @@ public class WikiService {
     private final WikiRepository wikiRepository;
 
     @Transactional
-    public void createWiki(CreateWikiRequest request) {
+    public void createOrModifyWiki(CreateOrModifyWikiRequest request) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+        if (wikiRepository.existsByTitleAndIsDeletedFalse(request.getTitle())) {
+            wikiRepository.deleteByTitleAndIsDeletedFalse(request.getTitle());
+        }
         Wiki wiki = Wiki.builder()
                 .writer(user)
                 .title(request.getTitle())
@@ -78,18 +80,18 @@ public class WikiService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void modifyWiki(ModifyWikiRequest request) {
-        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
-        wikiRepository.deleteByTitleAndIsDeletedFalse(request.getTitle());
-        Wiki wiki = Wiki.builder()
-                .writer(user)
-                .title(request.getTitle())
-                .content(request.getContent())
-                .build();
-        wikiRepository.save(wiki);
-    }
+//    @Transactional
+//    public void modifyWiki(ModifyWikiRequest request) {
+//        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
+//                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+//        wikiRepository.deleteByTitleAndIsDeletedFalse(request.getTitle());
+//        Wiki wiki = Wiki.builder()
+//                .writer(user)
+//                .title(request.getTitle())
+//                .content(request.getContent())
+//                .build();
+//        wikiRepository.save(wiki);
+//    }
 
     public GetRandomWikiResponse getRandomWiki() {
         String title = wikiRepository.findRandomTitle();

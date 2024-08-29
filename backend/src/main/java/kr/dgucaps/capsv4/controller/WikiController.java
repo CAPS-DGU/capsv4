@@ -3,8 +3,7 @@ package kr.dgucaps.capsv4.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import kr.dgucaps.capsv4.dto.request.CreateWikiRequest;
-import kr.dgucaps.capsv4.dto.request.ModifyWikiRequest;
+import kr.dgucaps.capsv4.dto.request.CreateOrModifyWikiRequest;
 import kr.dgucaps.capsv4.dto.response.GetWikiResponse;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.WikiService;
@@ -22,11 +21,11 @@ public class WikiController {
     private final WikiService wikiService;
 
     @PostMapping("/wiki")
-    @Operation(summary = "위키 작성")
+    @Operation(summary = "위키 작성 & 수정")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
-    public ResponseEntity<DataResponse> createWiki(@RequestBody @Valid CreateWikiRequest request) {
-        wikiService.createWiki(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(DataResponse.builder().message("위키 작성 성공").build());
+    public ResponseEntity<DataResponse> createWiki(@RequestBody @Valid CreateOrModifyWikiRequest request) {
+        wikiService.createOrModifyWiki(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(DataResponse.builder().message("위키 작성/수정 성공").build());
     }
 
     @GetMapping("/wiki")
@@ -46,12 +45,12 @@ public class WikiController {
         return ResponseEntity.ok(DataResponse.builder().message("수정 내역 조회 성공").data(wikiService.getWikiHistory(title)).build());
     }
 
-    @PutMapping("/wiki")
-    @Operation(summary = "위키 수정")
-    public ResponseEntity<DataResponse> modifyWiki(@RequestBody @Valid ModifyWikiRequest request) {
-        wikiService.modifyWiki(request);
-        return ResponseEntity.ok(DataResponse.builder().message("위키 수정 성공").build());
-    }
+//    @PutMapping("/wiki")
+//    @Operation(summary = "위키 수정")
+//    public ResponseEntity<DataResponse> modifyWiki(@RequestBody @Valid ModifyWikiRequest request) {
+//        wikiService.modifyWiki(request);
+//        return ResponseEntity.ok(DataResponse.builder().message("위키 수정 성공").build());
+//    }
 
     @GetMapping("/wiki/random")
     @Operation(summary = "랜덤 위키", description = "무작위 title을 응답합니다")
