@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import WikiEditor from '../components/WIKI/WikiEditor';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
+import useTokenManager from '../components/LoginSession/TokenManager'; // TokenManager 불러오기
+
 const wikiData = {
     "title": "CAPS",
     "content": `
@@ -32,13 +37,62 @@ C.A.P.S. Computer Aided Progressive Study의 약자.
     `
 };
 const WikiEditPage = () => {
-    const [content, setContent] = useState(wikiData);
+    const { wiki_title } = useParams();
+    const [content, setContent] = useState({ "title": wiki_title, "content": "" });
+    const [Error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);    // For loading state
+    let accessToken = localStorage.getItem("accessToken")
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`/api/wiki?title=${wiki_title}`);
+                console.log(response);
+                
+    
+                if (response.status === 200) {
+                    setContent({ "title": wiki_title, "content": response.data.data.content });
+                    setError(null);
+                    console.log(content);
+                } else {
+                    setError("Failed to fetch data");
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        if (wiki_title) {
+            fetchData();  // 여기서 함수 호출이 된다
+        } else {
+            setContent({ "title": wiki_title, "content": response.data.data })
+            setLoading(false);
+        }
+    }, [wiki_title]);  // useEffect에 의존성을 추가해서, wiki_title이 변경될 때마다 실행되게 만든다.
+    
+    console.log(content);
+    if (loading) return <div>Loading...</div>;  // Show loading state
 
     // 저장 함수
-    const handleSave = (newContent) => {
+    const handleSave = async (newContent) => {
         setContent({ "title": content.title, "content": newContent });
-        console.log(newContent);
+        console.log(content);
+        const response = await axios.put(`/api/wiki`,{ "title": content.title, "content": newContent },{
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': '*/*',
+            'Authorization': 'Bearer ' +accessToken
+
+            },
+          });
+          console.log(response);
+
+          
         alert("내용이 저장되었습니다.");
+        window.location.href=`/wiki/${wiki_title}`;
+        
     };
 
     return (

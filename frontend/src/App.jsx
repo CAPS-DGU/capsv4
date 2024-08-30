@@ -10,6 +10,7 @@ import JoinPage from './pages/JoinPage';
 import WritePage from './pages/WritePage.jsx';
 import WikiPage from './pages/WikiPage.jsx';
 import WikiEditPage from './pages/WikiEditPage.jsx';
+import WikiHistoryPage from './pages/WikiHistoryPage.jsx';
 import ViewPage from './pages/ViewPage.jsx';
 import NavBar from './components/NavBar.jsx';
 import LibraryPage from './pages/LibraryPage.jsx';
@@ -41,8 +42,12 @@ function App() {
           <Route path="/view" element={<ViewPage />} >
             <Route path=":view_id" element={<ViewPage />} />
           </Route>
-          <Route path='/wiki' element={<WikiPage />}></Route>
-
+          <Route path='/wiki' element={<WikiPage />}>
+            <Route path="/wiki/:wiki_title" element={<WikiPage />} />
+          </Route>
+          <Route path="/wiki/history" element={<WikiHistoryPage />} >
+            <Route path="/wiki/history/:wiki_title" element={<WikiHistoryPage />} />
+          </Route>
           <Route path="/wiki/edit" element={<WikiEditPage />}>
             <Route path="/wiki/edit/:wiki_title" element={<WikiEditPage />} />
           </Route>
@@ -57,7 +62,7 @@ function App() {
           <Route path="/study" element={<StudyPage />} />
           <Route path="/study/:study_id" element={<StudyDetailPage />} />
           <Route path="/study/create" element={<div>스터디 만들기 페이지</div>} />
-          <Route path="/ranking" element={<RankingPage />} /> 
+          <Route path="/ranking" element={<RankingPage />} />
 
         </Routes>
       </BrowserRouter>

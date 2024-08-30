@@ -26,14 +26,6 @@ const WikiEditor = ({ initialContent, onSave }) => {
             </div>
 
             <div className="flex justify-end space-x-4">
-                {/* 저장 버튼 */}
-                <button
-                    className="px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:underline hover:bg-gray-700"
-                    onClick={handleSave}
-                >
-                    수정
-                </button>
-
                 {/* 도움말 링크 */}
                 <a
                     href="/wiki/도움말" // 도움말 링크
@@ -43,6 +35,15 @@ const WikiEditor = ({ initialContent, onSave }) => {
                 >
                     도움말
                 </a>
+                {/* 저장 버튼 */}
+                <button
+                    className="px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:underline hover:bg-gray-700"
+                    onClick={handleSave}
+                >
+                    수정
+                </button>
+
+                
             </div>
         </div>
     );

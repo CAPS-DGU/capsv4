@@ -1,6 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 const WikiSearch = () => {
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
@@ -9,12 +9,14 @@ const WikiSearch = () => {
         e.preventDefault();
 
         if (query.trim()) {
-            navigate(`/wiki/search/${query.trim().replace(/ /g, '+')}`);
+            navigate(`/wiki/${query.trim().replace(/ /g, '+')}`);
         }
     };
 
-    const handleRandom = () => {
-        navigate('/wiki/random'); // 랜덤 페이지로 이동
+    const handleRandom = async () => {
+        const response = await axios.get('/api/wiki/random')
+        const randomTitle = (response.data.data.title);
+        navigate(`/wiki/${randomTitle}`); // 랜덤 페이지로 이동
     };
 
     return (

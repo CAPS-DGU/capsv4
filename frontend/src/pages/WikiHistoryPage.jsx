@@ -4,34 +4,29 @@ import WikiSearch from '../components/WIKI/WikiSearch';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 
-const wikiIntroData = {
-    "title": "대문",
-    "content": `[[CAPS 위키]]에 오신 것을 환영합니다!
-[[CAPS]] 회원이라면 원하는 문서를 생성 및 편집할 수 있습니다.
-더 자세한 내용은 [[CAPS 위키]], [[도움말]]을 참고하시기 바랍니다.
 
-<div class="bg-gray-200 p-4 border-2 border-gray-300 rounded-xl">||[[도움말]] || CAPS 위키를 어떻게 써야할 지 모르겠다면 도움말을 클릭하세요!</div>
-<div class="bg-gray-200 p-4 border-2 border-gray-300 rounded-xl ">||[[CAPS 위키 프로젝트]] 진행 중!! || 프로젝트에 참여해서 관련 문서에 기여의 손길을 보내주세요!</div>
-<div class="bg-gray-200 p-4 border-2 border-gray-300 rounded-xl">||[[C언어 프로젝트]] 진행 중!! || 2024-여름학기 동안 C언어 및 여러가지 위키 페이지를 작성하고 수정하고 싶습니다! 같이 하실분 구해요~</div>
-`
-};
-
-const IntroducePage = () => {
+const WikiHistoryPage = () => {
     const { wiki_title } = useParams();
-
-    const NotFoundData = {
-        "title": wiki_title,
-        "content": `<div>해당 문서가 없습니다.</div> <a class="text-blue-500 hover:underline" href='/wiki/edit/${wiki_title}'>새 문서 만들기</a>`
-    };
 
     const [wikiData, setWikiData] = useState(null);  // For fetched data
     const [error, setError] = useState(null);        // For error handling
     const [loading, setLoading] = useState(true);    // For loading state
+    let accessToken = localStorage.getItem("accessToken")
+
     // let template =  <Template data={wikiData} />
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/wiki?title=${wiki_title}`);
+                const response = await axios.get(`/api/wiki/history?title=${wiki_title}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': '*/*',
+                            'Authorization': 'Bearer ' + accessToken
+
+                        },
+                    }
+                );
                 if (response.status === 200) {
                     setWikiData(response.data.data); // Set the fetched data
                     setError(null);
@@ -40,6 +35,7 @@ const IntroducePage = () => {
                 }
             } catch (err) {
                 setError(err.message);
+                throw err;
             } finally {
                 setLoading(false);  // Stop loading after fetching data
             }
@@ -53,14 +49,22 @@ const IntroducePage = () => {
         }
     }, [wiki_title]);
     if (loading) return <div>Loading...</div>;  // Show loading state
-    console.log(error);
+    const handleRedirect = () => {
+        alert("잘못된 접근입니다.");
+        window.location.href = '/wiki';  // 리다이렉트
+    };
+    // console.log(wikiData);
     return (
 
         <div>
             <WikiSearch></WikiSearch>
-            {wikiData && !error ? <Template data={wikiData} /> : <Template data={NotFoundData} notFoundFlag={true} />}
+            
+            {wikiData && !error ? (wikiData.map((wiki,index)=>{
+                // console.log(wiki);
+                return(<Template key = {index} data={wiki} notFoundFlag={true} history={wiki.time} />)
+            })) : (handleRedirect())}
         </div >
     );
 };
 
-export default IntroducePage;
+export default WikiHistoryPage;

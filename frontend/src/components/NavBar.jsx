@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileDropdownOpen, setMobileDropdownOpen] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
+    const [profileName, setProfileName] = useState('');  // 프로필 이름 관리
 
+    useEffect(() => {
+        // localStorage에서 로그인 상태 확인
+        const token = localStorage.getItem('accessToken');
+        const name = localStorage.getItem('profilename');
+        
+        if (token && name) {
+            setIsLoggedIn(true);
+            setProfileName(name);
+        }
+    }, []);
     const toggleDropdown = (index) => {
         setDropdownOpen(dropdownOpen === index ? null : index);
     };
@@ -53,7 +64,7 @@ function Navbar() {
                         </a>
                         {dropdownOpen === 1 && (
                             <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl" >
-                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">스터디 목록</a>
+                                <a href="/study" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">스터디 목록</a>
                             </div>
                         )}
                     </div>
@@ -81,10 +92,10 @@ function Navbar() {
                             UTIL
                         </a>
                         {dropdownOpen === 3 && (
-                            <div className="absolute mt-2 py-2 w-40 bg-white rounded-lg shadow-xl z-50">
-                                <a href="/library" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">CAPS 도서관</a>
-                                <a href="/ranking" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">CAPS 활동 랭킹</a>
-                                <a href="#" className="block text-xs px-4 py-2 text-gray-800 hover:bg-gray-200">오늘의 학식</a>
+                            <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl">
+                                <a href="/library" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 도서관</a>
+                                <a href="/ranking" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 활동 랭킹</a>
+                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">오늘의 학식</a>
 
                             </div>
                         )}
@@ -107,9 +118,15 @@ function Navbar() {
 
                     {/*로그인*/}
                     <div className="relative">
-                        <a href="/login" className="text-white hover:text-gray-400">
-                            LOGIN
-                        </a>
+                        {isLoggedIn ? (
+                            <a href="/mypage" className="text-white hover:text-gray-400">
+                                {profileName}님 환영합니다!
+                            </a>
+                        ) : (
+                            <a href="/login" className="text-white hover:text-gray-400">
+                                LOGIN
+                            </a>
+                        )}
                     </div>
                 </div>
 
@@ -192,9 +209,15 @@ function Navbar() {
                             </a>
                         </div>
                         <div className="relative">
-                            <a href="/login" className="text-white hover:text-gray-400">
-                                LOGIN
-                            </a>
+                            {isLoggedIn ? (
+                                <a href="/mypage" className="text-white hover:text-gray-400">
+                                    {profileName}님 환영합니다!
+                                </a>
+                            ) : (
+                                <a href="/login" className="text-white hover:text-gray-400">
+                                    LOGIN
+                                </a>
+                            )}
                         </div>
                     </div>
                 )}

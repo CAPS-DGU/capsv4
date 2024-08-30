@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import useTokenManager from '../components/LoginSession/TokenManager'; // TokenManager 불러오기
 
 const InputField = ({ label, type, placeholder }) => (
   <div className="w-full mb-4">
@@ -40,6 +41,8 @@ const JoinLink = () => (
 const LoginPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { startTokenRefreshTimer } = useTokenManager(); // TokenManager에서 가져오기
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -50,7 +53,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post(
         '/api/user/login',
-        { userId, password }, // 이 부분이 요청 본문(body)입니다.
+        { userId, password },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -59,57 +62,24 @@ const LoginPage = () => {
         }
       );
 
-      if (!response.status === 200) {
+      if (response.status !== 200) {
         throw new Error('로그인 실패');
       }
 
-      const data = await response.data;
-      const { accessToken, refreshToken } = data;
+      const data = response.data;
+      console.log(data);
+      const { accessToken, refreshToken } = data.data;
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('profilename', "test");
 
-      startTokenRefreshTimer();
+      startTokenRefreshTimer(); // 토큰 갱신 타이머 시작
 
-      alert('로그인을 환영합니다! 10 포인트 지급!');
-      navigate('/');
+      alert(`test님, 환영합니다! 10 포인트 지급!`);
+      window.location.href='/';
     } catch (error) {
       setError(error.message);
-    }
-  };
-
-  const startTokenRefreshTimer = () => {
-    const tokenExpiryTime = 15 * 60 * 1000;
-    setTimeout(refreshAccessToken, tokenExpiryTime - 60 * 1000);
-  };
-
-  const refreshAccessToken = async () => {
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    try {
-      const response = await axios.get('/refresh-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: refreshToken }),
-      });
-
-      if (!response.ok) {
-        throw new Error('토큰 재발급 실패');
-      }
-
-      const data = await response.json();
-      const { accessToken } = data;
-
-      localStorage.setItem('accessToken', accessToken);
-
-      startTokenRefreshTimer();
-    } catch (error) {
-      console.error('토큰 재발급 중 에러 발생:', error);
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      alert('로그아웃되었습니다. 다시 로그인해주세요.');
     }
   };
 
