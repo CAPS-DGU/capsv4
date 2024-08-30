@@ -14,8 +14,7 @@ public class CreateUserRequest {
 
     @NotBlank
     @Size(min = 8, max = 20)
-    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "영문 대소문자와 숫자만 사용할 수 있습니다")
-    @Pattern(regexp = "^(?=.*[0-9])", message = "숫자 1개 이상 포함해야 합니다")
+    @Pattern(regexp = "^(?=.*[0-9])[a-zA-Z0-9]+$", message = "영문 대소문자와 숫자를 포함해야 합니다")
     private String password;
 
     @NotBlank
