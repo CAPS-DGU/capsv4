@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -40,8 +41,10 @@ public class Event {
     private String description;
 
     @OneToMany(mappedBy = "event")
+    @Builder.Default
     private List<EventSnackApply> snackApplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "event")
+    @Builder.Default
     private List<EventQuizApply> quizApplies = new ArrayList<>();
 }
