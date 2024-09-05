@@ -5,28 +5,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Table(name = "event_snack_apply_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EventSnackApply {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @Column(name = "apply_date")
-    private LocalDateTime dateTime;
+@DiscriminatorValue("Snack")
+public class EventSnackApply extends EventApply {
 
     private String phone;
 }
