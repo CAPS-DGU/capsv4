@@ -44,9 +44,11 @@ public class StudyService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
         Study study = request.toEntity(user);
         studyRepository.save(study);
-        for (MultipartFile file : request.getFiles()) {
-            StudyFile studyFile = studyFileService.store(file, study);
-            study.getStudyFiles().add(studyFile);
+        if (request.getFiles() != null && !request.getFiles().isEmpty()) {
+            for (MultipartFile file : request.getFiles()) {
+                StudyFile studyFile = studyFileService.store(file, study);
+                study.getStudyFiles().add(studyFile);
+            }
         }
     }
 

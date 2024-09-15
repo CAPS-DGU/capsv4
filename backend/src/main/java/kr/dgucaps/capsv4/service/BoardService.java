@@ -40,9 +40,11 @@ public class BoardService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
         Board board = request.toEntity(user);
         boardRepository.save(board);
-        for (MultipartFile file : request.getFiles()) {
-            UploadFile uploadFile = uploadFileService.store(file, board);
-            board.getUploadFiles().add(uploadFile);
+        if (request.getFiles() != null && !request.getFiles().isEmpty()) {
+            for (MultipartFile file : request.getFiles()) {
+                UploadFile uploadFile = uploadFileService.store(file, board);
+                board.getUploadFiles().add(uploadFile);
+            }
         }
     }
 
@@ -56,9 +58,9 @@ public class BoardService {
             throw new IllegalStateException("이미 좋아요 한 게시글입니다");
         }
         boardLikeRepository.save(BoardLike.builder()
-                        .board(board)
-                        .user(user)
-                        .build());
+                .board(board)
+                .user(user)
+                .build());
     }
 
     public List<GetBoardListResponse> getBoardListByCategory(GetBoardListParameter parameter) {
