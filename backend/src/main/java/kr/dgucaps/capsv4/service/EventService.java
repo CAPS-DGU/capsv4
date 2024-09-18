@@ -83,7 +83,7 @@ public class EventService {
         }
     }
 
-    public EventType getEventType(Event event) {
+    private EventType getEventType(Event event) {
         if (event instanceof EventSnack) {
             return EventType.SNACK;
         } else if (event instanceof EventQuiz) {
