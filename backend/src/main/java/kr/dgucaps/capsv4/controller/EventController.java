@@ -5,11 +5,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
+import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.EventService;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +36,11 @@ public class EventController {
     public ResponseEntity<DataResponse> applyEvent(@RequestBody @Valid ApplyEventRequest request) {
         eventService.createApply(request);
         return ResponseEntity.ok(DataResponse.builder().message("스터디 지원 성공").build());
+    }
+
+    @GetMapping("/event")
+    @Operation(summary = "이벤트 목록 조회")
+    public ResponseEntity<DataResponse> getEventList(@ParameterObject GetEventListParameter parameter) {
+        return ResponseEntity.ok(DataResponse.builder().message("이벤트 목록 조회 성공").data(eventService.getEventList(parameter)).build());
     }
 }

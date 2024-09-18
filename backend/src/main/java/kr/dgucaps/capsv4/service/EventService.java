@@ -2,15 +2,22 @@ package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
+import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
+import kr.dgucaps.capsv4.dto.response.GetEventListResponse;
 import kr.dgucaps.capsv4.entity.*;
 import kr.dgucaps.capsv4.repository.*;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -81,6 +88,32 @@ public class EventService {
                 eventQuizApplyRepository.save(eventQuizApply);
                 break;
         }
+    }
+
+    public List<GetEventListResponse> getEventList(GetEventListParameter parameter) {
+        Pageable pageable = PageRequest.of(parameter.getPage(), 10);
+        String keyword = parameter.getKeyword();
+        Page<Event> events;
+        if (keyword != null && !keyword.isEmpty()) {
+            events = eventRepository.findByTitleContaining(keyword, pageable);
+        } else {
+            events = eventRepository.findAll(pageable);
+        }
+        return events.stream()
+                .map(event -> GetEventListResponse.builder()
+                        .writer(GetEventListResponse.Writer.builder()
+                                .id(event.getUser().getId())
+                                .grade(event.getUser().getGrade())
+                                .name(event.getUser().getName())
+                                .build())
+                        .type(getEventType(event))
+                        .title(event.getTitle())
+                        .startDate(event.getStartDate())
+                        .endDate(event.getEndDate())
+                        .maxParticipants(event.getMaxParticipants())
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 
     private EventType getEventType(Event event) {
