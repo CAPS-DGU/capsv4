@@ -6,15 +6,13 @@ import kr.dgucaps.capsv4.entity.StudyType;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
 public class GetStudyListResponse {
 
     private Integer id;
 
-    private List<User> user;
+    private User user;
 
     @Data
     @Builder
