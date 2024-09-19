@@ -40,4 +40,6 @@ public class GetStudyListResponse {
     private Integer maxParticipants;
 
     private StudyType type;
+
+    private Integer totalPages;
 }

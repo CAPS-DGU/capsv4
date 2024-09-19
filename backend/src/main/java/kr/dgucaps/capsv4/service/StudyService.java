@@ -90,6 +90,7 @@ public class StudyService {
         } else {
             studies = studyRepository.findAll(pageable);
         }
+        int totalPages = studies.getTotalPages();
         return studies.stream()
                 .map(study -> GetStudyListResponse.builder()
                         .id(study.getId())
@@ -106,6 +107,7 @@ public class StudyService {
                         .participants(study.getStudyTutees().size())
                         .maxParticipants(study.getMaxParticipants())
                         .type(study.getType())
+                        .totalPages(totalPages)
                         .build()
                 )
                 .collect(Collectors.toList());

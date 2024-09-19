@@ -73,6 +73,7 @@ public class BoardService {
         } else {
             boards = boardRepository.findByCategory(category, pageable);
         }
+        int totalPages = boards.getTotalPages();
         return boards.stream()
                 .map(board -> GetBoardListResponse.builder()
                         .id(board.getId())
@@ -87,6 +88,7 @@ public class BoardService {
                         .hit(board.getHit())
                         .comments(board.getComments().size())
                         .likes(board.getBoardLikes().size())
+                        .totalPages(totalPages)
                         .build()
                 )
                 .collect(Collectors.toList());

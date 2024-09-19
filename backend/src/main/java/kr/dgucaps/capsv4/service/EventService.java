@@ -99,6 +99,7 @@ public class EventService {
         } else {
             events = eventRepository.findAll(pageable);
         }
+        int totalPages = events.getTotalPages();
         return events.stream()
                 .map(event -> GetEventListResponse.builder()
                         .writer(GetEventListResponse.Writer.builder()
@@ -111,6 +112,7 @@ public class EventService {
                         .startDate(event.getStartDate())
                         .endDate(event.getEndDate())
                         .maxParticipants(event.getMaxParticipants())
+                        .totalPages(totalPages)
                         .build()
                 )
                 .collect(Collectors.toList());

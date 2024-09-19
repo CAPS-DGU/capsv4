@@ -35,5 +35,7 @@ public class GetBoardListResponse {
     private Integer comments;
 
     private Integer likes;
+
+    private Integer totalPages;
 }
 

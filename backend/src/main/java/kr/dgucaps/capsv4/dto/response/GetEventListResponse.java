@@ -32,4 +32,6 @@ public class GetEventListResponse {
     private LocalDateTime endDate;
 
     private Integer maxParticipants;
+
+    private Integer totalPages;
 }
