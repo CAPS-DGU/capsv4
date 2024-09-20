@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import axios from 'axios';
 
 const TextEditor = ({ onSubmit }) => {
     const [category, setCategory] = useState('general');
@@ -12,7 +13,7 @@ const TextEditor = ({ onSubmit }) => {
         setImage(e.target.files[0]);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const editorInstance = editorRef.current.getInstance();
         const content = editorInstance.getMarkdown();
@@ -25,7 +26,21 @@ const TextEditor = ({ onSubmit }) => {
             formData.append('image', image);
         }
 
-        onSubmit(formData);
+        try {
+            // 여기서 API 요청을 보냅니다.
+            const response = await axios.post('http://your-api-endpoint.com/board', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            if (response.status === 200) {
+                console.log('게시글 등록 성공:', response.data);
+                onSubmit(formData); // API 성공 후 부모 컴포넌트에 데이터 전달 (필요에 따라)
+            }
+        } catch (error) {
+            console.error('게시글 등록 실패:', error);
+        }
     };
 
     return (
@@ -71,6 +86,11 @@ const TextEditor = ({ onSubmit }) => {
                 />
             </div>
 
+            {/* 이미지 업로드 */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700">이미지</label>
+                <input type="file" onChange={handleImageChange} />
+            </div>
 
             {/* 등록 버튼 */}
             <button
