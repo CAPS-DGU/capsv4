@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +83,7 @@ public class StudyService {
     }
 
     public List<GetStudyListResponse> getStudyList(GetStudyListParameter parameter) {
-        Pageable pageable = PageRequest.of(parameter.getPage(), 10);
+        Pageable pageable = PageRequest.of(parameter.getPage(), 10, Sort.by(Sort.Direction.DESC, "id"));
         String search = parameter.getSearch();
         Page<Study> studies;
         if (search != null && !search.isEmpty()) {

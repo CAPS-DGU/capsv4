@@ -20,5 +20,9 @@ public interface StudyRepository extends JpaRepository<Study, Integer> {
 
     @Override
     @EntityGraph(attributePaths = {"maker"})
+    Page<Study> findAll(Pageable pageable);
+
+    @Override
+    @EntityGraph(attributePaths = {"maker"})
     Optional<Study> findById(Integer id);
 }
