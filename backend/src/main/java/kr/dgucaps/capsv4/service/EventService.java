@@ -4,6 +4,7 @@ import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
 import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
 import kr.dgucaps.capsv4.dto.response.GetEventListResponse;
+import kr.dgucaps.capsv4.dto.response.GetEventResponse;
 import kr.dgucaps.capsv4.entity.*;
 import kr.dgucaps.capsv4.repository.*;
 import kr.dgucaps.capsv4.security.SecurityUtil;
@@ -117,6 +118,32 @@ public class EventService {
                         .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    public GetEventResponse getEvent(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+        GetEventResponse.GetEventResponseBuilder builder = GetEventResponse.builder()
+                .id(event.getId())
+                .writer(GetEventResponse.Writer.builder()
+                        .id(event.getUser().getId())
+                        .grade(event.getUser().getGrade())
+                        .name(event.getUser().getName())
+                        .build())
+                .type(getEventType(event))
+                .title(event.getTitle())
+                .startDate(event.getStartDate())
+                .endDate(event.getEndDate())
+                .maxParticipants(event.getMaxParticipants())
+                .description(event.getDescription());
+        if (getEventType(event).equals(EventType.QUIZ)) {
+            EventQuiz eventQuiz = (EventQuiz) event;
+            builder.quiz(GetEventResponse.Quiz.builder()
+                    .question(eventQuiz.getQuestion())
+                    .correctAnswer(eventQuiz.getCorrectAnswer())
+                    .build());
+        }
+        return builder.build();
     }
 
     private EventType getEventType(Event event) {

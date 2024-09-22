@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,5 +39,11 @@ public class EventController {
     @Operation(summary = "이벤트 목록 조회")
     public ResponseEntity<DataResponse> getEventList(@ParameterObject GetEventListParameter parameter) {
         return ResponseEntity.ok(DataResponse.builder().message("이벤트 목록 조회 성공").data(eventService.getEventList(parameter)).build());
+    }
+
+    @GetMapping("/event/{eventId}")
+    @Operation(summary = "이벤트 조회")
+    public ResponseEntity<DataResponse> getEvent(@PathVariable Integer eventId) {
+        return ResponseEntity.ok(DataResponse.builder().message("이벤트 조회 성공").data(eventService.getEvent(eventId)).build());
     }
 }
