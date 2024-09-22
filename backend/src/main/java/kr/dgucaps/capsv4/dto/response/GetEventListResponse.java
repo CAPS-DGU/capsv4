@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Builder
 public class GetEventListResponse {
 
+    private Integer id;
+
     private Writer writer;
 
     @Data

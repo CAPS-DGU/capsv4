@@ -104,6 +104,7 @@ public class EventService {
         int totalPages = events.getTotalPages();
         return events.stream()
                 .map(event -> GetEventListResponse.builder()
+                        .id(event.getId())
                         .writer(GetEventListResponse.Writer.builder()
                                 .id(event.getUser().getId())
                                 .grade(event.getUser().getGrade())
