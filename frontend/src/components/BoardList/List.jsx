@@ -1,16 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function PostItem({ id, title, author, time, hit, comments }) {
+function PostItem({ id, title, category, author, time, hit, comments }) {
   return (
     <li className="grid grid-cols-7 items-center border-b border-gray-200 py-2 text-sm">
-      <div className="text-center text-gray-500">{"자유"}</div>
+      <div className="text-center text-gray-500">{category}</div> {/* 게시판 분류 표시 */}
       <div className="col-span-3">
-        <a
-          href={`/view/${id}`}
+        {/* 게시물 제목 클릭 시 /forum/view/n/nnn 형식으로 이동 */}
+        <Link
+          to={`/forum/view/${category}/${id}`}  // category와 post ID를 경로에 포함
           className="text-gray-800 hover:text-blue-500 hover:underline"
         >
           {title}
-        </a>
+        </Link>
         {comments > 0 && (
           <span className="ml-2 text-xs text-red-500">[{comments}]</span>
         )}
@@ -39,12 +41,13 @@ function BoardList({ posts }) {
           posts.map((post, index) => (
             <PostItem
               key={index}
-              id={post.id}
-              title={post.title}
-              author={post.writer}
-              time={post.time}
-              hit={post.hit}
-              comments={post.comment}
+              id={post.id}  // 게시물 ID
+              title={post.title}  // 게시물 제목
+              category={post.category}  // 카테고리 전달
+              author={post.writer}  // 작성자 정보
+              time={post.time}  // 게시물 작성 시간
+              hit={post.hit}  // 조회수
+              comments={post.comment}  // 댓글 수
             />
           ))
         ) : (
