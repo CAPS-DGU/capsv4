@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Datasource ###
+src/main/resources/application.properties
+
+### File Upload ###
+upload
