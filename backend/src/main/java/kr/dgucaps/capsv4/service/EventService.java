@@ -221,6 +221,16 @@ public class EventService {
         }
     }
 
+    @Transactional
+    public void deleteEvent(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+        if (eventApplyRepository.existsByEvent(event)) {
+            throw new IllegalStateException("참여자가 존재하는 이벤트를 삭제할 수 없습니다");
+        }
+        eventRepository.delete(event);
+    }
+
     private EventType getEventType(Event event) {
         if (event instanceof EventSnack) {
             return EventType.SNACK;

@@ -60,4 +60,11 @@ public class EventController {
         eventService.updateEvent(request);
         return ResponseEntity.ok(DataResponse.builder().message("이벤트 수정 성공").build());
     }
+
+    @DeleteMapping("/event/{eventId}")
+    @Operation(summary = "이벤트 삭제", description = "참여자 존재 시 불가능")
+    public ResponseEntity<DataResponse> deleteEvent(@PathVariable Integer eventId) {
+        eventService.deleteEvent(eventId);
+        return ResponseEntity.ok(DataResponse.builder().message("이벤트 삭제 성공").build());
+    }
 }
