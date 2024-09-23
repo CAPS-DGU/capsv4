@@ -46,4 +46,10 @@ public class EventController {
     public ResponseEntity<DataResponse> getEvent(@PathVariable Integer eventId) {
         return ResponseEntity.ok(DataResponse.builder().message("이벤트 조회 성공").data(eventService.getEvent(eventId)).build());
     }
+
+    @GetMapping("/event/{eventId}/participants")
+    @Operation(summary = "이벤트 참여자 조회")
+    public ResponseEntity<DataResponse> getEventParticipants(@PathVariable Integer eventId) {
+        return ResponseEntity.ok(DataResponse.builder().message("이벤트 참여자 조회 성공").data(eventService.getEventParticipants(eventId)).build());
+    }
 }

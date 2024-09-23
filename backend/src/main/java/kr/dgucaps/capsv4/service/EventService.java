@@ -4,6 +4,7 @@ import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
 import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
 import kr.dgucaps.capsv4.dto.response.GetEventListResponse;
+import kr.dgucaps.capsv4.dto.response.GetEventParticipantsResponse;
 import kr.dgucaps.capsv4.dto.response.GetEventResponse;
 import kr.dgucaps.capsv4.entity.*;
 import kr.dgucaps.capsv4.repository.*;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventSnackApplyRepository eventSnackApplyRepository;
     private final EventQuizApplyRepository eventQuizApplyRepository;
+    private final EventApplyRepository eventApplyRepository;
 
     @Transactional
     public void createEvent(CreateEventRequest request) {
@@ -145,6 +148,39 @@ public class EventService {
                     .build());
         }
         return builder.build();
+    }
+
+    public List<GetEventParticipantsResponse> getEventParticipants(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+        List<EventApply> eventApplyList = eventApplyRepository.findByEvent(event);
+        List<GetEventParticipantsResponse> eventParticipants = new ArrayList<>();
+        for (EventApply eventApply : eventApplyList) {
+            GetEventParticipantsResponse.GetEventParticipantsResponseBuilder builder = GetEventParticipantsResponse.builder()
+                    .id(eventApply.getId())
+                    .user(GetEventParticipantsResponse.User.builder()
+                            .id(eventApply.getUser().getId())
+                            .grade(eventApply.getUser().getGrade())
+                            .name(eventApply.getUser().getName())
+                            .build())
+                    .date(eventApply.getDateTime());
+            switch (getEventType(event)) {
+                case SNACK:
+                    EventSnackApply eventSnackApply = (EventSnackApply) eventApply;
+                    builder.snack(GetEventParticipantsResponse.Snack.builder()
+                            .phone(eventSnackApply.getPhone())
+                            .build());
+                    break;
+                case QUIZ:
+                    EventQuizApply eventQuizApply = (EventQuizApply) eventApply;
+                    builder.quiz(GetEventParticipantsResponse.Quiz.builder()
+                            .answer(eventQuizApply.getAnswer())
+                            .build());
+                    break;
+            }
+            eventParticipants.add(builder.build());
+        }
+        return eventParticipants;
     }
 
     private EventType getEventType(Event event) {
