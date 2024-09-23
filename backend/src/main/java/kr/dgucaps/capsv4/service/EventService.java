@@ -3,6 +3,7 @@ package kr.dgucaps.capsv4.service;
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
 import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
+import kr.dgucaps.capsv4.dto.request.ModifyEventRequest;
 import kr.dgucaps.capsv4.dto.response.GetEventListResponse;
 import kr.dgucaps.capsv4.dto.response.GetEventParticipantsResponse;
 import kr.dgucaps.capsv4.dto.response.GetEventResponse;
@@ -181,6 +182,43 @@ public class EventService {
             eventParticipants.add(builder.build());
         }
         return eventParticipants;
+    }
+
+    @Transactional
+    public void updateEvent(ModifyEventRequest request) {
+        Event event = eventRepository.findById(request.getEventId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+        if (eventApplyRepository.existsByEvent(event)) {
+            throw new IllegalStateException("참여자가 존재하는 이벤트를 수정할 수 없습니다");
+        }
+        if (request.getTitle() != null) {
+            event.updateTitle(request.getTitle());
+        }
+        if (request.getStartDate() != null) {
+            event.updateStartDate(request.getStartDate());
+        }
+        if (request.getEndDate() != null) {
+            event.updateEndDate(request.getEndDate());
+        }
+        if (request.getMaxParticipants() != null) {
+            event.updateMaxParticipants(request.getMaxParticipants());
+        }
+        if (request.getDescription() != null) {
+            event.updateDescription(request.getDescription());
+        }
+        switch (getEventType(event)) {
+            case SNACK:
+                break;
+            case QUIZ:
+                EventQuiz eventQuiz = (EventQuiz) event;
+                if (request.getQuiz().getQuestion() != null) {
+                    eventQuiz.updateQuestion(request.getQuiz().getQuestion());
+                }
+                if (request.getQuiz().getCorrectAnswer() != null) {
+                    eventQuiz.updateCorrectAnswer(request.getQuiz().getCorrectAnswer());
+                }
+                break;
+        }
     }
 
     private EventType getEventType(Event event) {

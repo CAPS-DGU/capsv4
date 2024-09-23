@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
 import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
+import kr.dgucaps.capsv4.dto.request.ModifyEventRequest;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.EventService;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,12 @@ public class EventController {
     @Operation(summary = "이벤트 참여자 조회")
     public ResponseEntity<DataResponse> getEventParticipants(@PathVariable Integer eventId) {
         return ResponseEntity.ok(DataResponse.builder().message("이벤트 참여자 조회 성공").data(eventService.getEventParticipants(eventId)).build());
+    }
+
+    @PatchMapping("/event")
+    @Operation(summary = "이벤트 수정", description = "참여자 존재 시 불가능")
+    public ResponseEntity<DataResponse> updateEvent(@RequestBody @Valid ModifyEventRequest request) {
+        eventService.updateEvent(request);
+        return ResponseEntity.ok(DataResponse.builder().message("이벤트 수정 성공").build());
     }
 }

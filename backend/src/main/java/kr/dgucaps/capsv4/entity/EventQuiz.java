@@ -17,4 +17,12 @@ public class EventQuiz extends Event {
     private String question;
 
     private String correctAnswer;
+
+    public void updateQuestion(String question) {
+        this.question = question;
+    }
+
+    public void updateCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
+    }
 }

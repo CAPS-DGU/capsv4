@@ -11,4 +11,6 @@ import java.util.List;
 public interface EventApplyRepository extends JpaRepository<EventApply, Integer> {
 
     List<EventApply> findByEvent(Event event);
+
+    boolean existsByEvent(Event event);
 }

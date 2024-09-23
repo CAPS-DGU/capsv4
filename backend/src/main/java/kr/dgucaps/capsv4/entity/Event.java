@@ -47,4 +47,24 @@ public class Event {
     @OneToMany(mappedBy = "event")
     @Builder.Default
     private List<EventQuizApply> quizApplies = new ArrayList<>();
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void updateEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public void updateMaxParticipants(int maxParticipants) {
+        this.maxParticipants = maxParticipants;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
+    }
 }
