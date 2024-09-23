@@ -28,11 +28,10 @@ function App() {
         <Route path="/" element={<MainPage />} />
 
         {/* Forum 경로 */}
-        <Route path="/forum" element={<BoardPage />} />
+        <Route path="/board" element={<BoardPage />} />
+        <Route path="/board/:boardId" element={<ViewPage />} /> /* 게시물 조회 페이지 */
+      
 
-        {/* 동적 라우트: board_id와 post_id를 URL 경로에서 전달 */}
-        <Route path="/forum/view/:board_id/:post_id" element={<ViewPage />} />
-        
         {/* 기본 전체 게시판 */}
         <Route path="/event">
           <Route index element={<EventPage />}></Route>
@@ -41,9 +40,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/join" element={<JoinPage />} />
         <Route path="/write" element={<WritePage />} />
-        <Route path="/view" element={<ViewPage />}>
-          <Route path=":view_id" element={<ViewPage />} />
-        </Route>
+        
         <Route path="/wiki" element={<WikiPage />}>
           <Route path="/wiki/:wiki_title" element={<WikiPage />} />
         </Route>

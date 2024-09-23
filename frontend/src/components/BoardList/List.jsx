@@ -1,28 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// 카테고리 매핑
+const categoryNames = {
+  0: "전체",
+  1: "공지사항",
+  2: "자유게시판",
+  3: "건의사항",
+  4: "자료실",
+  5: "공모전 및 대회",
+  10: "회의록",
+  11: "장부",
+  12: "전시회 회의록 (구)",
+};
+
 function PostItem({ id, title, category, author, time, hit, comments }) {
   return (
-    <li className="grid grid-cols-7 items-center border-b border-gray-200 py-2 text-sm">
-      <div className="text-center text-gray-500">{category}</div> {/* 게시판 분류 표시 */}
-      <div className="col-span-3">
-        {/* 게시물 제목 클릭 시 /forum/view/n/nnn 형식으로 이동 */}
-        <Link
-          to={`/forum/view/${category}/${id}`}  // category와 post ID를 경로에 포함
-          className="text-gray-800 hover:text-blue-500 hover:underline"
-        >
-          {title}
-        </Link>
-        {comments > 0 && (
-          <span className="ml-2 text-xs text-red-500">[{comments}]</span>
-        )}
-      </div>
-      <div className="text-center text-gray-500">
-        {author.grade}기 {author.name}
-      </div>
-      <div className="text-center text-gray-500">{time}</div>
-      <div className="text-center text-gray-500">{hit}</div>
-    </li>
+    <Link to={`/board/${id}`} className="text-gray-800 hover:bg-gray-100">
+      <li className="grid grid-cols-7 items-center border-b border-gray-200 py-2 text-sm cursor-pointer">
+        {/* 게시판 분류 표시 */}
+        <div className="text-center text-gray-500">{categoryNames[category]}</div>
+        <div className="col-span-3">
+          {/* 게시물 제목 */}
+          <span className="hover:text-blue-500 hover:underline">
+            {title}
+          </span>
+          {comments > 0 && (
+            <span className="ml-2 text-xs text-red-500">[{comments}]</span>
+          )}
+        </div>
+        <div className="text-center text-gray-500">
+          {author.grade}기 {author.name}
+        </div>
+        <div className="text-center text-gray-500">{time}</div>
+        <div className="text-center text-gray-500">{hit}</div>
+      </li>
+    </Link>
   );
 }
 
