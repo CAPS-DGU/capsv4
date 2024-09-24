@@ -84,7 +84,7 @@ public class StudyController {
         return ResponseEntity.ok(DataResponse.builder().message("스터디 삭제 성공").build());
     }
 
-    @PostMapping("/study/{studyId}/kick/{userId}")
+    @PostMapping("/study/kick")
     @Operation(summary = "스터디 방출")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
     public ResponseEntity<DataResponse> kickStudy(@RequestBody KickStudyRequest request) throws AccessDeniedException {
