@@ -258,6 +258,7 @@ public class StudyService {
         for (KickStudyRequest.User kickUser : request.getUsers()) {
             Integer userId = kickUser.getUserId();
             studyTuteeRepository.deleteByStudyIdAndUserId(request.getStudyId(), userId);
+            studyApplyRepository.deleteByStudyIdAndUserId(request.getStudyId(), userId);
         }
     }
 

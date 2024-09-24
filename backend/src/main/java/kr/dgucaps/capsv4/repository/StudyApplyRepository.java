@@ -19,4 +19,6 @@ public interface StudyApplyRepository extends JpaRepository<StudyApply, Integer>
     Optional<StudyApply> findByStudyIdAndUserId(Integer studyId, Integer userId);
 
     List<StudyApply> findByStudy(Study study);
+
+    void deleteByStudyIdAndUserId(Integer studyId, Integer userId);
 }
