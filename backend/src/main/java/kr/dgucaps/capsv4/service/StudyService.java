@@ -1,9 +1,6 @@
 package kr.dgucaps.capsv4.service;
 
-import kr.dgucaps.capsv4.dto.request.AcceptStudyRequest;
-import kr.dgucaps.capsv4.dto.request.CreateStudyRequest;
-import kr.dgucaps.capsv4.dto.request.GetStudyListParameter;
-import kr.dgucaps.capsv4.dto.request.ModifyStudyRequest;
+import kr.dgucaps.capsv4.dto.request.*;
 import kr.dgucaps.capsv4.dto.response.GetStudyApplyListResponse;
 import kr.dgucaps.capsv4.dto.response.GetStudyListResponse;
 import kr.dgucaps.capsv4.dto.response.GetStudyResponse;
@@ -250,15 +247,18 @@ public class StudyService {
     }
 
     @Transactional
-    public void kickStudy(Integer studyId, Integer userId) throws AccessDeniedException {
+    public void kickStudy(KickStudyRequest request) throws AccessDeniedException {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
-        Study study = studyRepository.findById(studyId)
+        Study study = studyRepository.findById(request.getStudyId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
         if (!user.getUserId().equals(study.getMaker().getUserId())) {
             throw new AccessDeniedException("스터디 방출 권한이 없습니다");
         }
-        studyTuteeRepository.deleteByStudyIdAndUserId(studyId, userId);
+        for (KickStudyRequest.User kickUser : request.getUsers()) {
+            Integer userId = kickUser.getUserId();
+            studyTuteeRepository.deleteByStudyIdAndUserId(request.getStudyId(), userId);
+        }
     }
 
     @Transactional

@@ -2,10 +2,7 @@ package kr.dgucaps.capsv4.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.dgucaps.capsv4.dto.request.AcceptStudyRequest;
-import kr.dgucaps.capsv4.dto.request.CreateStudyRequest;
-import kr.dgucaps.capsv4.dto.request.GetStudyListParameter;
-import kr.dgucaps.capsv4.dto.request.ModifyStudyRequest;
+import kr.dgucaps.capsv4.dto.request.*;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
 import kr.dgucaps.capsv4.service.StudyService;
 import lombok.RequiredArgsConstructor;
@@ -87,11 +84,11 @@ public class StudyController {
         return ResponseEntity.ok(DataResponse.builder().message("스터디 삭제 성공").build());
     }
 
-    @DeleteMapping("/study/{studyId}/kick/{userId}")
+    @PostMapping("/study/{studyId}/kick/{userId}")
     @Operation(summary = "스터디 방출")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
-    public ResponseEntity<DataResponse> kickStudy(@PathVariable("studyId") Integer studyId, @PathVariable("userId") Integer userId) throws AccessDeniedException {
-        studyService.kickStudy(studyId, userId);
+    public ResponseEntity<DataResponse> kickStudy(@RequestBody KickStudyRequest request) throws AccessDeniedException {
+        studyService.kickStudy(request);
         return ResponseEntity.ok(DataResponse.builder().message("스터디 방출 성공").build());
     }
 
