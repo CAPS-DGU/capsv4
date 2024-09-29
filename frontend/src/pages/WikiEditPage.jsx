@@ -46,7 +46,11 @@ const WikiEditPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/wiki?title=${wiki_title}`);
+                const response = await axios.get(`/api/wiki?title=${wiki_title}`,{headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                  'Authorization': 'Bearer ' +accessToken
+            }});
                 console.log(response);
                 
     
@@ -79,7 +83,8 @@ const WikiEditPage = () => {
     const handleSave = async (newContent) => {
         setContent({ "title": content.title, "content": newContent });
         console.log(content);
-        const response = await axios.put(`/api/wiki`,{ "title": content.title, "content": newContent },{
+        
+        try{const response = await axios.put(`/api/wiki`,{ "title": content.title, "content": newContent },{
             headers: {
               'Content-Type': 'application/json',
               'Accept': '*/*',
@@ -87,11 +92,20 @@ const WikiEditPage = () => {
 
             },
           });
-          console.log(response);
-
+          console.log(response.status);
+          if (response.status === 200) {
           
-        alert("내용이 저장되었습니다.");
-        window.location.href=`/wiki/${wiki_title}`;
+            alert("내용이 저장되었습니다.");
+            window.location.href=`/wiki/${wiki_title}`;
+          }
+        }
+        catch(e){
+            
+            alert('잘못된 접근입니다.');
+            window.location.href='/wiki/'+content.title;
+        }
+        //   console.log(response);
+
         
     };
 

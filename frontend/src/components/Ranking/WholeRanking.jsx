@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RankingList from './RankingList';
+import axios from 'axios';
 
 const WholeRanking = () => {
-  const rankingData = [
-    { name: '길동', message: "", posts: 10, comments: 20, point: 3000 },
-    { name: '순신', message: "", posts: 1, comments: 2, point: 2000 },
-    { name: '감찬', message: "", posts: 1, comments: 2, point: 1000 },
-    { name: '관순', message: "안녕", posts: 1, comments: 2, point: 1000 },
-    { name: '유신', message: "안녕하세요", posts: 1, comments: 2, point: 1000 },
-
-  ];
+  const [ranking,setRanking] = useState(null);
+  const [error,setError] = useState(null);
+  const [loading,setLoading] = useState(true);
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      try{
+        const response = await axios.get('/api/ranking/total');
+        console.log(response);
+        if(response.status === 200){
+          setRanking(response.data.data);
+          setError(null)
+        }
+        else{
+          setError("Failed to fetch data");
+        }
+      }
+      catch(err){
+        setError(err.message);
+      }
+      finally{
+        setLoading(false)
+      }
+    };
+    fetchData();
+  },[])
+  if(loading) return <div>Loading...</div>;
   return (
-    <RankingList data={rankingData} />
+    <RankingList data={ranking} />
   );
 };
 

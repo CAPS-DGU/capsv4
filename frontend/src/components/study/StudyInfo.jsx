@@ -1,18 +1,26 @@
 import React from 'react';
 
 const StudyInfo = ({ study }) => {
-    const { title, year, day, category, description, semester, location, type, maxParticipant, participants, maker } = study;
+    console.log(study)
+    const { title, year, day, category, description, semester, location, type, maxParticipants, participants, maker } = study;
 
     // 요일과 학기 변환 함수
     const translateDay = (day) => {
         switch (day) {
-            case 'MON': return '월요일';
-            case 'TUE': return '화요일';
-            case 'WED': return '수요일';
-            case 'THU': return '목요일';
-            case 'FRI': return '금요일';
-            case 'SAT': return '토요일';
-            case 'SUN': return '일요일';
+            case 'MON':;
+            case 'MONDAY': return '월요일';
+            case 'TUE':;
+            case 'TUESDAY': return '화요일';
+            case 'WED':;
+            case 'WEDNESAY': return '수요일';
+            case 'THU':;
+            case 'THURSDAY': return '목요일';
+            case 'FRI':;
+            case 'FRIDAY': return '금요일';
+            case 'SAT':;
+            case 'SATURDAY': return '토요일';
+            case 'SUN' :;
+            case 'SUNDAY': return '일요일';
             default: return day;
         }
     };
@@ -37,7 +45,7 @@ const StudyInfo = ({ study }) => {
             <p className="mb-2 text-gray-700"><strong>요일:</strong> {translateDay(day)}</p>
             <p className="mb-2 text-gray-700"><strong>장소:</strong> {location}</p>
             <p className="mb-2 text-gray-700"><strong>유형:</strong> {type}</p>
-            <p className="mb-2 text-gray-700"><strong>참여자 수:</strong> {participants.length}/{maxParticipant}</p>
+            <p className="mb-2 text-gray-700"><strong>참여자 수:</strong> {participants.length}/{maxParticipants}</p>
             <p className="mb-6 text-gray-700"><strong>설명:</strong> {description}</p>
         </div>
     );

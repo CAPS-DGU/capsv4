@@ -10,15 +10,25 @@ import JoinPage from './pages/JoinPage';
 import WritePage from './pages/WritePage.jsx';
 import WikiPage from './pages/WikiPage.jsx';
 import WikiEditPage from './pages/WikiEditPage.jsx';
+import IntroPage from './pages/IntroPage.jsx';
+import HistoryPage from './pages/HistoryPage.jsx';
+import ExecutivePage from './pages/ExecutivePage.jsx';
+import HomepagePage from './pages/HomepagePage.jsx';
+import RulePage from './pages/RulePage.jsx';
 import WikiHistoryPage from './pages/WikiHistoryPage.jsx';
 import ViewPage from './pages/ViewPage.jsx';
 import NavBar from './components/NavBar.jsx';
 import LibraryPage from './pages/LibraryPage.jsx';
 import EventPage from './pages/EventPage.jsx';
 import EventDetailPage from './pages/EventDetailPage.jsx';
+import EventCreationPage from './pages/EventCreationPage.jsx';
+import EventManagerPage from './pages/EventManagerPage.jsx';
 import StudyPage from './pages/StudyPage.jsx';
 import StudyDetailPage from './pages/StudyDetailPage.jsx';
 import RankingPage from './pages/RankingPage.jsx';
+import StudyCreatePage from './pages/StudyCreationPage.jsx';
+import StudyEditPage from './pages/StudyEditPage.jsx';
+import StudyManagerPage from './pages/StudyManagerPage.jsx';
 
 function App() {
 
@@ -33,8 +43,12 @@ function App() {
           </Route>
           <Route path="/event">
             <Route index element={<EventPage />}></Route>
-            <Route path=":eventId" element={<EventDetailPage />} />
           </Route>
+          <Route path="/event/:eventId" element={<EventDetailPage />} />
+          <Route path="/event/manager/:eventId" element={<EventManagerPage />} />
+
+          <Route path="/event/create" element={<EventCreationPage />} />
+          <Route path="/event/edit/:eventId" element={<EventCreationPage flag={true} />} />
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/join" element={<JoinPage />} />
@@ -53,15 +67,17 @@ function App() {
           </Route>
 
           <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/intro" element={<WikiPage />} />
-          <Route path="/history" element={<WikiPage />} />
-          <Route path="/rule" element={<WikiPage />} />
-          <Route path="/executive" element={<WikiPage />} />
-          <Route path="/homepage" element={<WikiPage />} />
+          <Route path="/intro" element={<IntroPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/rule" element={<RulePage />} />
+          <Route path="/executive" element={<ExecutivePage />} />
+          <Route path="/homepage" element={<HomepagePage />} />
           <Route path="/library" element={<LibraryPage />} />
           <Route path="/study" element={<StudyPage />} />
           <Route path="/study/:study_id" element={<StudyDetailPage />} />
-          <Route path="/study/create" element={<div>스터디 만들기 페이지</div>} />
+          <Route path="/study/edit/:study_id" element={<StudyEditPage />} />
+          <Route path="/study/manager/:study_id" element={<StudyManagerPage />} />
+          <Route path="/study/create" element={<StudyCreatePage />} />
           <Route path="/ranking" element={<RankingPage />} />
 
         </Routes>

@@ -6,6 +6,7 @@ import IdInput from '../components/JoinInput/IdInput';
 import PasswordInput from '../components/JoinInput/PasswordInput';
 import EmailInput from '../components/JoinInput/EmailInput';
 import SemesterSelect from '../components/JoinInput/SemesterSelect';
+import axios from 'axios';
 
 const JoinPage = () => {
   const [name, setName] = useState('');
@@ -15,6 +16,28 @@ const JoinPage = () => {
   const [email, setEmail] = useState('');
   const [semester, setSemester] = useState('');
   const [errors, setErrors] = useState({});
+  const registerFunction = async () => {
+    try {
+      const response = await axios.post(`/api/user`,
+        {
+          userId: id,
+          password: password,
+          name: name,
+          grade: parseInt(semester),
+          email: email
+        }
+      )
+      console.log(response.status);
+      if (response.status === 200 || response.status === 201) {
+        alert('회원가입이 완료되었습니다!');
+        window.location.href = '/';
+      }
+    }
+    catch (err) {
+      alert(err.response.data.details)
+      throw err;
+    }
+  }
 
   const validateForm = () => {
     const newErrors = {};
@@ -56,7 +79,8 @@ const JoinPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      alert('회원가입이 완료되었습니다!');
+      registerFunction();
+
       // 실제 회원가입 처리 로직을 여기에 추가 
     }
   };

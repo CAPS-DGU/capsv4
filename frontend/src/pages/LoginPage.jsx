@@ -66,18 +66,24 @@ const LoginPage = () => {
         throw new Error('로그인 실패');
       }
 
-      const data = response.data;
-      console.log(data);
-      const { accessToken, refreshToken } = data.data;
+      let data = response.data;
+      console.log(data); // 서버 응답 확인
+      let { accessToken, refreshToken } = data.data;
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('profilename', "test");
+      const profileResponse = await axios.get(`/api/user/${userId}`,
+        { headers: { 'Authorization': 'Bearer ' + accessToken } }
+      )
+      let name = (profileResponse.data.data.name)
+      console.log(name)
+      localStorage.setItem('profilename', name);
 
       startTokenRefreshTimer(); // 토큰 갱신 타이머 시작
 
-      alert(`test님, 환영합니다! 10 포인트 지급!`);
-      window.location.href='/';
+      alert(`${name}님, 환영합니다! 10 포인트 지급!`);
+      window.location.href = '/'; // 페이지 리다이렉트
+
     } catch (error) {
       setError(error.message);
     }
@@ -102,5 +108,4 @@ const LoginPage = () => {
     </div>
   );
 };
-
 export default LoginPage;

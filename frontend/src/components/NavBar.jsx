@@ -10,16 +10,24 @@ function Navbar() {
         // localStorage에서 로그인 상태 확인
         const token = localStorage.getItem('accessToken');
         const name = localStorage.getItem('profilename');
-        
+
         if (token && name) {
             setIsLoggedIn(true);
             setProfileName(name);
+        } else {
+            setIsLoggedIn(false); // 토큰이 없으면 로그인 상태를 false로 설정
         }
-    }, []);
+    }, [isLoggedIn]);
     const toggleDropdown = (index) => {
         setDropdownOpen(dropdownOpen === index ? null : index);
     };
-
+    const Logout = () => {
+        localStorage.removeItem('accessToken'); // 특정 토큰 삭제
+        localStorage.removeItem('refreshToken'); // 특정 토큰 삭제
+        localStorage.removeItem('profilename'); // 특정 이름 삭제
+        setIsLoggedIn(false); // 로그인 상태를 false로 업데이트
+        window.location.reload(); // 페이지를 새로고침
+    };
     const closeDropdown = () => {
         setDropdownOpen(null);
     };
@@ -59,7 +67,7 @@ function Navbar() {
                         )}
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(1)}>
+                        <a href="/study" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(1)}>
                             STUDY
                         </a>
                         {dropdownOpen === 1 && (
@@ -119,14 +127,23 @@ function Navbar() {
                     {/*로그인*/}
                     <div className="relative">
                         {isLoggedIn ? (
-                            <a href="/mypage" className="text-white hover:text-gray-400">
+                            <a href="/mypage" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(4)}>
                                 {profileName}님 환영합니다!
-                            </a>
-                        ) : (
-                            <a href="/login" className="text-white hover:text-gray-400">
+
+                            </a>) : (
+                            <a href="/login" className="text-white hover:text-gray-400" >
                                 LOGIN
                             </a>
                         )}
+                        {dropdownOpen === 4 && (
+                            <div className="absolute z-50 w-40 py-2 mt-2 bg-white rounded-lg shadow-xl">
+                                <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200" onClick={Logout}>LOGOUT</a>
+
+                            </div>
+                        )
+                        }
+
+
                     </div>
                 </div>
 

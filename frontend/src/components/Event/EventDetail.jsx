@@ -1,14 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const EventDetail = ({ events }) => {
     const { eventId } = useParams();
-    const event = events.find((e) => e.id === parseInt(eventId));
+    const navigate = useNavigate();
+    const event = events;
+    const accessToken = localStorage.getItem("accessToken");
 
     const [timeLeft, setTimeLeft] = useState({
         start: '',
         end: ''
     });
+
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        answer: '' // answer 필드 추가
+    });
+
+    // 폼 데이터 변경 핸들러
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const formSubmit = async (e) => {
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+
+        let requestBody = {
+            eventId: eventId,
+            date: new Date().toISOString(),
+        };
+
+        // 이벤트 타입에 따라 다른 데이터 전송
+        if (event.type === "SNACK") {
+            requestBody.snack = {
+                name: formData.name,
+                phone: formData.phone
+            };
+            requestBody.quiz = null;
+        } else if (event.type === "QUIZ") {
+            requestBody.quiz = {
+                answer: formData.answer
+            };
+            requestBody.snack = null;
+        }
+
+        console.log(requestBody); // requestBody가 완성된 후 로그 출력
+
+        try {
+            await axios.post('/api/event/apply', requestBody, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            alert("신청이 완료되었습니다! 🎉");
+        } catch (error) {
+            console.error("신청 실패:", error);
+            alert("신청 중 오류가 발생했습니다.");
+        }
+    };
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -48,14 +104,50 @@ const EventDetail = ({ events }) => {
                 return "🍪"; // 스낵 관련 이모지
             case "QUIZ":
                 return "❓"; // 퀴즈 관련 이모지
-            // 다른 타입에 대한 이모지를 추가할 수 있음
             default:
                 return "📅"; // 기본 이모지
         }
     };
 
+    // 삭제 핸들러
+    const handleDelete = async () => {
+        if (window.confirm("정말로 이 이벤트를 삭제하시겠습니까?")) {
+            try {
+                await axios.delete(`/api/event/${eventId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                alert("이벤트가 삭제되었습니다.");
+                navigate(-1); // 삭제 후 이전 페이지로 이동
+            } catch (error) {
+                console.error("이벤트 삭제 실패:", error);
+                alert(error.response.data.details);
+            }
+        }
+    };
+
+    // 수정 핸들러
+    const handleEdit = () => {
+        navigate(`/event/edit/${eventId}`);
+    };
+
+    const handleBefore = () => {
+        navigate('/event'); // 이전 페이지로 이동
+    };
+    const handleManager = () => {
+        window.location.href = '/event/manager/' + eventId; // 이전 페이지로 이동
+    };
     return (
         <div className="max-w-4xl p-6 mx-auto mt-8">
+            <div className="flex justify-end mb-4">
+                <button onClick={handleEdit} className="px-4 py-2 ml-2 text-white bg-blue-600 rounded">수정하기</button>
+                <button onClick={handleDelete} className="px-4 py-2 ml-2 text-white bg-red-600 rounded">삭제하기</button>
+                <button onClick={handleBefore} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">이전</button>
+                <button onClick={handleManager} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">관리</button>
+            </div>
+
             <div className="mb-4 text-5xl">
                 <span>{getEmoji(event.type)}</span>
             </div>
@@ -80,42 +172,71 @@ const EventDetail = ({ events }) => {
 
             {event.quiz && (
                 <div className="mb-8">
-                    <h2 className="mb-2 text-3xl font-semibold text-gray-500">퀴즈</h2>
-                    <p className="mb-2 text-xl text-gray-800">
-                        <strong>질문:</strong> {event.quiz.question}
-                    </p>
-                    <p className="text-xl text-gray-800">
-                        <strong>정답:</strong> {event.quiz.correctAnswer}
-                    </p>
+                    <h2 className="mb-2 text-3xl font-semibold text-gray-500">퀴즈를 풀어보세요!</h2>
                 </div>
             )}
 
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                alert("신청이 완료되었습니다! 🎉");
-            }} className="mb-8">
-                <div className="mb-4">
-                    <label className="block mb-2 text-xl font-bold text-gray-700">
-                        이름
-                    </label>
-                    <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        placeholder="이름을 입력하세요"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block mb-2 text-xl font-bold text-gray-700">
-                        이메일
-                    </label>
-                    <input
-                        type="email"
-                        className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        placeholder="이메일을 입력하세요"
-                        required
-                    />
-                </div>
+            <form method="post" onSubmit={formSubmit} className="mb-8">
+                {event.type === "SNACK" && (
+                    <>
+                        <div className="mb-4">
+                            <label className="block mb-2 text-xl font-bold text-gray-700">
+                                이름
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="이름을 입력하세요"
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-2 text-xl font-bold text-gray-700">
+                                전화번호
+                            </label>
+                            <input
+                                type="text"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="전화번호를 입력하세요"
+                                required
+                            />
+                        </div>
+                    </>
+                )}
+
+                {event.type === "QUIZ" && (
+                    <>
+                        <div className="mb-4">
+                            <label className="block mb-2 text-xl font-bold text-gray-700">
+                                질문
+                            </label>
+                            <label className="block mb-2 text-gray-700 text-L">
+                                {event.quiz.question}
+                            </label>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-2 text-xl font-bold text-gray-700">
+                                정답
+                            </label>
+                            <input
+                                type="text"
+                                name="answer"
+                                value={formData.answer}
+                                onChange={handleInputChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="정답을 입력하세요"
+                                required
+                            />
+                        </div>
+                    </>
+                )}
+
                 <button
                     type="submit"
                     className="w-full py-3 text-lg font-bold text-white bg-gray-600 rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400"

@@ -2,20 +2,22 @@ import axios from "axios";
 
 const useTokenManager = () => {
   const startTokenRefreshTimer = () => {
-    const tokenExpiryTime = 15 * 60 * 1000;
+    const tokenExpiryTime = 10*60 * 1000;
     setTimeout(refreshAccessToken, tokenExpiryTime - 60 * 1000);
   };
 
   const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem('accessToken');
 
     try {
       const response = await axios.post(
-        '/refresh-token',
-        { token: refreshToken },
+        '/api/token/renewal',
+        { refreshToken },
         {
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken
           }
         }
       );

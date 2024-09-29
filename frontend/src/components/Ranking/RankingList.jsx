@@ -4,7 +4,7 @@ import firstPlaceImg from '../../assets/iStock-1st.jpg';
 import secondPlaceImg from '../../assets/iStock-2nd.jpg';
 import thirdPlaceImg from '../../assets/iStock-3rd.jpg';
 
-function RankingItem({ rank, name, message, posts, comments, point }) {
+function RankingItem({ rank, name, comment, postCount, commentCount, point }) {
 
   const rankImages = {
     1: firstPlaceImg,
@@ -13,18 +13,18 @@ function RankingItem({ rank, name, message, posts, comments, point }) {
   };
 
   return (
-    <li className="grid grid-cols-6 items-center border-b border-gray-200 py-4 text-sm" style={{ gridTemplateColumns: "1fr 1fr 3fr 1fr 1fr 1fr" }}>
+    <li className="grid items-center grid-cols-6 py-4 text-sm border-b border-gray-200" style={{ gridTemplateColumns: "1fr 1fr 3fr 1fr 1fr 1fr" }}>
       <div className="text-center">
         {rank <= 3 ? (
-          <img src={rankImages[rank]} alt={`${rank}위`} className="mx-auto h-8 w-8" />
+          <img src={rankImages[rank]} alt={`${rank}위`} className="w-8 h-8 mx-auto" />
         ) : (
           rank
         )}
       </div>
       <div className="text-center">{name}</div>
-      <div className="text-left">{message}</div>
-      <div className="text-center">{posts}</div>
-      <div className="text-center">{comments}</div>
+      <div className="text-left">{comment}</div>
+      <div className="text-center">{postCount}</div>
+      <div className="text-center">{commentCount}</div>
       <div className="text-center">{point}</div>
     </li>
   );
@@ -35,9 +35,9 @@ const RankingList = ({ data }) => {
   const sortedData = [...data].sort((a, b) => b.point - a.point);
 
   return (
-    <div className="m-4 max-w-7xl mx-auto p-4 bg-white shadow-md rounded-lg">
+    <div className="p-4 m-4 mx-auto bg-white rounded-lg shadow-md max-w-7xl">
       <ul className="divide-y divide-gray-200">
-        <li className="grid grid-cols-6 items-center py-4 text-sm font-bold text-gray-700" style={{ gridTemplateColumns: "1fr 1fr 3fr 1fr 1fr 1fr" }}>
+        <li className="grid items-center grid-cols-6 py-4 text-sm font-bold text-gray-700" style={{ gridTemplateColumns: "1fr 1fr 3fr 1fr 1fr 1fr" }}>
           <div className="text-center">등수</div>
           <div className="text-center">이름</div>
           <div className="text-left">한 마디</div>
@@ -50,9 +50,9 @@ const RankingList = ({ data }) => {
             key={index}
             rank={index + 1} 
             name={user.name}
-            message={user.message}
-            posts={user.posts}
-            comments={user.comments}
+            comment={user.comment}
+            postCount={user.postCount}
+            commentCount={user.commentCount}
             point={user.point}
           />
         ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const EventItem = ({ event }) => {
-    const { title, startDate, maxParticipant, description, type } = event;
+    const { title, startDate, maxParticipants, description, type } = event;
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -15,11 +15,13 @@ const EventItem = ({ event }) => {
             case "SNACK":
                 return "🍪"; // 스낵 관련 이모지
             // 다른 타입에 대한 이모지를 추가할 수 있음
+            case "QUIZ":
+                return "❓"; // 퀴즈 관련 이모지
+            // 다른 타입에 대한 이모지를 추가할 수 있음
             default:
                 return "📅"; // 기본 이모지
-        }
-    };
-
+        };
+    }
     return (
         <div
             onClick={handleClick}
@@ -32,7 +34,7 @@ const EventItem = ({ event }) => {
                     <strong>시작:</strong> {new Date(startDate).toLocaleString()}
                 </p>
                 <p className="text-gray-600">
-                    <strong>참가자 수 제한:</strong> {maxParticipant}명
+                    <strong>참가자 수 제한:</strong> {maxParticipants}명
                 </p>
                 <p className="text-gray-700">{description}</p>
             </div>

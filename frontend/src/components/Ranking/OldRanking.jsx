@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import RankingList from './RankingList';
 import axios from 'axios';
 
-const MonthlyRanking = () => {
+const OldRanking = () => {
   const [ranking,setRanking] = useState(null);
   const [error,setError] = useState(null);
   const [loading,setLoading] = useState(true);
   useEffect(()=>{
     const fetchData = async ()=>{
       try{
-        const response = await axios.get('/api/ranking/monthly');
+        const response = await axios.get('/api/ranking/old');
         console.log(response);
         if(response.status === 200){
           setRanking(response.data.data);
@@ -34,4 +34,4 @@ const MonthlyRanking = () => {
   );
 };
 
-export default MonthlyRanking;
+export default OldRanking;
