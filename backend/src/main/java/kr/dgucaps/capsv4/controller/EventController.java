@@ -33,7 +33,7 @@ public class EventController {
     @Operation(summary = "이벤트 참여", description = "RequestBody의 quiz 예시에 알 수 없는 이유로 잘못된 형식이 나옵니다. (\"answer\": \"string\" 이 맞는 형식입니다!)")
     public ResponseEntity<DataResponse> applyEvent(@RequestBody @Valid ApplyEventRequest request) {
         eventService.createApply(request);
-        return ResponseEntity.ok(DataResponse.builder().message("스터디 지원 성공").build());
+        return ResponseEntity.ok(DataResponse.builder().message("이벤트 참여 성공").build());
     }
 
     @GetMapping("/event")
