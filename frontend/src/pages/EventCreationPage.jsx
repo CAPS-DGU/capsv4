@@ -27,10 +27,15 @@ const EventCreationPage = (flag) => {
                 setinitialData(response.data.data); // 스터디 목록 설정
 
             } catch (error) {
+                if (error.response.status === 403) {
+                    alert("권한이 없습니다.");
+                    window.location.href = '/event';
+                }
                 console.error('Error fetching study data:', error);
             }
         };
         if (flag) {
+
             fetchData();
         }
     }, [eventId])

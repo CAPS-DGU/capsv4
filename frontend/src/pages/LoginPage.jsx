@@ -76,16 +76,49 @@ const LoginPage = () => {
         { headers: { 'Authorization': 'Bearer ' + accessToken } }
       )
       let name = (profileResponse.data.data.name)
-      console.log(name)
       localStorage.setItem('profilename', name);
 
       startTokenRefreshTimer(); // 토큰 갱신 타이머 시작
 
       alert(`${name}님, 환영합니다! 10 포인트 지급!`);
-      window.location.href = '/'; // 페이지 리다이렉트
+
+      // 사용자 계정 정보를 가져오는 비동기 호출을 완료
+      await userAccount(userId, accessToken);
+
+      // 모든 비동기 작업이 완료된 후 이전 페이지로 리다이렉트
+      navigate(-2);
 
     } catch (error) {
       setError(error.message);
+    }
+  }
+
+
+  const userAccount = async (userId, accessToken) => {
+    try {
+      const response = await axios.get(
+        `/api/user/${userId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'Authorization': 'Bearer ' + accessToken
+          },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error('로그인 실패');
+      }
+
+      let data = response.data.data;
+      console.log(data); // 서버 응답 확인.
+
+      localStorage.setItem('id', data.id);
+      // window.location.href = '/'; // 페이지 리다이렉트
+
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -108,4 +141,5 @@ const LoginPage = () => {
     </div>
   );
 };
+
 export default LoginPage;

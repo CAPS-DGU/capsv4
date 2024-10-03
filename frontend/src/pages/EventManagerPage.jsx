@@ -28,6 +28,10 @@ const ParticipantList = () => {
                 }
             } catch (error) {
                 console.error('참여자 목록 조회 오류:', error);
+                if (error.response.status === 403) {
+                    alert("잘못된 접근")
+                    window.location.href = '/event'
+                }
                 setError('참여자 목록을 불러오는 중 오류가 발생했습니다.');
             } finally {
                 setLoading(false);
@@ -36,7 +40,7 @@ const ParticipantList = () => {
 
         fetchParticipants();
     }, [eventId]);
-
+    console.log(participants);
     const handleManager = () => {
         window.location.href = '/event/manager/' + eventId; // 이전 페이지로 이동
     }; const handleGoBack = () => {
@@ -47,10 +51,12 @@ const ParticipantList = () => {
         const worksheet = XLSX.utils.json_to_sheet(
             participants.map((participant, index) => ({
                 번호: index + 1,
-                이름: participant.user.name,
+                // 이름: participant.user.name,
                 기수: `${participant.user.grade}기`,
+                이름: participant.user.name,
                 '참여 날짜': new Date(participant.date).toLocaleString(),
-                '퀴즈 정답': participant.quiz ? participant.quiz.answer : 'N/A',
+                '전화번호': participant.snack ? participant.snack.phone : 'N/A',
+                '퀴즈 정답': participant.quiz ? participant.quiz.answer : 'N/A'
             }))
         );
         const workbook = XLSX.utils.book_new();
@@ -86,9 +92,14 @@ const ParticipantList = () => {
                             <th className="px-4 py-2 font-medium text-left bg-gray-100 border">이름</th>
                             <th className="px-4 py-2 font-medium text-left bg-gray-100 border">기수</th>
                             <th className="px-4 py-2 font-medium text-left bg-gray-100 border">참여 날짜</th>
-                            {participants && (
+                            {participants[0].quiz ? (
                                 <th className="px-4 py-2 font-medium text-left bg-gray-100 border">퀴즈 정답</th>
-                            )}
+
+                            ) : ""}
+                            {participants[0].snack ? (
+                                <th className="px-4 py-2 font-medium text-left bg-gray-100 border">전화번호</th>
+
+                            ) : ""}
                         </tr>
                     </thead>
                     <tbody>
@@ -102,6 +113,9 @@ const ParticipantList = () => {
                                 </td>
                                 {participant.quiz && (
                                     <td className="px-4 py-2 border">{participant.quiz.answer}</td>
+                                )}
+                                {participant.snack && (
+                                    <td className="px-4 py-2 border">{participant.snack.phone}</td>
                                 )}
                             </tr>
                         ))}

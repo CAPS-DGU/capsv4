@@ -65,6 +65,10 @@ const EventPage = () => {
                 setEventsData(response.data.data); // 스터디 목록 설정
 
             } catch (error) {
+                if (error.response.status == 403) {
+                    alert("로그인을 하세요.")
+                    window.location.href = '/login'
+                }
                 console.error('Error fetching study data:', error);
             }
         };

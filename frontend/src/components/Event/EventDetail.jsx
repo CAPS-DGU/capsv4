@@ -6,6 +6,7 @@ const EventDetail = ({ events }) => {
     const { eventId } = useParams();
     const navigate = useNavigate();
     const event = events;
+    const user_id = localStorage.getItem('id');
     const accessToken = localStorage.getItem("accessToken");
 
     const [timeLeft, setTimeLeft] = useState({
@@ -22,10 +23,30 @@ const EventDetail = ({ events }) => {
     // 폼 데이터 변경 핸들러
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
+
+        if (name === 'phone') {
+            // 하이픈 자동 추가 로직
+            const formattedValue = formatPhoneNumber(value);
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: formattedValue
+            }));
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value
+            }));
+        }
+    };
+
+    const formatPhoneNumber = (value) => {
+        // 숫자만 추출
+        const digits = value.replace(/\D/g, '');
+
+        // 하이픈 추가
+        if (digits.length < 4) return digits;
+        if (digits.length < 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+        return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
     };
 
     const formSubmit = async (e) => {
@@ -60,9 +81,10 @@ const EventDetail = ({ events }) => {
                 }
             });
             alert("신청이 완료되었습니다! 🎉");
+            window.location.reload();
         } catch (error) {
             console.error("신청 실패:", error);
-            alert("신청 중 오류가 발생했습니다.");
+            alert(error.response.data.details);
         }
     };
 
@@ -136,18 +158,23 @@ const EventDetail = ({ events }) => {
     const handleBefore = () => {
         navigate('/event'); // 이전 페이지로 이동
     };
+
     const handleManager = () => {
-        window.location.href = '/event/manager/' + eventId; // 이전 페이지로 이동
+        window.location.href = '/event/manager/' + eventId; // 관리자 페이지로 이동
     };
+
     return (
         <div className="max-w-4xl p-6 mx-auto mt-8">
             <div className="flex justify-end mb-4">
-                <button onClick={handleEdit} className="px-4 py-2 ml-2 text-white bg-blue-600 rounded">수정하기</button>
-                <button onClick={handleDelete} className="px-4 py-2 ml-2 text-white bg-red-600 rounded">삭제하기</button>
                 <button onClick={handleBefore} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">이전</button>
-                <button onClick={handleManager} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">관리</button>
+                {event.writer.id == user_id ? (
+                    <>
+                        <button onClick={handleEdit} className="px-4 py-2 ml-2 text-white bg-blue-600 rounded">수정하기</button>
+                        <button onClick={handleDelete} className="px-4 py-2 ml-2 text-white bg-red-600 rounded">삭제하기</button>
+                        <button onClick={handleManager} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">관리</button>
+                    </>
+                ) : ""}
             </div>
-
             <div className="mb-4 text-5xl">
                 <span>{getEmoji(event.type)}</span>
             </div>
@@ -181,20 +208,6 @@ const EventDetail = ({ events }) => {
                     <>
                         <div className="mb-4">
                             <label className="block mb-2 text-xl font-bold text-gray-700">
-                                이름
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                placeholder="이름을 입력하세요"
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block mb-2 text-xl font-bold text-gray-700">
                                 전화번호
                             </label>
                             <input
@@ -203,7 +216,7 @@ const EventDetail = ({ events }) => {
                                 value={formData.phone}
                                 onChange={handleInputChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                placeholder="전화번호를 입력하세요"
+                                placeholder="전화번호를 입력하세요(하이픈 없이)"
                                 required
                             />
                         </div>

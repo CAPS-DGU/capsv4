@@ -4,7 +4,7 @@ import axios from 'axios'; // axios 임포트
 const EventForm = ({ eventId, onSubmit, initialData }) => {
     let accessToken = localStorage.getItem("accessToken");
     const [eventData, setEventData] = useState({
-        type: "SNACK",
+        type: "QUIZ",
         title: "",
         startDate: "",
         endDate: "",
@@ -95,8 +95,8 @@ const EventForm = ({ eventId, onSubmit, initialData }) => {
                     onChange={handleChange}
                     className="w-full p-2 border rounded"
                 >
-                    <option value="SNACK">SNACK</option>
-                    <option value="QUIZ">QUIZ</option>
+                    <option value="SNACK">간식행사</option>
+                    <option value="QUIZ">퀴즈</option>
                 </select>
             </div>
             <div className="mb-4">

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import './index.css';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import MainPage from './pages/MainPage.jsx';
 import BoardPage from './pages/BoardPage.jsx';
 import GalleryPage from './pages/GalleryPage.jsx';
@@ -34,9 +34,11 @@ function App() {
 
   return (
     <>
-      <NavBar />
       <BrowserRouter>
+        <NavBar />
+
         <Routes>
+
           <Route path="/" element={<MainPage />} />
           <Route path="/board" element={<BoardPage />}>
             <Route path=":board_id" element={<BoardPage />} />

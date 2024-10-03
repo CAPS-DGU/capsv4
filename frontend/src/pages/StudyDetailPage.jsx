@@ -60,9 +60,8 @@ const StudyDetailPage = () => {
     // UseEffect to log applyList after it updates
     useEffect(() => {
         if (applyList) {
-            applyList.map((item,idx)=>
-            {
-                if (item.user.name === profileName){
+            applyList.map((item, idx) => {
+                if (item.user.name === profileName) {
                     setApply(true);
                     return;
                 }
@@ -167,16 +166,20 @@ const StudyDetailPage = () => {
                         <button onClick={handleApply} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
                             신청
                         </button>
-                    )}
-                    <button onClick={handleEdit} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
-                        수정
-                    </button>
-                    <button onClick={handleDelete} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
-                        삭제
-                    </button>
-                    <button onClick={handleManager} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
-                        관리
-                    </button>
+                    )}{true ?
+                        (
+                            <>
+                                <button onClick={handleEdit} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
+                                    수정
+                                </button>
+                                <button onClick={handleDelete} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
+                                    삭제
+                                </button>
+                                <button onClick={handleManager} className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
+                                    관리
+                                </button>
+                            </>) : ""
+                    }
                 </div>
             </div>
         </div>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileDropdownOpen, setMobileDropdownOpen] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
     const [profileName, setProfileName] = useState('');  // 프로필 이름 관리
-
+    const location = useLocation();
+    const navigate = useNavigate();
     useEffect(() => {
         // localStorage에서 로그인 상태 확인
         const token = localStorage.getItem('accessToken');
@@ -17,14 +19,12 @@ function Navbar() {
         } else {
             setIsLoggedIn(false); // 토큰이 없으면 로그인 상태를 false로 설정
         }
-    }, [isLoggedIn]);
+    }, [location]);  // location을 의존성 배열에 추가
     const toggleDropdown = (index) => {
         setDropdownOpen(dropdownOpen === index ? null : index);
     };
     const Logout = () => {
-        localStorage.removeItem('accessToken'); // 특정 토큰 삭제
-        localStorage.removeItem('refreshToken'); // 특정 토큰 삭제
-        localStorage.removeItem('profilename'); // 특정 이름 삭제
+        localStorage.clear();
         setIsLoggedIn(false); // 로그인 상태를 false로 업데이트
         window.location.reload(); // 페이지를 새로고침
     };
@@ -39,7 +39,10 @@ function Navbar() {
     const toggleMobileDropdown = (index) => {
         setMobileDropdownOpen(mobileDropdownOpen === index ? null : index);
     };
+    const login = () => {
+        navigate('/login', { state: { from: location } });
 
+    }
     return (
         <nav className="p-4 bg-black" >
             <div className="container mx-auto">
@@ -131,7 +134,7 @@ function Navbar() {
                                 {profileName}님 환영합니다!
 
                             </a>) : (
-                            <a href="/login" className="text-white hover:text-gray-400" >
+                            <a href='#' onClick={login} className="text-white hover:text-gray-400" >
                                 LOGIN
                             </a>
                         )}
