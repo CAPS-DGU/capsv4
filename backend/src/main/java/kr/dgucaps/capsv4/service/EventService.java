@@ -74,9 +74,9 @@ public class EventService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
         Event event = eventRepository.findById(request.getEventId())
                 .orElseThrow(() -> new IllegalArgumentException("이벤트가 존재하지 않습니다"));
-//        if (eventApplyRepository.existsByEventAndUser(event, user)) {
-//            throw new IllegalStateException("이미 참가한 이벤트입니다");
-//        }
+        if (eventApplyRepository.existsByEventAndUser(event, user)) {
+            throw new IllegalStateException("이미 참가한 이벤트입니다");
+        }
         switch (getEventType(event)) {
             case SNACK:
                 EventSnackApply eventSnackApply = EventSnackApply.builder()
