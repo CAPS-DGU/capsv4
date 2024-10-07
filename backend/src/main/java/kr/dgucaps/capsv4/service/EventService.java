@@ -77,6 +77,9 @@ public class EventService {
         if (eventApplyRepository.existsByEventAndUser(event, user)) {
             throw new IllegalStateException("이미 참가한 이벤트입니다");
         }
+        if (eventApplyRepository.countByEvent(event) >= event.getMaxParticipants()) {
+            throw new IllegalStateException("이벤트가 마감되었습니다.");
+        }
         switch (getEventType(event)) {
             case SNACK:
                 EventSnackApply eventSnackApply = EventSnackApply.builder()
