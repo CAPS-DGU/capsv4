@@ -5,16 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class ApplyEventRequest {
 
     @NotNull
     private Integer eventId;
-
-    @NotNull
-    private LocalDateTime date;
 
     private Snack snack;
 
