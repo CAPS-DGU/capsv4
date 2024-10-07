@@ -74,9 +74,16 @@ public class EventService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
         Event event = eventRepository.findById(request.getEventId())
                 .orElseThrow(() -> new IllegalArgumentException("이벤트가 존재하지 않습니다"));
-//        if (eventApplyRepository.existsByEventAndUser(event, user)) {
-//            throw new IllegalStateException("이미 참가한 이벤트입니다");
-//        }
+        if (eventApplyRepository.existsByEventAndUser(event, user)) {
+            throw new IllegalStateException("이미 참가한 이벤트입니다");
+        }
+        if (eventApplyRepository.countByEvent(event) >= event.getMaxParticipants()) {
+            throw new IllegalStateException("이벤트가 마감되었습니다");
+        }
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(event.getStartDate()) || now.isAfter(event.getEndDate())) {
+            throw new IllegalStateException("신청 가능 시간이 아닙니다");
+        }
         switch (getEventType(event)) {
             case SNACK:
                 EventSnackApply eventSnackApply = EventSnackApply.builder()

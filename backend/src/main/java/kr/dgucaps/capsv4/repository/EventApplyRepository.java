@@ -16,4 +16,6 @@ public interface EventApplyRepository extends JpaRepository<EventApply, Integer>
     boolean existsByEvent(Event event);
 
     boolean existsByEventAndUser(Event event, User user);
+
+    int countByEvent(Event event);
 }
