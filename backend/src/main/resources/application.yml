@@ -22,6 +22,13 @@ spring:
       max-file-size: 10MB
       max-request-size: 30MB
 
+server:
+  port: 443
+  ssl:
+    key-store: classpath:ssl/keystore.p12
+    key-store-type: PKCS12
+    key-store-password: ${KEY_STORE_PASSWORD}
+
 logging:
   level:
     org.hibernate.SQL: debug
