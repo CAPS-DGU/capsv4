@@ -48,14 +48,14 @@ function Navbar() {
             <div className="container mx-auto">
                 {/* Logo */}
                 <div className="flex justify-center">
-                    <a href="/" className="block">
-                        <img src="/src/assets/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
-                    </a>
+                    {/* <a href="/" className="block"> */}
+                    <img src="/src/assets/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
+                    {/* </a> */}
                 </div>
 
                 {/* Menu Items for Desktop */}
                 <div className="justify-center hidden mt-4 space-x-6 md:flex" >
-                    <div className="relative">
+                    {/* <div className="relative">
                         <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(0)}>
                             ABOUT
                         </a>
@@ -68,8 +68,8 @@ function Navbar() {
                                 <a href="/homepage" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">CAPS 홈페이지 정보</a>
                             </div>
                         )}
-                    </div>
-                    <div className="relative">
+                    </div> */}
+                    {/* <div className="relative">
                         <a href="/study" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(1)}>
                             STUDY
                         </a>
@@ -78,8 +78,8 @@ function Navbar() {
                                 <a href="/study" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">스터디 목록</a>
                             </div>
                         )}
-                    </div>
-                    <div className="relative">
+                    </div> */}
+                    {/* <div className="relative">
                         <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(2)}>
                             FORUM
                         </a>
@@ -110,13 +110,14 @@ function Navbar() {
 
                             </div>
                         )}
-                    </div>
+                    </div> */}
 
                     <div className="relative" onMouseEnter={closeDropdown}>
                         <a href="/event" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
                             EVENT
                         </a>
-                    </div><div className="relative" onMouseEnter={closeDropdown}>
+                    </div>
+                    {/* <div className="relative" onMouseEnter={closeDropdown}>
                         <a href="/gallery" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
                             GALLERY
                         </a>
@@ -125,7 +126,7 @@ function Navbar() {
                         <a href="/wiki" className="text-white hover:text-gray-400">
                             WIKI
                         </a>
-                    </div>
+                    </div> */}
 
                     {/*로그인*/}
                     <div className="relative">
@@ -163,7 +164,7 @@ function Navbar() {
                 {/* Mobile Menu Items */}
                 {mobileMenuOpen && (
                     <div className="flex flex-col items-center mt-4 space-y-2 md:hidden">
-                        <div className="relative">
+                        {/* <div className="relative">
                             <button onClick={() => toggleMobileDropdown(0)} className="text-white hover:text-gray-400">ABOUT</button>
                             {mobileDropdownOpen === 0 && (
                                 <div className="absolute z-50 w-40 py-1 mt-2 bg-white rounded-lg shadow-xl">
@@ -211,14 +212,14 @@ function Navbar() {
                                     <a href="#" className="block px-4 py-2 text-xs text-gray-800 hover:bg-gray-200">오늘의 학식</a>
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                         {/* Other mobile menu items... */}
                         <div className="relative" onMouseEnter={closeDropdown}>
-                            <a href="#" className="text-white hover:text-gray-400">
+                            <a href="/event" className="text-white hover:text-gray-400">
                                 EVENT
                             </a>
                         </div>
-                        <div className="relative" onMouseEnter={closeDropdown}>
+                        {/* <div className="relative" onMouseEnter={closeDropdown}>
                             <a href="#" className="text-white hover:text-gray-400">
                                 GALLERY
                             </a>
@@ -227,7 +228,7 @@ function Navbar() {
                             <a href="#" className="text-white hover:text-gray-400">
                                 WIKI
                             </a>
-                        </div>
+                        </div> */}
                         <div className="relative">
                             {isLoggedIn ? (
                                 <a href="/mypage" className="text-white hover:text-gray-400">
@@ -238,11 +239,22 @@ function Navbar() {
                                     LOGIN
                                 </a>
                             )}
+
+                        </div>
+                        <div className="relative">
+
+                            {
+                                isLoggedIn ?
+                                    (<a href="#" className="text-white hover:text-gray-400" onClick={Logout}>
+                                        LOGOUT
+                                    </a>)
+                                    : ""
+                            }
                         </div>
                     </div>
                 )}
             </div>
-        </nav>
+        </nav >
     );
 }
 

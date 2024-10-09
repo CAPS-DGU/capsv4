@@ -102,7 +102,8 @@ const EventDetail = ({ events }) => {
                 const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
                 const minutes = Math.floor((time / 1000 / 60) % 60);
                 const seconds = Math.floor((time / 1000) % 60);
-                return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+                const milliseconds = Math.floor(time % 1000);
+                return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 ${milliseconds}ms`;
             };
 
             setTimeLeft({
@@ -111,7 +112,7 @@ const EventDetail = ({ events }) => {
             });
         };
 
-        const timer = setInterval(calculateTimeLeft, 1000);
+        const timer = setInterval(calculateTimeLeft, 1); // 1ms마다 업데이트
         return () => clearInterval(timer); // 컴포넌트 언마운트 시 타이머 제거
     }, [event.startDate, event.endDate]);
 
@@ -156,7 +157,7 @@ const EventDetail = ({ events }) => {
     };
 
     const handleBefore = () => {
-        navigate('/event'); // 이전 페이지로 이동
+        navigate('/event1'); // 이전 페이지로 이동
     };
 
     const handleManager = () => {
@@ -183,7 +184,7 @@ const EventDetail = ({ events }) => {
             </h1>
 
             <p className="mb-4 text-lg text-gray-700">
-                <strong>작성자:</strong> {event.writer.name} (기수: {event.writer.grade})
+                <strong>작성자:</strong> {event.writer.grade}기 {event.writer.name}
             </p>
 
             <div className="mb-4 text-lg text-gray-600">

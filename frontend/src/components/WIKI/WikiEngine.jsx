@@ -7,6 +7,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     const [activeSection, setActiveSection] = useState(null);  // 활성화된 섹션 추적
     const [isContentVisible, setIsContentVisible] = useState(history === undefined ? true : false);
     const navigate = useNavigate();
+    let accessToken = localStorage.getItem("accessToken");
 
     const applyFormatting = (text) => {
         text = text.replace(/\|\|(.+?)\|\|/g, '<b>$1</b>');
@@ -21,7 +22,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
         let htmlContent = applyFormatting(text);
         let tocList = [];
         let commentList = [];
-        
+
         let numbering = [0, 0, 0, 0];  // 각 수준의 번호 저장. 최대 4단계 제목
         let currentLevel = 0;
 
@@ -115,13 +116,16 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     };
 
     const editButton = (
+
         <div className="flex space-x-4">
-            <a href={`/wiki/edit/${DocTitle}`} className='px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:bg-gray-700'>
-                수정
-            </a>
-            <a href={`/wiki/history/${DocTitle}`} className='px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:bg-gray-700'>
-                수정 내역
-            </a>
+            {accessToken && <>
+                <a href={`/wiki/edit/${DocTitle}`} className='px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:bg-gray-700'>
+                    수정
+                </a>
+                <a href={`/wiki/history/${DocTitle}`} className='px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:bg-gray-700'>
+                    수정 내역
+                </a>
+            </>}
         </div>
     );
 
@@ -154,10 +158,10 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
                                     }}
                                     className="text-blue-500 hover:underline"
                                 >
-                                    {section.number+"."+" "}
+                                    {section.number + "." + " "}
                                 </a>
-                                <span  dangerouslySetInnerHTML={{ __html: section.subtitle}}></span>
-                            </li> 
+                                <span dangerouslySetInnerHTML={{ __html: section.subtitle }}></span>
+                            </li>
                         ))}
                     </ul>
                 </div>

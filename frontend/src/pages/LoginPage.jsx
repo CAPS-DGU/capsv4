@@ -136,7 +136,8 @@ const LoginPage = () => {
         <LoginButton />
         {error && <p className="text-red-500">{error}</p>}
         <Divider />
-        <JoinLink />
+        기존 회원 로그인만 가능합니다.
+        {/* <JoinLink /> */}
       </form>
     </div>
   );

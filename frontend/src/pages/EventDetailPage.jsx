@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import EventDetail from '../components/Event/EventDetail';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import LoadingSpinner from '../components/LoadingSpiner';
 const eventsData = [
     {
         "id": 23,
@@ -51,8 +51,6 @@ const EventPage = () => {
     let accessToken = localStorage.getItem("accessToken");
     useEffect(() => {
         const fetchData = async () => {
-
-
             try {
                 const response = await axios.get(`/api/event/${eventId}`, {
                     headers: {
@@ -80,7 +78,7 @@ const EventPage = () => {
     }, [eventId, accessToken]);
     return (
         <div className="p-4">
-            {eventsData ? <EventDetail events={eventsData} /> : <div>로딩중...</div>}
+            {eventsData ? <EventDetail events={eventsData} /> : <LoadingSpinner />}
         </div>
     );
 };

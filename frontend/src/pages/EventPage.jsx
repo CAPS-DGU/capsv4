@@ -8,12 +8,43 @@ const EventPage = () => {
     const [events, setEvents] = useState([]); // 이벤트 목록
     const [page, setPage] = useState(0); // 현재 페이지 번호
     const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수, 초기값을 0으로 설정
-
+    const [role, setRole] = useState('');
     const handleCreationClick = () => {
         navigate('/event/create');
     }
     useEffect(() => {
         let accessToken = localStorage.getItem("accessToken");
+        const parseJwt = (token) => {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(
+                    atob(base64)
+                        .split('')
+                        .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+                        .join('')
+                );
+
+                return JSON.parse(jsonPayload);
+            } catch (error) {
+                console.error('Invalid JWT', error);
+                return null;
+            }
+        };
+
+
+        try {
+            const decoded = parseJwt(accessToken);
+
+            if (decoded) {
+                console.log(decoded)
+                setRole(decoded.auth)
+            }
+
+        }
+        catch (error) {
+            throw error;
+        }
 
         const fetchData = async () => {
             try {
@@ -44,11 +75,12 @@ const EventPage = () => {
         <div className="p-4">
             <div className="flex flex-col items-center mb-4">
                 <h1 className="mb-4 text-3xl font-bold">이벤트 목록</h1>
-                <button
+                {role === "ROLE_ADMIN" ? <button
                     onClick={handleCreationClick}
                     className="px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800">
                     이벤트 만들기
-                </button>
+                </button> : ""
+                }
             </div>
             <EventsList events={events} />
             {/* 페이지네이션 버튼 */}

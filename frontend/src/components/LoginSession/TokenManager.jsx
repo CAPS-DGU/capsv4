@@ -2,7 +2,7 @@ import axios from "axios";
 
 const useTokenManager = () => {
   const startTokenRefreshTimer = () => {
-    const tokenExpiryTime = 10*60 * 1000;
+    const tokenExpiryTime = 30 * 60 * 1000;
     setTimeout(refreshAccessToken, tokenExpiryTime - 60 * 1000);
   };
 
@@ -33,9 +33,9 @@ const useTokenManager = () => {
       startTokenRefreshTimer();
     } catch (error) {
       console.error('토큰 재발급 중 에러 발생:', error);
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.clear();
       alert('로그아웃되었습니다. 다시 로그인해주세요.');
+      window.location.reload();
     }
   };
 

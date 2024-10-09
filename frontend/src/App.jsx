@@ -29,6 +29,8 @@ import RankingPage from './pages/RankingPage.jsx';
 import StudyCreatePage from './pages/StudyCreationPage.jsx';
 import StudyEditPage from './pages/StudyEditPage.jsx';
 import StudyManagerPage from './pages/StudyManagerPage.jsx';
+import MyPage from './pages/MyPage.jsx';
+import ComingSoon from './pages/ComingSoon.jsx';
 
 function App() {
 
@@ -37,13 +39,16 @@ function App() {
       <BrowserRouter>
         <NavBar />
 
-        <Routes>
+        <Routes >
+          {/* <Route path="/" element={<MainPage />} /> */}
 
-          <Route path="/" element={<MainPage />} />
           <Route path="/board" element={<BoardPage />}>
             <Route path=":board_id" element={<BoardPage />} />
           </Route>
           <Route path="/event">
+            <Route index element={<ComingSoon />}></Route>
+          </Route>
+          <Route path="/event1">
             <Route index element={<EventPage />}></Route>
           </Route>
           <Route path="/event/:eventId" element={<EventDetailPage />} />
@@ -81,6 +86,8 @@ function App() {
           <Route path="/study/manager/:study_id" element={<StudyManagerPage />} />
           <Route path="/study/create" element={<StudyCreatePage />} />
           <Route path="/ranking" element={<RankingPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path='*' element={<ComingSoon />} />
 
         </Routes>
       </BrowserRouter>
