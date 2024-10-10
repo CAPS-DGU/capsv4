@@ -46,9 +46,6 @@ function App() {
             <Route path=":board_id" element={<BoardPage />} />
           </Route>
           <Route path="/event">
-            <Route index element={<ComingSoon />}></Route>
-          </Route>
-          <Route path="/event1">
             <Route index element={<EventPage />}></Route>
           </Route>
           <Route path="/event/:eventId" element={<EventDetailPage />} />
