@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 const slides = [
-    '/src/assets/1.jpg',
-    '/src/assets/2.jpg',
-    '/src/assets/3.jpg',
+    '/1.jpg',
+    '/2.jpg',
+    '/3.jpg',
 ];
 
 function Slider() {
@@ -42,7 +42,7 @@ function Slider() {
     }, [isTransitioning]);
 
     return (
-        <div className="relative overflow-hidden w-full h-64">
+        <div className="relative w-full h-64 overflow-hidden">
             {/* 슬라이드 이미지 */}
             <div
                 className={`absolute inset-0 transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
@@ -51,7 +51,7 @@ function Slider() {
 
             {/* 이전 버튼 */}
             <button
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full"
+                className="absolute p-2 text-white transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full top-1/2 left-4"
                 onClick={prevSlide}
             >
                 &#10094;
@@ -59,7 +59,7 @@ function Slider() {
 
             {/* 다음 버튼 */}
             <button
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full"
+                className="absolute p-2 text-white transform -translate-y-1/2 bg-black bg-opacity-50 rounded-full top-1/2 right-4"
                 onClick={nextSlide}
             >
                 &#10095;
