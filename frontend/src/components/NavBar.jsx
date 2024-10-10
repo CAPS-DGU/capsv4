@@ -49,7 +49,7 @@ function Navbar() {
                 {/* Logo */}
                 <div className="flex justify-center">
                     {/* <a href="/" className="block"> */}
-                    <img src="/src/assets/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
+                    <img src="/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
                     {/* </a> */}
                 </div>
 

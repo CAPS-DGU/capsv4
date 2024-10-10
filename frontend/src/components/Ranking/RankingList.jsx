@@ -1,8 +1,8 @@
 import React from 'react';
 
-import firstPlaceImg from '../../assets/iStock-1st.jpg';
-import secondPlaceImg from '../../assets/iStock-2nd.jpg';
-import thirdPlaceImg from '../../assets/iStock-3rd.jpg';
+import firstPlaceImg from '/iStock-1st.jpg';
+import secondPlaceImg from '/iStock-2nd.jpg';
+import thirdPlaceImg from '/iStock-3rd.jpg';
 
 function RankingItem({ rank, name, comment, postCount, commentCount, point }) {
 
@@ -48,7 +48,7 @@ const RankingList = ({ data }) => {
         {sortedData.map((user, index) => (
           <RankingItem
             key={index}
-            rank={index + 1} 
+            rank={index + 1}
             name={user.name}
             comment={user.comment}
             postCount={user.postCount}
