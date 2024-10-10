@@ -135,7 +135,7 @@ const MyPage = () => {
                     <h2 className="mb-6 text-2xl font-bold text-center">마이 페이지</h2>
                     <div className="flex justify-center mb-6">
                         <img
-                            src={user.imageName ? user.imageName : 'public/default-profile.png'}
+                            src={user.imageName ? user.imageName : '/default-profile.png'}
                             alt="Profile"
                             className="object-cover w-32 h-32 rounded-full"
                         />
