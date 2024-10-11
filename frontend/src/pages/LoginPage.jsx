@@ -86,7 +86,9 @@ const LoginPage = () => {
       await userAccount(userId, accessToken);
 
       // 모든 비동기 작업이 완료된 후 이전 페이지로 리다이렉트
-      navigate(-2);
+      // navigate(-2);
+      window.history.go(-2);
+
 
     } catch (error) {
       setError(error.message);

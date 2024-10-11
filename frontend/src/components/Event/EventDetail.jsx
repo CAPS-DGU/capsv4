@@ -103,7 +103,7 @@ const EventDetail = ({ events }) => {
                 const minutes = Math.floor((time / 1000 / 60) % 60);
                 const seconds = Math.floor((time / 1000) % 60);
                 const milliseconds = Math.floor(time % 1000);
-                return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 ${milliseconds}ms`;
+                return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
             };
 
             setTimeLeft({
