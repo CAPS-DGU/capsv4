@@ -32,6 +32,13 @@ function Navbar() {
         setDropdownOpen(null);
     };
 
+    const loginSession = () => {
+        const prev_redirect = localStorage.getItem('redirectAfterLogin');
+        if (!prev_redirect) {
+            const redirectUrl = window.location.pathname; // 현재 URL 저장
+            localStorage.setItem('redirectAfterLogin', redirectUrl); // 로컬 스토리지에 저장
+        }
+    }
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
     };
@@ -235,7 +242,7 @@ function Navbar() {
                                     {profileName}님 환영합니다!
                                 </a>
                             ) : (
-                                <a href="/login" className="text-white hover:text-gray-400">
+                                <a href="/login" onClick={loginSession} className="text-white hover:text-gray-400">
                                     LOGIN
                                 </a>
                             )}

@@ -87,7 +87,9 @@ const LoginPage = () => {
 
       // 모든 비동기 작업이 완료된 후 이전 페이지로 리다이렉트
       // navigate(-2);
-      window.history.go(-2);
+      const redirectUrl = localStorage.getItem('redirectAfterLogin');
+      navigate(redirectUrl);
+      localStorage.removeItem('redirectAfterLogin');
 
 
     } catch (error) {
