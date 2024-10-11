@@ -34,9 +34,11 @@ function Navbar() {
 
     const loginSession = () => {
         const prev_redirect = localStorage.getItem('redirectAfterLogin');
+
         if (!prev_redirect) {
             const redirectUrl = window.location.pathname; // 현재 URL 저장
-            localStorage.setItem('redirectAfterLogin', redirectUrl); // 로컬 스토리지에 저장
+            console.log(redirectUrl);
+            redirectUrl === '/login' ? localStorage.setItem('redirectAfterLogin', '/event') : localStorage.setItem('redirectAfterLogin', redirectUrl); // 로컬 스토리지에 저장
         }
     }
     const toggleMobileMenu = () => {
