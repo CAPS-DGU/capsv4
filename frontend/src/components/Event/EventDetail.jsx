@@ -157,7 +157,7 @@ const EventDetail = ({ events }) => {
     };
 
     const handleBefore = () => {
-        navigate('/event1'); // 이전 페이지로 이동
+        navigate('/event'); // 이전 페이지로 이동
     };
 
     const handleManager = () => {
