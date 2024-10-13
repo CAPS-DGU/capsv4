@@ -195,7 +195,14 @@ const EventDetail = ({ events }) => {
             </div>
 
             <p className="mb-8 text-lg leading-relaxed text-gray-700">
-                {event.description}
+                {event.description.split('\n').map((line) => {
+                    return (
+                        <span>
+                            {line}
+                            <br />
+                        </span>
+                    );
+                })}
             </p>
 
             {event.quiz && (
