@@ -7,6 +7,7 @@ const EventDetail = ({ events }) => {
     const navigate = useNavigate();
     const event = events;
     const user_id = localStorage.getItem('id');
+    const [role, setRole] = useState('');
     const accessToken = localStorage.getItem("accessToken");
 
     const [timeLeft, setTimeLeft] = useState({
@@ -116,6 +117,40 @@ const EventDetail = ({ events }) => {
         return () => clearInterval(timer); // 컴포넌트 언마운트 시 타이머 제거
     }, [event.startDate, event.endDate]);
 
+    //권한 가져오기
+    useEffect(() => {
+        const parseJwt = (token) => {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(
+                    atob(base64)
+                        .split('')
+                        .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+                        .join('')
+                );
+
+                return JSON.parse(jsonPayload);
+            } catch (error) {
+                console.error('Invalid JWT', error);
+                return null;
+            }
+        };
+
+
+        try {
+            const decoded = parseJwt(accessToken);
+
+            if (decoded) {
+                console.log(decoded)
+                setRole(decoded.auth)
+            }
+
+        }
+        catch (error) {
+            throw error;
+        }
+    }, [accessToken])
     if (!event) {
         return <p>이벤트를 찾을 수 없습니다.</p>;
     }
@@ -168,13 +203,14 @@ const EventDetail = ({ events }) => {
         <div className="max-w-4xl p-6 mx-auto mt-8">
             <div className="flex justify-end mb-4">
                 <button onClick={handleBefore} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">이전</button>
-                {event.writer.id == user_id ? (
+                {event.writer.id == user_id || role === "ROLE_ADMIN" ? (
                     <>
                         <button onClick={handleEdit} className="px-4 py-2 ml-2 text-white bg-blue-600 rounded">수정하기</button>
                         <button onClick={handleDelete} className="px-4 py-2 ml-2 text-white bg-red-600 rounded">삭제하기</button>
                         <button onClick={handleManager} className="px-4 py-2 ml-2 text-white bg-gray-600 rounded">관리</button>
                     </>
                 ) : ""}
+
             </div>
             <div className="mb-4 text-5xl">
                 <span>{getEmoji(event.type)}</span>
