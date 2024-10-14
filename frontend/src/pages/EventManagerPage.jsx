@@ -9,8 +9,15 @@ const ParticipantList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     let accessToken = localStorage.getItem("accessToken");
-
+    console.log(participants);
     // 이벤트 참여자 목록을 불러오는 함수
+    useEffect(() => {
+        // 배열을 date 기준으로 정렬
+        const sortedData = [...participants].sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+        });
+        setParticipants(sortedData);
+    }, [participants]); // data가 변경될 때마다 정렬
     useEffect(() => {
         const fetchParticipants = async () => {
             try {
