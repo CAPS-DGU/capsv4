@@ -49,14 +49,14 @@ function Navbar() {
                 {/* Logo */}
                 <div className="flex justify-center">
                     <a href="/" className="block">
-                        <img src="/src/assets/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
+                        <img src="/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
                     </a>
                 </div>
 
                 {/* Menu Items for Desktop */}
                 <div className="justify-center hidden mt-4 space-x-6 md:flex" >
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(0)}>
+                        <a href="/intro" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(0)}>
                             ABOUT
                         </a>
                         {dropdownOpen === 0 && (
@@ -80,7 +80,7 @@ function Navbar() {
                         )}
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(2)}>
+                        <a href="/board" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(2)}>
                             FORUM
                         </a>
                         {dropdownOpen === 2 && (
@@ -99,7 +99,7 @@ function Navbar() {
                         )}
                     </div>
                     <div className="relative">
-                        <a href="#" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(3)}>
+                        <a href="/library" className="text-white hover:text-gray-400" onMouseEnter={() => toggleDropdown(3)}>
                             UTIL
                         </a>
                         {dropdownOpen === 3 && (

@@ -224,9 +224,9 @@ const EventDetail = ({ events }) => {
             </p>
 
             <div className="mb-4 text-lg text-gray-600">
-                <p><strong>시작 시간:</strong> {new Date(event.startDate).toLocaleString()}</p>
+                <p><strong>시작 시각:</strong> {new Date(event.startDate).toLocaleString()}</p>
                 <p><strong>시작까지:</strong> {timeLeft.start}</p>
-                <p><strong>종료 시간:</strong> {new Date(event.endDate).toLocaleString()}</p>
+                <p><strong>종료 시각:</strong> {new Date(event.endDate).toLocaleString()}</p>
                 <p><strong>종료까지:</strong> {timeLeft.end}</p>
             </div>
 
