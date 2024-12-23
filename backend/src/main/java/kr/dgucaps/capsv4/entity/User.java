@@ -117,6 +117,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<EventQuizApply> quizApplies = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<VoteUser> voteUsers = new ArrayList<>();
+
     public void updatePassword(String password) {
         this.password = password;
     }

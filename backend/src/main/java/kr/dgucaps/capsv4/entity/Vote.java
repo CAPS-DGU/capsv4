@@ -26,6 +26,9 @@ public class Vote {
     private LocalDateTime endDate;
 
     @OneToMany(mappedBy = "vote")
+    private List<VoteUser> voteUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "vote")
     private List<VoteChoice> voteChoices = new ArrayList<>();
 
     @OneToMany(mappedBy = "vote")

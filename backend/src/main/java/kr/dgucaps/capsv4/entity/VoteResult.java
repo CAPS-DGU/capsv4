@@ -21,5 +21,5 @@ public class VoteResult {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "choice_id")
-    private VoteChoice choice;
+    private VoteChoice voteChoice;
 }

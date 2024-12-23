@@ -25,5 +25,5 @@ public class VoteChoice {
     private String content;
 
     @OneToMany(mappedBy = "choice")
-    private List<VoteResult> results = new ArrayList<>();
+    private List<VoteResult> voteResults = new ArrayList<>();
 }

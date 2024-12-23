@@ -1,8 +1,6 @@
 package kr.dgucaps.capsv4.entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import kr.dgucaps.capsv4.entity.ids.VoteUserId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,6 +16,16 @@ public class VoteUser {
 
     @EmbeddedId
     private VoteUserId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("voteId")
+    @JoinColumn(name = "vote_id")
+    private Vote vote;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private LocalDateTime voteTime;
 }
