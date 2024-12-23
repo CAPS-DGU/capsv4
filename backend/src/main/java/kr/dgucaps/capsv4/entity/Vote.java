@@ -25,6 +25,9 @@ public class Vote {
 
     private LocalDateTime endDate;
 
+    @Enumerated(EnumType.STRING)
+    private VoteStatus status;
+
     @OneToMany(mappedBy = "vote")
     private List<VoteUser> voteUsers = new ArrayList<>();
 
