@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,10 @@ public class VoteResult {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "choice_id")
     private VoteChoice voteChoice;
+
+    @Builder
+    public VoteResult(Vote vote, VoteChoice voteChoice) {
+        this.vote = vote;
+        this.voteChoice = voteChoice;
+    }
 }

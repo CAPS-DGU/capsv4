@@ -1,0 +1,13 @@
+package kr.dgucaps.capsv4.repository;
+
+import kr.dgucaps.capsv4.entity.User;
+import kr.dgucaps.capsv4.entity.Vote;
+import kr.dgucaps.capsv4.entity.VoteUser;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface VoteUserRepository extends JpaRepository<VoteUser, Integer> {
+
+    boolean existsByVoteAndUser(Vote vote, User user);
+}

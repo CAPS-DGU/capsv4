@@ -3,6 +3,7 @@ package kr.dgucaps.capsv4.entity;
 import jakarta.persistence.*;
 import kr.dgucaps.capsv4.entity.ids.VoteUserId;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,12 @@ public class VoteUser {
     private User user;
 
     private LocalDateTime voteTime;
+
+    @Builder
+    public VoteUser(VoteUserId id, Vote vote, User user, LocalDateTime voteTime) {
+        this.id = id;
+        this.vote = vote;
+        this.user = user;
+        this.voteTime = voteTime;
+    }
 }
