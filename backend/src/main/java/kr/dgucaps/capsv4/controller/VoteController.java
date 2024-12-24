@@ -32,10 +32,10 @@ public class VoteController {
         return ResponseEntity.ok(DataResponse.builder().message("투표 성공").build());
     }
 
-//    @GetMapping("/vote/result/{voteId}")
-//    @Operation(summary = "투표 결과 조회")
-//    @PreAuthorize("hasAnyRole('PRESIDENT', 'ADMIN')")
-//    public ResponseEntity<DataResponse> getVoteResult(@PathVariable Integer voteId) {
-//
-//    }
+    @GetMapping("/vote/result/{voteId}")
+    @Operation(summary = "투표 결과 조회")
+    @PreAuthorize("hasAnyRole('PRESIDENT', 'ADMIN')")
+    public ResponseEntity<DataResponse> getVoteResult(@PathVariable Integer voteId) {
+        return ResponseEntity.ok(DataResponse.builder().message("투표 결과 조회 성공").data(voteService.getVoteResult(voteId)).build());
+    }
 }

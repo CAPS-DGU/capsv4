@@ -2,6 +2,7 @@ package kr.dgucaps.capsv4.service;
 
 import kr.dgucaps.capsv4.dto.request.VoteRequest;
 import kr.dgucaps.capsv4.dto.response.GetVoteResponse;
+import kr.dgucaps.capsv4.dto.response.GetVoteResultResponse;
 import kr.dgucaps.capsv4.entity.*;
 import kr.dgucaps.capsv4.entity.ids.VoteUserId;
 import kr.dgucaps.capsv4.repository.*;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,10 +80,41 @@ public class VoteService {
                 .vote(vote)
                 .voteChoice(voteChoice)
                 .build();
+        if (!voteUserRepository.existsByVoteAndUser(vote, user)) {
+            throw new IllegalStateException("투표 기록이 존재하지 않으므로 결과를 저장할 수 없습니다.");
+        }
         voteResultRepository.save(voteResult);
     }
 
-    public void getVoteResult() {
-
+    public GetVoteResultResponse getVoteResult(Integer voteId) {
+        Vote vote = voteRepository.findById(voteId)
+                .orElseThrow(() -> new IllegalArgumentException("투표가 존재하지 않습니다."));
+        if (vote.getStatus() != VoteStatus.OPENED) {
+            throw new IllegalStateException("투표가 공개되지 않았습니다.");
+        }
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isBefore(vote.getEndDate())) {
+            throw new IllegalStateException("투표가 아직 종료되지 않았습니다.");
+        }
+        int totalVotes = voteResultRepository.countByVote(vote);
+        List<GetVoteResultResponse.Result> results = voteChoiceRepository.findByVote(vote).stream()
+                .map(choice -> {
+                    int numberOfVotes = voteResultRepository.countByVoteAndVoteChoice(vote, choice);
+                    return GetVoteResultResponse.Result.builder()
+                            .id(choice.getId())
+                            .content(choice.getContent())
+                            .numberOfVotes(numberOfVotes)
+                            .build();
+                })
+                .toList();
+        return GetVoteResultResponse.builder()
+                .id(voteId)
+                .title(vote.getTitle())
+                .startDate(vote.getStartDate())
+                .endDate(vote.getEndDate())
+                .totalVotes(totalVotes)
+                .status(vote.getStatus())
+                .result(results)
+                .build();
     }
 }
