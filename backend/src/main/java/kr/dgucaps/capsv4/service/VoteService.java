@@ -30,12 +30,15 @@ public class VoteService {
     public GetVoteResponse getVote() {
         Vote vote = voteRepository.findByStatus(VoteStatus.OPENED)
                 .orElseThrow(() -> new IllegalArgumentException("투표가 존재하지 않습니다."));
+        LocalDateTime now = LocalDateTime.now();
+        Object totalVotes = now.isBefore(vote.getEndDate()) ? null : voteResultRepository.countByVote(vote);
         return GetVoteResponse.builder()
                 .id(vote.getId())
                 .title(vote.getTitle())
                 .startDate(vote.getStartDate())
                 .endDate(vote.getEndDate())
                 .status(vote.getStatus())
+                .totalVotes(totalVotes)
                 .choices(vote.getVoteChoices().stream()
                         .map(voteChoice ->
                                 GetVoteResponse.Choice.builder()

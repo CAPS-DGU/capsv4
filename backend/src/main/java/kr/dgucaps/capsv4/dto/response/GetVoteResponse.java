@@ -21,6 +21,8 @@ public class GetVoteResponse {
 
     private VoteStatus status;
 
+    private Object totalVotes;
+
     private List<Choice> choices;
 
     @Data
