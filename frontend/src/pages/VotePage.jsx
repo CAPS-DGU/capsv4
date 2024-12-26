@@ -202,8 +202,8 @@ export default Element = () => {
           <div className="relative w-full sm:w-[29.0625rem] h-[16.625rem]">
             <div className="absolute w-full sm:w-[29rem] h-[7.375rem]">
               <div className="relative w-[19.8125rem] h-[7.375rem]">
-                <div className="relative w-[6.5rem] h-[6.4375rem] bg-[url(https://c.animaapp.com/YiM9BdDl/img/avatar@2x.png)] bg-cover bg-[50%_50%]">
-                  <div className="relative h-[6.4375rem] bg-[url(https://c.animaapp.com/YiM9BdDl/img/ellipse@2x.png)] bg-cover bg-[50%_50%]">
+                <div className="relative w-[6.5rem] h-[6.4375rem] bg-[url(/vote_1.jpg)] bg-cover bg-[50%_50%]">
+                  <div className="relative h-[6.4375rem] bg-[url(/vote_1.jpg)] bg-cover bg-[50%_50%]">
                     <div className="absolute top-[2.6875rem] left-[0.6875rem] font-android-overline text-white text-center"></div>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default Element = () => {
                 <Avatar
                   divClassName="!left-2.6875rem !top-[2.6875rem]"
                   size="small"
-                  sizeSmallTypeClassName="!h-[6.4375rem] !bg-[50%_50%] !rounded-[unset] !bg-cover bg-[url(https://c.animaapp.com/YiM9BdDl/img/ellipse-1@2x.png)] !absolute !left-0 !bg-[unset] !w-[6.5rem] !top-[0.4375rem]"
+                  sizeSmallTypeClassName="!h-[6.4375rem] !bg-[50%_50%] !rounded-[unset] !bg-cover bg-[url(/vote_2.jpg)] !absolute !left-0 !bg-[unset] !w-[6.5rem] !top-[0.4375rem]"
                   type="initials"
                 />
                 <div className="absolute w-[9.25rem] top-[5.0625rem] left-[8.6875rem] [font-family:'Space_Grotesk',Helvetica] font-normal text-[1.375rem] text-[#000000]">
@@ -263,7 +263,7 @@ export default Element = () => {
                   <Avatar
                     divClassName="!left-2.6875rem !top-[2.6875rem]"
                     size="small"
-                    sizeSmallTypeClassName="!h-[6.4375rem] !bg-[50%_50%] !rounded-[unset] !bg-cover bg-[url(https://c.animaapp.com/YiM9BdDl/img/ellipse-2@2x.png)] !absolute !left-0 !bg-[unset] !w-[6.4375rem] !top-[0.4375rem]"
+                    sizeSmallTypeClassName="!h-[6.4375rem] !bg-[50%_50%] !rounded-[unset] !bg-cover bg-[url(/vote_3.jpg)] !absolute !left-0 !bg-[unset] !w-[6.4375rem] !top-[0.4375rem]"
                     type="initials"
                   />
                   <div className="flex flex-col w-[9.25rem] items-start gap-2 absolute top-[1.625rem] left-[8.6875rem]">
@@ -286,7 +286,7 @@ export default Element = () => {
               <Avatar
                 divClassName="!left-2.6875rem !top-[2.6875rem]"
                 size="small"
-                sizeSmallTypeClassName="!h-[6.4375rem] !bg-[50%_50%] !rounded-[unset] !bg-cover bg-[url(https://c.animaapp.com/YiM9BdDl/img/ellipse-3@2x.png)] !absolute !left-0 !bg-[unset] !w-[6.4375rem] !top-[0.4375rem]"
+                sizeSmallTypeClassName="!h-[6.4375rem] !bg-[50%_50%] !rounded-[unset] !bg-cover bg-[url(/vote_4.jpg)] !absolute !left-0 !bg-[unset] !w-[6.4375rem] !top-[0.4375rem]"
                 type="initials"
               />
               <div className="absolute w-[9.25rem] top-[5.0625rem] left-[8.6875rem] [font-family:'Space_Grotesk',Helvetica] font-normal text-[1.375rem] text-[#000000] tracking-[0] leading-[normal]">
