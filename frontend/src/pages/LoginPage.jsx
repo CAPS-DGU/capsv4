@@ -67,7 +67,6 @@ const LoginPage = () => {
       }
 
       let data = response.data;
-      console.log(data); // 서버 응답 확인
       let { accessToken, refreshToken } = data.data;
 
       localStorage.setItem('accessToken', accessToken);
@@ -94,7 +93,6 @@ const LoginPage = () => {
 
 
     } catch (error) {
-      console.log(error);
       setError(error.response.data.message);
     }
   }
@@ -118,7 +116,6 @@ const LoginPage = () => {
       }
 
       let data = response.data.data;
-      console.log(data); // 서버 응답 확인.
 
       localStorage.setItem('id', data.id);
       // window.location.href = '/'; // 페이지 리다이렉트
