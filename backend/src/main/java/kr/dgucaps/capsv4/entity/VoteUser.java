@@ -30,11 +30,14 @@ public class VoteUser {
 
     private LocalDateTime voteTime;
 
+    private String clientIp;
+
     @Builder
-    public VoteUser(VoteUserId id, Vote vote, User user, LocalDateTime voteTime) {
+    public VoteUser(VoteUserId id, Vote vote, User user, LocalDateTime voteTime, String clientIp) {
         this.id = id;
         this.vote = vote;
         this.user = user;
         this.voteTime = voteTime;
+        this.clientIp = clientIp;
     }
 }

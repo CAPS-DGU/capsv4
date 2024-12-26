@@ -75,6 +75,7 @@ public class VoteService {
                 .vote(vote)
                 .user(user)
                 .voteTime(LocalDateTime.now())
+                .clientIp(request.getClientIp())
                 .build();
         voteUserRepository.save(voteUser);
         VoteChoice voteChoice = voteChoiceRepository.findById(request.getChoiceId())

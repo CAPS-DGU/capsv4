@@ -11,4 +11,7 @@ public class VoteRequest {
 
     @NotNull
     private Integer choiceId;
+
+    @NotNull
+    private String clientIp;
 }
