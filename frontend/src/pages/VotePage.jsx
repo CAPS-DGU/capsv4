@@ -13,6 +13,7 @@ export default Element = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal 상태 관리
   const [isVoted, setIsVoted] = useState(false);
   const [Error, setError] = useState(null);
+  const [totalVotes, setTotalVotes] = useState(null);
   useEffect(() => {
     const voteSubmit = async () => {
       let requestBody = {
@@ -32,6 +33,22 @@ export default Element = () => {
       }
     }
     voteSubmit();
+  }, [])
+  useEffect(() => {
+    const total = async () => {
+      try {
+        let response = await axios.get('/api/vote', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        setTotalVotes(response.data.data.totalVotes);
+      } catch (error) {
+        setError(error.response)
+      }
+    }
+    total();
   }, [])
   const voteSubmit = async () => {
     let requestBody = {
@@ -160,7 +177,7 @@ export default Element = () => {
           <p className="[text-shadow:2px_4px_0px_#8b4e65] [font-family:'Inter',Helvetica] font-extrabold text-[#f7cf62] text-3xl sm:text-5xl tracking-[0] leading-[3rem] sm:leading-[4.4375rem]">
             38기 CAPS 회장단 선거 투표
           </p>
-          <p className="mt-8 [font-family:'Inter',Helvetica] font-normal text-[#ffffff] text-sm sm:text-[1.2rem] tracking-[0] leading-6 sm:leading-9">
+          {totalVotes === null ? <p className="mt-8 [font-family:'Inter',Helvetica] font-normal text-[#ffffff] text-sm sm:text-[1.2rem] tracking-[0] leading-6 sm:leading-9">
             2025년 CAPS를 이끌 회장단 투표입니다.
             <br />
             투표는 익명이며 12/27 00시부터 12/28일 00시까지 진행됩니다.
@@ -168,7 +185,8 @@ export default Element = () => {
             기호 1, 2번 회장단 공약을 확인 하신 후
             <br />
             투표하러 가기 버튼을 통해 투표 부탁드립니다!
-          </p>
+          </p> : <p className="mt-8 [font-family:'Inter',Helvetica] font-normal text-[#ffffff] text-2xl tracking-[0] leading-6 sm:leading-9">
+            총 투표수 : {totalVotes}명</p>}
         </div>
       </div>
 
