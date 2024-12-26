@@ -57,9 +57,9 @@ function Navbar() {
             <div className="container mx-auto">
                 {/* Logo */}
                 <div className="flex justify-center">
-                    {/* <a href="/" className="block"> */}
-                    <img src="/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
-                    {/* </a> */}
+                    <a href="/vote" className="block">
+                        <img src="/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
+                    </a>
                 </div>
 
                 {/* Menu Items for Desktop */}
@@ -122,8 +122,8 @@ function Navbar() {
                     </div> */}
 
                     <div className="relative" onMouseEnter={closeDropdown}>
-                        <a href="/event" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
-                            EVENT
+                        <a href="/vote" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
+                            VOTE
                         </a>
                     </div>
                     {/* <div className="relative" onMouseEnter={closeDropdown}>
@@ -161,19 +161,19 @@ function Navbar() {
                 </div>
 
 
-                {/* Mobile Menu Button */}
+                {/* Mobile Menu Button
                 <div className="flex justify-center mt-4 md:hidden">
                     <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
-                </div>
+                </div> */}
 
                 {/* Mobile Menu Items */}
-                {mobileMenuOpen && (
-                    <div className="flex flex-col items-center mt-4 space-y-2 md:hidden">
-                        {/* <div className="relative">
+                {/* {mobileMenuOpen && ( */}
+                <div className="flex flex-col items-center mt-4 space-y-2 md:hidden">
+                    {/* <div className="relative">
                             <button onClick={() => toggleMobileDropdown(0)} className="text-white hover:text-gray-400">ABOUT</button>
                             {mobileDropdownOpen === 0 && (
                                 <div className="absolute z-50 w-40 py-1 mt-2 bg-white rounded-lg shadow-xl">
@@ -222,13 +222,13 @@ function Navbar() {
                                 </div>
                             )}
                         </div> */}
-                        {/* Other mobile menu items... */}
-                        <div className="relative" onMouseEnter={closeDropdown}>
-                            <a href="/event" className="text-white hover:text-gray-400">
-                                EVENT
-                            </a>
-                        </div>
-                        {/* <div className="relative" onMouseEnter={closeDropdown}>
+                    {/* Other mobile menu items... */}
+                    <div className="relative" onMouseEnter={closeDropdown}>
+                        <a href="/vote" className="text-white hover:text-gray-400">
+                            VOTE
+                        </a>
+                    </div>
+                    {/* <div classNa    me="relative" onMouseEnter={closeDropdown}>
                             <a href="#" className="text-white hover:text-gray-400">
                                 GALLERY
                             </a>
@@ -238,30 +238,31 @@ function Navbar() {
                                 WIKI
                             </a>
                         </div> */}
-                        <div className="relative">
-                            {isLoggedIn ? (
-                                <a href="/mypage" className="text-white hover:text-gray-400">
-                                    {profileName}님 환영합니다!
-                                </a>
-                            ) : (
-                                <a href="/login" onClick={loginSession} className="text-white hover:text-gray-400">
-                                    LOGIN
-                                </a>
-                            )}
+                    <div className="relative">
+                        {isLoggedIn ? (
+                            <a href="/mypage" className="text-white hover:text-gray-400">
+                                {profileName}님 환영합니다!
+                            </a>
+                        ) : (
+                            <a href="/login" onClick={loginSession} className="text-white hover:text-gray-400">
+                                LOGIN
+                            </a>
+                        )}
 
-                        </div>
-                        <div className="relative">
-
-                            {
-                                isLoggedIn ?
-                                    (<a href="#" className="text-white hover:text-gray-400" onClick={Logout}>
-                                        LOGOUT
-                                    </a>)
-                                    : ""
-                            }
-                        </div>
                     </div>
-                )}
+                    <div className="relative">
+
+                        {
+                            isLoggedIn ?
+                                (<a href="#" className="text-white hover:text-gray-400" onClick={Logout}>
+                                    LOGOUT
+                                </a>)
+                                : ""
+                        }
+                    </div>
+                </div>
+                {/* ) */}
+
             </div>
         </nav >
     );
