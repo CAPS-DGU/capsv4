@@ -19,6 +19,7 @@ export default Element = () => {
       let requestBody = {
         voteId: 1,
         choiceId: 999999,
+        clientIp: '111.111.111.111',
       }
       try {
         await axios.post('/api/vote', requestBody, {
@@ -51,11 +52,14 @@ export default Element = () => {
     total();
   }, [])
   const voteSubmit = async () => {
-    let requestBody = {
-      voteId: 1,
-      choiceId: selectedCard + 2,
-    }
     try {
+      const ipResponse = await fetch('https://api64.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      let requestBody = {
+        voteId: 1,
+        choiceId: selectedCard + 2,
+        clientIp: ipData.ip,
+      }
       await axios.post('/api/vote', requestBody, {
         headers: {
           'Content-Type': 'application/json',
