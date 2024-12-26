@@ -79,6 +79,10 @@ export default Element = () => {
   };
 
   const handleOpenModal = () => {
+    if (selectedCard === null) {
+      alert("투표 항목을 선택해주세요!");
+      return;
+    }
     setError(null);
     setIsModalOpen(true); // Modal 열기
   };
