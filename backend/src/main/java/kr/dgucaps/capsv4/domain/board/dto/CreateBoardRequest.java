@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.board.dto;
 
-import kr.dgucaps.capsv4.entity.Board;
+import kr.dgucaps.capsv4.domain.board.entity.Board;
 import kr.dgucaps.capsv4.entity.User;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

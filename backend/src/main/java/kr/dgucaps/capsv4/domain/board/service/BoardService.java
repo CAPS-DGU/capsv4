@@ -1,19 +1,29 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.board.service;
 
-import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
-import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
-import kr.dgucaps.capsv4.dto.request.ModifyBoardRequest;
-import kr.dgucaps.capsv4.dto.response.GetBoardListResponse;
-import kr.dgucaps.capsv4.dto.response.GetBoardResponse;
+import kr.dgucaps.capsv4.domain.board.entity.Board;
+import kr.dgucaps.capsv4.domain.board.entity.BoardLike;
+import kr.dgucaps.capsv4.domain.board.entity.BoardModify;
+import kr.dgucaps.capsv4.domain.board.exception.BoardAlreadyLikedException;
+import kr.dgucaps.capsv4.domain.board.exception.BoardNotAuthorException;
+import kr.dgucaps.capsv4.domain.board.exception.BoardNotFoundException;
+import kr.dgucaps.capsv4.domain.board.repository.BoardLikeRepository;
+import kr.dgucaps.capsv4.domain.board.repository.BoardModifyRepository;
+import kr.dgucaps.capsv4.domain.board.repository.BoardRepository;
+import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
+import kr.dgucaps.capsv4.domain.board.dto.CreateBoardRequest;
+import kr.dgucaps.capsv4.domain.board.dto.GetBoardListParameter;
+import kr.dgucaps.capsv4.domain.board.dto.ModifyBoardRequest;
+import kr.dgucaps.capsv4.domain.board.dto.GetBoardListResponse;
+import kr.dgucaps.capsv4.domain.board.dto.GetBoardResponse;
 import kr.dgucaps.capsv4.entity.*;
 import kr.dgucaps.capsv4.repository.*;
 import kr.dgucaps.capsv4.security.SecurityUtil;
+import kr.dgucaps.capsv4.service.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +48,7 @@ public class BoardService {
     @Transactional
     public void createBoard(CreateBoardRequest request) throws IOException {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Board board = request.toEntity(user);
         boardRepository.save(board);
         if (request.getFiles() != null && !request.getFiles().isEmpty()) {
@@ -52,11 +62,11 @@ public class BoardService {
     @Transactional
     public void likeBoard(Integer boardId) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
         if (boardLikeRepository.existsByBoardAndUser(board, user)) {
-            throw new IllegalStateException("이미 좋아요 한 게시글입니다");
+            throw new BoardAlreadyLikedException();
         }
         boardLikeRepository.save(BoardLike.builder()
                 .board(board)
@@ -98,7 +108,7 @@ public class BoardService {
     @Transactional
     public GetBoardResponse getBoard(Integer boardId) {
         Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다"));
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
         board.updateHit();
         return GetBoardResponse.builder()
                 .id(board.getId())
@@ -134,13 +144,7 @@ public class BoardService {
 
     @Transactional
     public void modifyBoard(Integer boardId, ModifyBoardRequest request) throws IOException {
-        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
-        if (!user.getUserId().equals(board.getUser().getUserId())) {
-            throw new AccessDeniedException("해당 게시글을 수정할 권한이 없습니다");
-        }
+        Board board = validateBoardAuthor(boardId);
         BoardModify boardModify = BoardModify.builder()
                 .board(board)
                 .category(board.getCategory())
@@ -170,14 +174,19 @@ public class BoardService {
 
     @Transactional
     public void deleteBoard(Integer boardId) throws AccessDeniedException {
-        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
-        if (!user.getUserId().equals(board.getUser().getUserId())) {
-            throw new AccessDeniedException("해당 게시글을 삭제할 권한이 없습니다");
-        }
+        Board board = validateBoardAuthor(boardId);
         boardRepository.delete(board);
+    }
+
+    private Board validateBoardAuthor(Integer boardId) {
+        User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new BoardNotFoundException(boardId));
+        if (!user.getUserId().equals(board.getUser().getUserId())) {
+            throw new BoardNotAuthorException();
+        }
+        return board;
     }
 
     private GetBoardResponse.Comment mapToCommentDto(Comment comment, List<Comment> allComments) {

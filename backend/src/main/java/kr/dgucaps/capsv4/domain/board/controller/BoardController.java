@@ -1,13 +1,13 @@
-package kr.dgucaps.capsv4.controller;
+package kr.dgucaps.capsv4.domain.board.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import kr.dgucaps.capsv4.dto.request.CreateBoardRequest;
-import kr.dgucaps.capsv4.dto.request.GetBoardListParameter;
-import kr.dgucaps.capsv4.dto.request.ModifyBoardRequest;
+import kr.dgucaps.capsv4.domain.board.dto.CreateBoardRequest;
+import kr.dgucaps.capsv4.domain.board.dto.GetBoardListParameter;
+import kr.dgucaps.capsv4.domain.board.dto.ModifyBoardRequest;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
-import kr.dgucaps.capsv4.service.BoardService;
+import kr.dgucaps.capsv4.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;

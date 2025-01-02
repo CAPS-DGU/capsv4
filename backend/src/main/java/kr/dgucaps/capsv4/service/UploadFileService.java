@@ -1,7 +1,7 @@
 package kr.dgucaps.capsv4.service;
 
 import jakarta.annotation.PostConstruct;
-import kr.dgucaps.capsv4.entity.Board;
+import kr.dgucaps.capsv4.domain.board.entity.Board;
 import kr.dgucaps.capsv4.entity.UploadFile;
 import kr.dgucaps.capsv4.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
