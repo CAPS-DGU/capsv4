@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.dto.response;
+package kr.dgucaps.capsv4.domain.study.dto;
 
-import kr.dgucaps.capsv4.entity.StudyApplyStatus;
+import kr.dgucaps.capsv4.domain.study.entity.StudyApplyStatus;
 import lombok.Builder;
 import lombok.Data;
 

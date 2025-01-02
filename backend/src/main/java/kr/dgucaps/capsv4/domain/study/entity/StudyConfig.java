@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.entity;
+package kr.dgucaps.capsv4.domain.study.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

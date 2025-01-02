@@ -1,8 +1,8 @@
 package kr.dgucaps.capsv4.controller;
 
-import kr.dgucaps.capsv4.entity.StudyFile;
+import kr.dgucaps.capsv4.domain.study.entity.StudyFile;
 import kr.dgucaps.capsv4.entity.UploadFile;
-import kr.dgucaps.capsv4.repository.StudyFileRepository;
+import kr.dgucaps.capsv4.domain.study.repository.StudyFileRepository;
 import kr.dgucaps.capsv4.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;

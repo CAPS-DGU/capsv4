@@ -1,13 +1,10 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.study.service;
 
+import kr.dgucaps.capsv4.domain.study.dto.*;
+import kr.dgucaps.capsv4.domain.study.entity.*;
+import kr.dgucaps.capsv4.domain.study.repository.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
-import kr.dgucaps.capsv4.dto.request.*;
-import kr.dgucaps.capsv4.dto.response.GetStudyApplyListResponse;
-import kr.dgucaps.capsv4.dto.response.GetStudyListResponse;
-import kr.dgucaps.capsv4.dto.response.GetStudyResponse;
-import kr.dgucaps.capsv4.entity.*;
-import kr.dgucaps.capsv4.repository.*;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

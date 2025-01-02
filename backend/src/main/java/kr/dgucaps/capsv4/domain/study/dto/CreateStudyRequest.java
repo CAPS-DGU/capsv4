@@ -1,8 +1,8 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.study.dto;
 
-import kr.dgucaps.capsv4.entity.Study;
-import kr.dgucaps.capsv4.entity.StudyDay;
-import kr.dgucaps.capsv4.entity.StudyType;
+import kr.dgucaps.capsv4.domain.study.entity.Study;
+import kr.dgucaps.capsv4.domain.study.entity.StudyDay;
+import kr.dgucaps.capsv4.domain.study.entity.StudyType;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

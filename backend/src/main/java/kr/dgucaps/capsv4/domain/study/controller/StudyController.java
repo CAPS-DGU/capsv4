@@ -1,10 +1,10 @@
-package kr.dgucaps.capsv4.controller;
+package kr.dgucaps.capsv4.domain.study.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.dgucaps.capsv4.dto.request.*;
+import kr.dgucaps.capsv4.domain.study.dto.*;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
-import kr.dgucaps.capsv4.service.StudyService;
+import kr.dgucaps.capsv4.domain.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;

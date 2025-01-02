@@ -1,9 +1,9 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.study.service;
 
 import jakarta.annotation.PostConstruct;
-import kr.dgucaps.capsv4.entity.Study;
-import kr.dgucaps.capsv4.entity.StudyFile;
-import kr.dgucaps.capsv4.repository.StudyFileRepository;
+import kr.dgucaps.capsv4.domain.study.entity.Study;
+import kr.dgucaps.capsv4.domain.study.entity.StudyFile;
+import kr.dgucaps.capsv4.domain.study.repository.StudyFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

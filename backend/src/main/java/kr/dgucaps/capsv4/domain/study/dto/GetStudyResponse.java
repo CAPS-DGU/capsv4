@@ -1,8 +1,8 @@
-package kr.dgucaps.capsv4.dto.response;
+package kr.dgucaps.capsv4.domain.study.dto;
 
-import kr.dgucaps.capsv4.entity.StudyDay;
-import kr.dgucaps.capsv4.entity.StudySemester;
-import kr.dgucaps.capsv4.entity.StudyType;
+import kr.dgucaps.capsv4.domain.study.entity.StudyDay;
+import kr.dgucaps.capsv4.domain.study.entity.StudySemester;
+import kr.dgucaps.capsv4.domain.study.entity.StudyType;
 import lombok.Builder;
 import lombok.Data;
 

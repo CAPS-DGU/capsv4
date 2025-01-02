@@ -1,11 +1,11 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.study.dto;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class AcceptStudyRequest {
+public class KickStudyRequest {
 
     private Integer studyId;
 
