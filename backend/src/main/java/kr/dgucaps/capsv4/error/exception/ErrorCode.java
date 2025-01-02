@@ -22,6 +22,9 @@ public enum ErrorCode {
     // User
     USER_ID_DUPLICATE(400, "U001", "User ID already exists"),
 
+    //Comment
+    COMMENT_NOT_AUTHOR(400, "CM001", "You are not the author of this comment"),
+
 //    // Member
 //    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
 //    LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
