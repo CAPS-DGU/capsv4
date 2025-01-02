@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.dto.response;
+package kr.dgucaps.capsv4.domain.user.dto;
 
-import kr.dgucaps.capsv4.entity.UserPermission;
+import kr.dgucaps.capsv4.domain.user.entity.UserPermission;
 import lombok.Builder;
 import lombok.Data;
 

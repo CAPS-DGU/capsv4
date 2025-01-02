@@ -1,5 +1,7 @@
 package kr.dgucaps.capsv4.service;
 
+import kr.dgucaps.capsv4.domain.user.entity.User;
+import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.dto.request.VoteRequest;
 import kr.dgucaps.capsv4.dto.response.GetVoteResponse;
 import kr.dgucaps.capsv4.dto.response.GetVoteResultResponse;

@@ -1,8 +1,9 @@
-package kr.dgucaps.capsv4.entity;
+package kr.dgucaps.capsv4.domain.user.entity;
 
 import jakarta.persistence.*;
 import kr.dgucaps.capsv4.domain.board.entity.Board;
 import kr.dgucaps.capsv4.domain.board.entity.BoardLike;
+import kr.dgucaps.capsv4.entity.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;

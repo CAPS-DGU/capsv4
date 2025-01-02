@@ -3,7 +3,7 @@ package kr.dgucaps.capsv4.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import kr.dgucaps.capsv4.dto.response.JwtToken;
+import kr.dgucaps.capsv4.domain.user.dto.JwtToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

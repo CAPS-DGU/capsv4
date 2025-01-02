@@ -1,5 +1,7 @@
 package kr.dgucaps.capsv4.service;
 
+import kr.dgucaps.capsv4.domain.user.entity.User;
+import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.dto.request.*;
 import kr.dgucaps.capsv4.dto.response.GetStudyApplyListResponse;
 import kr.dgucaps.capsv4.dto.response.GetStudyListResponse;

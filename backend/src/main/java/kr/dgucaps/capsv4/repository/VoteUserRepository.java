@@ -1,6 +1,6 @@
 package kr.dgucaps.capsv4.repository;
 
-import kr.dgucaps.capsv4.entity.User;
+import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.entity.Vote;
 import kr.dgucaps.capsv4.entity.VoteUser;
 import org.springframework.data.jpa.repository.JpaRepository;

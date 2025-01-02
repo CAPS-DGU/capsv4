@@ -1,7 +1,7 @@
 package kr.dgucaps.capsv4.service;
 
-import kr.dgucaps.capsv4.entity.User;
-import kr.dgucaps.capsv4.repository.UserRepository;
+import kr.dgucaps.capsv4.domain.user.entity.User;
+import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

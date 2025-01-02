@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

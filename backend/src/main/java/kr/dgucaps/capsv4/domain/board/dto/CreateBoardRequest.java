@@ -1,7 +1,7 @@
 package kr.dgucaps.capsv4.domain.board.dto;
 
 import kr.dgucaps.capsv4.domain.board.entity.Board;
-import kr.dgucaps.capsv4.entity.User;
+import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 

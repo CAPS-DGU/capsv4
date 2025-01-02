@@ -1,6 +1,7 @@
 package kr.dgucaps.capsv4.entity;
 
 import jakarta.persistence.*;
+import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.entity.ids.VoteUserId;
 import lombok.AccessLevel;
 import lombok.Builder;

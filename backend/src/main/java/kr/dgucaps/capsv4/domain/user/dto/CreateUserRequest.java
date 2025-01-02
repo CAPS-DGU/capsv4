@@ -1,7 +1,7 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.user.dto;
 
 import jakarta.validation.constraints.*;
-import kr.dgucaps.capsv4.entity.User;
+import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.Data;
 
 @Data

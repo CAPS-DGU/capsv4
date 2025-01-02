@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.dto.response;
+package kr.dgucaps.capsv4.domain.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
