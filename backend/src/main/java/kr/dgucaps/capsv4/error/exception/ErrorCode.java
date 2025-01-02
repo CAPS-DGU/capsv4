@@ -22,8 +22,17 @@ public enum ErrorCode {
     // User
     USER_ID_DUPLICATE(400, "U001", "User ID already exists"),
 
-    //Comment
+    // Comment
     COMMENT_NOT_AUTHOR(400, "CM001", "You are not the author of this comment"),
+
+    // Study
+    STUDY_CONFIG_NOT_SET(400, "S001", "Study Config Not Set"),
+    STUDY_NOT_APPLICATION_PERIOD(400, "S002", "Study Not Application Period"),
+    STUDY_APPLICATION_CLOSED(400, "S003", "Study Application Closed"),
+    STUDY_ALREADY_APPLIED(400, "S004", "Study Already Applied"),
+    STUDY_APPLICATION_ALREADY_PROCESSED(400, "S005", "Study Application already Processed"),
+    STUDY_NOT_AUTHOR(400, "S006", "Study Not Author"),
+    STUDY_NOT_APPLICANT(400, "S007", "Study Not Applicant"),
 
 //    // Member
 //    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),

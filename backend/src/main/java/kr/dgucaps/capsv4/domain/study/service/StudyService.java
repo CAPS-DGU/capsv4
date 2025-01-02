@@ -2,8 +2,10 @@ package kr.dgucaps.capsv4.domain.study.service;
 
 import kr.dgucaps.capsv4.domain.study.dto.*;
 import kr.dgucaps.capsv4.domain.study.entity.*;
+import kr.dgucaps.capsv4.domain.study.exception.*;
 import kr.dgucaps.capsv4.domain.study.repository.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
+import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,7 @@ public class StudyService {
     @Transactional
     public void createStudy(CreateStudyRequest request) throws IOException {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Study study = request.toEntity(user);
         studyRepository.save(study);
         if (request.getFiles() != null && !request.getFiles().isEmpty()) {
@@ -52,24 +54,24 @@ public class StudyService {
     @Transactional
     public void applyStudy(Integer studyId) {
         String applyStartDateString = studyConfigRepository.findByConfigKey("APPLY_START_DATE")
-                .orElseThrow(() -> new IllegalArgumentException("지원 시작일 설정이 존재하지 않습니다")).getConfigValue();
+                .orElseThrow(StudyConfigNotSetException::new).getConfigValue();
         String applyEndDateString = studyConfigRepository.findByConfigKey("APPLY_END_DATE")
-                .orElseThrow(() -> new IllegalArgumentException("지원 마감일 설정이 존재하지 않습니다")).getConfigValue();
+                .orElseThrow(StudyConfigNotSetException::new).getConfigValue();
         LocalDate applyStartDate = LocalDate.parse(applyStartDateString);
         LocalDate applyEndDate = LocalDate.parse(applyEndDateString);
         LocalDate currentDate = LocalDate.now();
         if (currentDate.isBefore(applyStartDate) || currentDate.isAfter(applyEndDate)) {
-            throw new IllegalStateException("현재는 지원할 수 없는 기간입니다");
+            throw new StudyNotApplicationPeriodException();
         }
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Study study = studyRepository.findById(studyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         if (studyApplyRepository.countByStudy(study) >= study.getMaxParticipants() * 2) {
-            throw new IllegalStateException("해당 스터디는 마감되었습니다");
+            throw new StudyApplicationClosedException();
         }
         if (studyApplyRepository.existsByStudyAndUser(study, user)) {
-            throw new IllegalStateException("이미 지원한 스터디입니다");
+            throw new StudyAlreadyAppliedException();
         }
         StudyApply studyApply = StudyApply.builder()
                 .study(study)
@@ -112,7 +114,7 @@ public class StudyService {
 
     public GetStudyResponse getStudy(Integer studyId) {
         Study study = studyRepository.findById(studyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         return GetStudyResponse.builder()
                 .id(study.getId())
                 .isDeleted(study.getIsDeleted())
@@ -155,16 +157,16 @@ public class StudyService {
     public void acceptStudy(AcceptStudyRequest request) {
         Integer studyId = request.getStudyId();
         Study study = studyRepository.findById(studyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         for (AcceptStudyRequest.User user : request.getUsers()) {
             Integer userId = user.getUserId();
             StudyApply studyApply = studyApplyRepository.findByStudyIdAndUserId(studyId, userId)
-                    .orElseThrow(() -> new IllegalArgumentException("지원자를 찾을 수 없습니다"));
+                    .orElseThrow(() -> new StudyApplyNotFoundException(studyId, userId));
             if (!studyApply.getStatus().equals(StudyApplyStatus.PENDING)) {
-                throw new IllegalStateException("이미 승인/거절한 지원자입니다");
+                throw new StudyApplicationAlreadyProcessedException();
             }
             User userEntity = userRepository.findById(userId)
-                    .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                    .orElseThrow(() -> new UserNotFoundException(userId));
             studyApply.changeStatus(StudyApplyStatus.APPROVED);
             StudyTutee studyTutee = StudyTutee.builder()
                     .study(study)
@@ -176,7 +178,7 @@ public class StudyService {
 
     public List<GetStudyApplyListResponse> getStudyApplyList(Integer studyId) {
         Study study = studyRepository.findById(studyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         List<StudyApply> studyApplyList = studyApplyRepository.findByStudy(study);
         return studyApplyList.stream()
                 .map(studyApply -> GetStudyApplyListResponse.builder()
@@ -196,11 +198,11 @@ public class StudyService {
     @Transactional
     public void modifyStudy(Integer studyId, ModifyStudyRequest request) throws IOException {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Study study = studyRepository.findById(studyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         if (!user.getUserId().equals(study.getMaker().getUserId())) {
-            throw new AccessDeniedException("해당 스터디를 수정할 권한이 없습니다");
+            throw new StudyNotAuthorException();
         }
         if (request.getTitle() != null) {
             study.updateTitle(request.getTitle());
@@ -234,25 +236,25 @@ public class StudyService {
     }
 
     @Transactional
-    public void deleteStudy(Integer studyId) throws AccessDeniedException {
+    public void deleteStudy(Integer studyId) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Study study = studyRepository.findById(studyId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(studyId));
         if (!user.getUserId().equals(study.getMaker().getUserId())) {
-            throw new AccessDeniedException("해당 스터디를 삭제할 권한이 없습니다");
+            throw new StudyNotAuthorException();
         }
         studyRepository.deleteById(studyId);
     }
 
     @Transactional
-    public void kickStudy(KickStudyRequest request) throws AccessDeniedException {
+    public void kickStudy(KickStudyRequest request) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Study study = studyRepository.findById(request.getStudyId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 스터디를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyNotFoundException(request.getStudyId()));
         if (!user.getUserId().equals(study.getMaker().getUserId())) {
-            throw new AccessDeniedException("스터디 방출 권한이 없습니다");
+            throw new StudyNotAuthorException();
         }
         for (KickStudyRequest.User kickUser : request.getUsers()) {
             Integer userId = kickUser.getUserId();
@@ -262,16 +264,16 @@ public class StudyService {
     }
 
     @Transactional
-    public void withdrawStudy(Integer studyId) throws AccessDeniedException {
+    public void withdrawStudy(Integer studyId) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         StudyApply studyApply = studyApplyRepository.findByStudyIdAndUserId(studyId, user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("지원자를 찾을 수 없습니다"));
+                .orElseThrow(() -> new StudyApplyNotFoundException(studyId, user.getId()));
         if (!user.getId().equals(studyApply.getUser().getId())) {
-            throw new AccessDeniedException("지원 취소 권한이 없습니다");
+            throw new StudyNotApplicantException();
         }
         if (!studyApply.getStatus().equals(StudyApplyStatus.PENDING)) {
-            throw new IllegalStateException("이미 승인/거절되었습니다");
+            throw new StudyApplicationAlreadyProcessedException();
         }
         studyApplyRepository.deleteById(studyApply.getId());
     }
