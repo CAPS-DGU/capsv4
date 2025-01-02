@@ -1,10 +1,10 @@
-package kr.dgucaps.capsv4.controller;
+package kr.dgucaps.capsv4.domain.comment.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.dgucaps.capsv4.dto.request.CreateCommentRequest;
+import kr.dgucaps.capsv4.domain.comment.dto.CreateCommentRequest;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
-import kr.dgucaps.capsv4.service.CommentService;
+import kr.dgucaps.capsv4.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

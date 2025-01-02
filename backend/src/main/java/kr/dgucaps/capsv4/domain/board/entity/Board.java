@@ -1,7 +1,7 @@
 package kr.dgucaps.capsv4.domain.board.entity;
 
 import jakarta.persistence.*;
-import kr.dgucaps.capsv4.entity.Comment;
+import kr.dgucaps.capsv4.domain.comment.entity.Comment;
 import kr.dgucaps.capsv4.entity.UploadFile;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.AccessLevel;

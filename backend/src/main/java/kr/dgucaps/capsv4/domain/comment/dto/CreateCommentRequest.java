@@ -1,7 +1,7 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.comment.dto;
 
 import kr.dgucaps.capsv4.domain.board.entity.Board;
-import kr.dgucaps.capsv4.entity.Comment;
+import kr.dgucaps.capsv4.domain.comment.entity.Comment;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.Data;
 

@@ -9,6 +9,7 @@ import kr.dgucaps.capsv4.domain.board.exception.BoardNotFoundException;
 import kr.dgucaps.capsv4.domain.board.repository.BoardLikeRepository;
 import kr.dgucaps.capsv4.domain.board.repository.BoardModifyRepository;
 import kr.dgucaps.capsv4.domain.board.repository.BoardRepository;
+import kr.dgucaps.capsv4.domain.comment.entity.Comment;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.board.dto.CreateBoardRequest;

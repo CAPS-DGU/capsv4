@@ -1,10 +1,10 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.comment.service;
 
-import kr.dgucaps.capsv4.dto.request.CreateCommentRequest;
+import kr.dgucaps.capsv4.domain.comment.dto.CreateCommentRequest;
 import kr.dgucaps.capsv4.domain.board.entity.Board;
+import kr.dgucaps.capsv4.domain.comment.repository.CommentRepository;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.board.repository.BoardRepository;
-import kr.dgucaps.capsv4.repository.CommentRepository;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
