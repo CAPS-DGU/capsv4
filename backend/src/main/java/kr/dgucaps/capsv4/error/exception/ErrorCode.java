@@ -19,14 +19,16 @@ public enum ErrorCode {
     BOARD_ALREADY_LIKED(400, "B001", "You have already liked this post"),
     BOARD_NOT_AUTHOR(400, "B002", "You are not the author of this post"),
 
+    // User
+    USER_ID_DUPLICATE(400, "U001", "User ID already exists"),
 
-    // Member
-    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
-    LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
-
-    // Coupon
-    COUPON_ALREADY_USE(400, "CO001", "Coupon was already used"),
-    COUPON_EXPIRE(400, "CO002", "Coupon was already expired")
+//    // Member
+//    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
+//    LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),
+//
+//    // Coupon
+//    COUPON_ALREADY_USE(400, "CO001", "Coupon was already used"),
+//    COUPON_EXPIRE(400, "CO002", "Coupon was already expired")
     ;
 
     private final String code;
