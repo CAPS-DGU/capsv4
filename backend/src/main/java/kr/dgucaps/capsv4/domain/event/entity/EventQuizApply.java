@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.entity;
+package kr.dgucaps.capsv4.domain.event.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,9 +8,11 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
-@Table(name = "event_snack_tb")
+@Table(name = "event_quiz_apply_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DiscriminatorValue("Snack")
+@DiscriminatorValue("Quiz")
 @SuperBuilder
-public class EventSnack extends Event {
+public class EventQuizApply extends EventApply {
+
+    private String answer;
 }

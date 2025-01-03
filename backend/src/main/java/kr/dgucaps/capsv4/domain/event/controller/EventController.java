@@ -1,14 +1,14 @@
-package kr.dgucaps.capsv4.controller;
+package kr.dgucaps.capsv4.domain.event.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
-import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
-import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
-import kr.dgucaps.capsv4.dto.request.ModifyEventRequest;
+import kr.dgucaps.capsv4.domain.event.dto.CreateEventRequest;
+import kr.dgucaps.capsv4.domain.event.dto.GetEventListParameter;
+import kr.dgucaps.capsv4.domain.event.dto.ModifyEventRequest;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
-import kr.dgucaps.capsv4.service.EventService;
+import kr.dgucaps.capsv4.domain.event.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;

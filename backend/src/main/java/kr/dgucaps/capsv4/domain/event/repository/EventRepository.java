@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.repository;
+package kr.dgucaps.capsv4.domain.event.repository;
 
-import kr.dgucaps.capsv4.entity.Event;
+import kr.dgucaps.capsv4.domain.event.entity.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;

@@ -1,16 +1,16 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.event.service;
 
+import kr.dgucaps.capsv4.domain.event.entity.*;
+import kr.dgucaps.capsv4.domain.event.repository.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
-import kr.dgucaps.capsv4.dto.request.CreateEventRequest;
-import kr.dgucaps.capsv4.dto.request.GetEventListParameter;
-import kr.dgucaps.capsv4.dto.request.ModifyEventRequest;
-import kr.dgucaps.capsv4.dto.response.GetEventListResponse;
-import kr.dgucaps.capsv4.dto.response.GetEventParticipantsResponse;
-import kr.dgucaps.capsv4.dto.response.GetEventResponse;
-import kr.dgucaps.capsv4.entity.*;
-import kr.dgucaps.capsv4.repository.*;
+import kr.dgucaps.capsv4.domain.event.dto.CreateEventRequest;
+import kr.dgucaps.capsv4.domain.event.dto.GetEventListParameter;
+import kr.dgucaps.capsv4.domain.event.dto.ModifyEventRequest;
+import kr.dgucaps.capsv4.domain.event.dto.GetEventListResponse;
+import kr.dgucaps.capsv4.domain.event.dto.GetEventParticipantsResponse;
+import kr.dgucaps.capsv4.domain.event.dto.GetEventResponse;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.dto.response;
+package kr.dgucaps.capsv4.domain.event.dto;
 
-import kr.dgucaps.capsv4.entity.EventType;
+import kr.dgucaps.capsv4.domain.event.entity.EventType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class GetEventListResponse {
+public class GetEventResponse {
 
     private Integer id;
 
@@ -35,5 +35,16 @@ public class GetEventListResponse {
 
     private Integer maxParticipants;
 
-    private Integer totalPages;
+    private String description;
+
+    private Quiz quiz;
+
+    @Data
+    @Builder
+    public static class Quiz {
+
+        private String question;
+
+        private String correctAnswer;
+    }
 }

@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.repository;
+package kr.dgucaps.capsv4.domain.event.repository;
 
-import kr.dgucaps.capsv4.entity.EventQuizApply;
+import kr.dgucaps.capsv4.domain.event.entity.EventQuizApply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
