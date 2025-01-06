@@ -31,7 +31,7 @@ import StudyEditPage from './pages/StudyEditPage.jsx';
 import StudyManagerPage from './pages/StudyManagerPage.jsx';
 import MyPage from './pages/MyPage.jsx';
 import ComingSoon from './pages/ComingSoon.jsx';
-
+import VotePage from './pages/VotePage.jsx';
 function App() {
 
   return (
@@ -84,6 +84,8 @@ function App() {
           <Route path="/study/create" element={<StudyCreatePage />} />
           <Route path="/ranking" element={<RankingPage />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/vote" element={<VotePage />} />
+
           <Route path='*' element={<ComingSoon />} />
 
         </Routes>

@@ -9,6 +9,7 @@ const EventForm = ({ eventId, onSubmit, initialData }) => {
         startDate: "",
         endDate: "",
         maxParticipants: 20,
+        eventId: eventId,
         description: "",
         quiz: {
             question: "",
