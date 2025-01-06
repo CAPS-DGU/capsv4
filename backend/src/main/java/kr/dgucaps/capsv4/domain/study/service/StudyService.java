@@ -1,5 +1,8 @@
 package kr.dgucaps.capsv4.domain.study.service;
 
+import kr.dgucaps.capsv4.domain.file.entity.StudyFile;
+import kr.dgucaps.capsv4.domain.file.repository.StudyFileRepository;
+import kr.dgucaps.capsv4.domain.file.service.StudyFileService;
 import kr.dgucaps.capsv4.domain.study.dto.*;
 import kr.dgucaps.capsv4.domain.study.entity.*;
 import kr.dgucaps.capsv4.domain.study.exception.*;
@@ -13,13 +16,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;

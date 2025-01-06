@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.domain.board.repository;
+package kr.dgucaps.capsv4.domain.file.repository;
 
 import kr.dgucaps.capsv4.domain.board.entity.UploadFile;
 import org.springframework.data.jpa.repository.JpaRepository;

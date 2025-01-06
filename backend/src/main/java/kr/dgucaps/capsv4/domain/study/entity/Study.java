@@ -1,6 +1,7 @@
 package kr.dgucaps.capsv4.domain.study.entity;
 
 import jakarta.persistence.*;
+import kr.dgucaps.capsv4.domain.file.entity.StudyFile;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;

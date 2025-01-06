@@ -1,9 +1,9 @@
-package kr.dgucaps.capsv4.domain.board.service;
+package kr.dgucaps.capsv4.domain.file.service;
 
 import jakarta.annotation.PostConstruct;
 import kr.dgucaps.capsv4.domain.board.entity.Board;
 import kr.dgucaps.capsv4.domain.board.entity.UploadFile;
-import kr.dgucaps.capsv4.domain.board.repository.UploadFileRepository;
+import kr.dgucaps.capsv4.domain.file.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

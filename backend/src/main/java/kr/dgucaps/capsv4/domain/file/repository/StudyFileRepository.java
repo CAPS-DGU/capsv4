@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.domain.study.repository;
+package kr.dgucaps.capsv4.domain.file.repository;
 
-import kr.dgucaps.capsv4.domain.study.entity.StudyFile;
+import kr.dgucaps.capsv4.domain.file.entity.StudyFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
