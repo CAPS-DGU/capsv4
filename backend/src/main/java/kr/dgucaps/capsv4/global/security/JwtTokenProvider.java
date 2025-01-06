@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.security;
+package kr.dgucaps.capsv4.global.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

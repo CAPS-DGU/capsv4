@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.domain.wiki.dto.CreateOrModifyWikiRequest;
 import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiResponse;
-import kr.dgucaps.capsv4.dto.response.common.DataResponse;
+import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.wiki.service.WikiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

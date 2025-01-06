@@ -3,7 +3,7 @@ package kr.dgucaps.capsv4.domain.study.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.dgucaps.capsv4.domain.study.dto.*;
-import kr.dgucaps.capsv4.dto.response.common.DataResponse;
+import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 @RestController
 @RequiredArgsConstructor
@@ -79,7 +78,7 @@ public class StudyController {
     @DeleteMapping("/study/{studyId}")
     @Operation(summary = "스터디 삭제")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
-    public ResponseEntity<DataResponse> deleteStudy(@PathVariable("studyId") Integer studyId) throws AccessDeniedException {
+    public ResponseEntity<DataResponse> deleteStudy(@PathVariable("studyId") Integer studyId) {
         studyService.deleteStudy(studyId);
         return ResponseEntity.ok(DataResponse.builder().message("스터디 삭제 성공").build());
     }
@@ -87,7 +86,7 @@ public class StudyController {
     @PostMapping("/study/kick")
     @Operation(summary = "스터디 방출")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
-    public ResponseEntity<DataResponse> kickStudy(@RequestBody KickStudyRequest request) throws AccessDeniedException {
+    public ResponseEntity<DataResponse> kickStudy(@RequestBody KickStudyRequest request) {
         studyService.kickStudy(request);
         return ResponseEntity.ok(DataResponse.builder().message("스터디 방출 성공").build());
     }
@@ -95,7 +94,7 @@ public class StudyController {
     @DeleteMapping("/study/{studyId}/withdraw")
     @Operation(summary = "스터디 지원 취소", description = "지원자가 직접 호출")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
-    public ResponseEntity<DataResponse> withdrawStudy(@PathVariable("studyId") Integer studyId) throws AccessDeniedException {
+    public ResponseEntity<DataResponse> withdrawStudy(@PathVariable("studyId") Integer studyId) {
         studyService.withdrawStudy(studyId);
         return ResponseEntity.ok(DataResponse.builder().message("스터디 지원 취소 성공").build());
     }

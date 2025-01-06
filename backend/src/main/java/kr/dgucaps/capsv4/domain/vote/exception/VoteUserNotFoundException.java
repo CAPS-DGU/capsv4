@@ -1,6 +1,6 @@
 package kr.dgucaps.capsv4.domain.vote.exception;
 
-import kr.dgucaps.capsv4.error.exception.EntityNotFoundException;
+import kr.dgucaps.capsv4.global.error.exception.EntityNotFoundException;
 
 public class VoteUserNotFoundException extends EntityNotFoundException {
 

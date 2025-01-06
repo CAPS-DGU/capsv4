@@ -10,7 +10,7 @@ import kr.dgucaps.capsv4.domain.study.repository.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
-import kr.dgucaps.capsv4.security.SecurityUtil;
+import kr.dgucaps.capsv4.global.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

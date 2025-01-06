@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.domain.user.dto.*;
-import kr.dgucaps.capsv4.dto.response.common.DataResponse;
+import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

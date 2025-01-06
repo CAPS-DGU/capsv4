@@ -9,9 +9,8 @@ import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.wiki.entity.Wiki;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.domain.wiki.repository.WikiRepository;
-import kr.dgucaps.capsv4.security.SecurityUtil;
+import kr.dgucaps.capsv4.global.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

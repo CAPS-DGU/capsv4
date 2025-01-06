@@ -1,7 +1,7 @@
-package kr.dgucaps.capsv4.error;
+package kr.dgucaps.capsv4.global.error;
 
-import kr.dgucaps.capsv4.error.exception.BusinessException;
-import kr.dgucaps.capsv4.error.exception.ErrorCode;
+import kr.dgucaps.capsv4.global.error.exception.BusinessException;
+import kr.dgucaps.capsv4.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

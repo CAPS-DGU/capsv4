@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.domain.board.dto.CreateBoardRequest;
 import kr.dgucaps.capsv4.domain.board.dto.GetBoardListParameter;
 import kr.dgucaps.capsv4.domain.board.dto.ModifyBoardRequest;
-import kr.dgucaps.capsv4.dto.response.common.DataResponse;
+import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class BoardController {
     @DeleteMapping("/board/{boardId}")
     @Operation(summary = "게시글 삭제")
     @PreAuthorize("hasAnyRole('MEMBER', 'GRADUATE', 'COUNCIL', 'PRESIDENT', 'ADMIN')")
-    public ResponseEntity<DataResponse> deleteBoard(@PathVariable("boardId") Integer boardId) throws AccessDeniedException {
+    public ResponseEntity<DataResponse> deleteBoard(@PathVariable("boardId") Integer boardId) {
         boardService.deleteBoard(boardId);
         return ResponseEntity.ok(DataResponse.builder().message("게시글 삭제 성공").build());
     }

@@ -13,7 +13,7 @@ import kr.dgucaps.capsv4.domain.vote.repository.VoteChoiceRepository;
 import kr.dgucaps.capsv4.domain.vote.repository.VoteRepository;
 import kr.dgucaps.capsv4.domain.vote.repository.VoteResultRepository;
 import kr.dgucaps.capsv4.domain.vote.repository.VoteUserRepository;
-import kr.dgucaps.capsv4.security.SecurityUtil;
+import kr.dgucaps.capsv4.global.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

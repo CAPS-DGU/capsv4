@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.error.exception;
+package kr.dgucaps.capsv4.global.error.exception;
 
 public class BusinessException extends RuntimeException {
 

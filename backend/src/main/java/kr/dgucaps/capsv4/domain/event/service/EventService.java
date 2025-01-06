@@ -13,7 +13,7 @@ import kr.dgucaps.capsv4.domain.event.dto.ModifyEventRequest;
 import kr.dgucaps.capsv4.domain.event.dto.GetEventListResponse;
 import kr.dgucaps.capsv4.domain.event.dto.GetEventParticipantsResponse;
 import kr.dgucaps.capsv4.domain.event.dto.GetEventResponse;
-import kr.dgucaps.capsv4.security.SecurityUtil;
+import kr.dgucaps.capsv4.global.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

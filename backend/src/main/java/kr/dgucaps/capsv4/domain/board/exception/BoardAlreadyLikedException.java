@@ -1,7 +1,7 @@
 package kr.dgucaps.capsv4.domain.board.exception;
 
-import kr.dgucaps.capsv4.error.exception.BusinessException;
-import kr.dgucaps.capsv4.error.exception.ErrorCode;
+import kr.dgucaps.capsv4.global.error.exception.BusinessException;
+import kr.dgucaps.capsv4.global.error.exception.ErrorCode;
 
 public class BoardAlreadyLikedException extends BusinessException {
 

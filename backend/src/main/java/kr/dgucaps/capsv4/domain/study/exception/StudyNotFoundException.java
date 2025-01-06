@@ -1,6 +1,6 @@
 package kr.dgucaps.capsv4.domain.study.exception;
 
-import kr.dgucaps.capsv4.error.exception.EntityNotFoundException;
+import kr.dgucaps.capsv4.global.error.exception.EntityNotFoundException;
 
 public class StudyNotFoundException extends EntityNotFoundException {
 

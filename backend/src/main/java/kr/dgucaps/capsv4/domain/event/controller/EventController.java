@@ -7,7 +7,7 @@ import kr.dgucaps.capsv4.domain.event.dto.ApplyEventRequest;
 import kr.dgucaps.capsv4.domain.event.dto.CreateEventRequest;
 import kr.dgucaps.capsv4.domain.event.dto.GetEventListParameter;
 import kr.dgucaps.capsv4.domain.event.dto.ModifyEventRequest;
-import kr.dgucaps.capsv4.dto.response.common.DataResponse;
+import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.event.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;

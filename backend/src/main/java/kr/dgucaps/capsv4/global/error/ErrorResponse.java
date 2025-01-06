@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.error;
+package kr.dgucaps.capsv4.global.error;
 
-import kr.dgucaps.capsv4.error.exception.ErrorCode;
+import kr.dgucaps.capsv4.global.error.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
