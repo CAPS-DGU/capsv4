@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.ranking.service;
 
-import kr.dgucaps.capsv4.dto.response.GetRankingResponse;
+import kr.dgucaps.capsv4.domain.ranking.dto.GetRankingResponse;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.repository.PointRepository;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
