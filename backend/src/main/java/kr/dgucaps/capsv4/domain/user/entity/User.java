@@ -3,6 +3,7 @@ package kr.dgucaps.capsv4.domain.user.entity;
 import jakarta.persistence.*;
 import kr.dgucaps.capsv4.domain.board.entity.Board;
 import kr.dgucaps.capsv4.domain.board.entity.BoardLike;
+import kr.dgucaps.capsv4.domain.book.entity.Checkout;
 import kr.dgucaps.capsv4.domain.comment.entity.Comment;
 import kr.dgucaps.capsv4.domain.event.entity.Event;
 import kr.dgucaps.capsv4.domain.event.entity.EventQuizApply;
