@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.repository;
+package kr.dgucaps.capsv4.domain.wiki.repository;
 
-import kr.dgucaps.capsv4.entity.Wiki;
+import kr.dgucaps.capsv4.domain.wiki.entity.Wiki;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

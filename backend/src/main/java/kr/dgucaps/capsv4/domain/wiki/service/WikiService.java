@@ -1,13 +1,14 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.wiki.service;
 
-import kr.dgucaps.capsv4.dto.request.CreateOrModifyWikiRequest;
-import kr.dgucaps.capsv4.dto.response.GetRandomWikiResponse;
-import kr.dgucaps.capsv4.dto.response.GetWikiHistoryResponse;
-import kr.dgucaps.capsv4.dto.response.GetWikiResponse;
+import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
+import kr.dgucaps.capsv4.domain.wiki.dto.CreateOrModifyWikiRequest;
+import kr.dgucaps.capsv4.domain.wiki.dto.GetRandomWikiResponse;
+import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiHistoryResponse;
+import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiResponse;
 import kr.dgucaps.capsv4.domain.user.entity.User;
-import kr.dgucaps.capsv4.entity.Wiki;
+import kr.dgucaps.capsv4.domain.wiki.entity.Wiki;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
-import kr.dgucaps.capsv4.repository.WikiRepository;
+import kr.dgucaps.capsv4.domain.wiki.repository.WikiRepository;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +30,7 @@ public class WikiService {
     @Transactional
     public void createOrModifyWiki(CreateOrModifyWikiRequest request) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         if (wikiRepository.existsByTitleAndIsDeletedFalse(request.getTitle())) {
             wikiRepository.deleteByTitleAndIsDeletedFalse(request.getTitle());
         }
