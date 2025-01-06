@@ -1,7 +1,6 @@
-package kr.dgucaps.capsv4.entity;
+package kr.dgucaps.capsv4.domain.board.entity;
 
 import jakarta.persistence.*;
-import kr.dgucaps.capsv4.domain.board.entity.Board;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
