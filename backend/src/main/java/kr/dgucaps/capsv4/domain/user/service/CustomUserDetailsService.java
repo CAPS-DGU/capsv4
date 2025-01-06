@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.user.service;
 
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
