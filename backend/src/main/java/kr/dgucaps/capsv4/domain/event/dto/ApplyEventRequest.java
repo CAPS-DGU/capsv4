@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.event.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

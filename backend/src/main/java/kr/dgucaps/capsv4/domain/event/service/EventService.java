@@ -6,7 +6,7 @@ import kr.dgucaps.capsv4.domain.event.repository.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
-import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
+import kr.dgucaps.capsv4.domain.event.dto.ApplyEventRequest;
 import kr.dgucaps.capsv4.domain.event.dto.CreateEventRequest;
 import kr.dgucaps.capsv4.domain.event.dto.GetEventListParameter;
 import kr.dgucaps.capsv4.domain.event.dto.ModifyEventRequest;
