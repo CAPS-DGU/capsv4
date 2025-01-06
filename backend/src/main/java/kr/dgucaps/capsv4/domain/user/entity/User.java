@@ -8,6 +8,7 @@ import kr.dgucaps.capsv4.domain.comment.entity.Comment;
 import kr.dgucaps.capsv4.domain.event.entity.Event;
 import kr.dgucaps.capsv4.domain.event.entity.EventQuizApply;
 import kr.dgucaps.capsv4.domain.event.entity.EventSnackApply;
+import kr.dgucaps.capsv4.domain.notification.entity.Notification;
 import kr.dgucaps.capsv4.domain.study.entity.Study;
 import kr.dgucaps.capsv4.domain.study.entity.StudyApply;
 import kr.dgucaps.capsv4.domain.study.entity.StudyTutee;
