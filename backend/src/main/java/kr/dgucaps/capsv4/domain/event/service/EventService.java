@@ -1,8 +1,10 @@
 package kr.dgucaps.capsv4.domain.event.service;
 
 import kr.dgucaps.capsv4.domain.event.entity.*;
+import kr.dgucaps.capsv4.domain.event.exception.*;
 import kr.dgucaps.capsv4.domain.event.repository.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
+import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.dto.request.ApplyEventRequest;
 import kr.dgucaps.capsv4.domain.event.dto.CreateEventRequest;
@@ -17,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class EventService {
     @Transactional
     public void createEvent(CreateEventRequest request) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         switch (request.getType()) {
             case QUIZ:
                 EventQuiz eventQuiz = EventQuiz.builder()
@@ -73,18 +74,18 @@ public class EventService {
     @Transactional
     public void createApply(ApplyEventRequest request) {
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다"));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         Event event = eventRepository.findById(request.getEventId())
-                .orElseThrow(() -> new IllegalArgumentException("이벤트가 존재하지 않습니다"));
+                .orElseThrow(() -> new EventNotFoundException(request.getEventId()));
         if (eventApplyRepository.existsByEventAndUser(event, user)) {
-            throw new IllegalStateException("이미 참가한 이벤트입니다");
+            throw new EventAlreadyAppliedException();
         }
         if (eventApplyRepository.countByEvent(event) >= event.getMaxParticipants()) {
-            throw new IllegalStateException("이벤트가 마감되었습니다");
+            throw new EventClosedException();
         }
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(event.getStartDate()) || now.isAfter(event.getEndDate())) {
-            throw new IllegalStateException("신청 가능 시간이 아닙니다");
+            throw new EventNotApplicationPeriodException();
         }
         switch (getEventType(event)) {
             case SNACK:
@@ -139,7 +140,7 @@ public class EventService {
 
     public GetEventResponse getEvent(Integer eventId) {
         Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+                .orElseThrow(() -> new EventNotFoundException(eventId));
         GetEventResponse.GetEventResponseBuilder builder = GetEventResponse.builder()
                 .id(event.getId())
                 .writer(GetEventResponse.Writer.builder()
@@ -165,7 +166,7 @@ public class EventService {
 
     public List<GetEventParticipantsResponse> getEventParticipants(Integer eventId) {
         Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+                .orElseThrow(() -> new EventNotFoundException(eventId));
         List<EventApply> eventApplyList = eventApplyRepository.findByEvent(event);
         List<GetEventParticipantsResponse> eventParticipants = new ArrayList<>();
         for (EventApply eventApply : eventApplyList) {
@@ -199,9 +200,9 @@ public class EventService {
     @Transactional
     public void updateEvent(ModifyEventRequest request) {
         Event event = eventRepository.findById(request.getEventId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+                .orElseThrow(() -> new EventNotFoundException(request.getEventId()));
         if (eventApplyRepository.existsByEvent(event)) {
-            throw new IllegalStateException("참여자가 존재하는 이벤트를 수정할 수 없습니다");
+            throw new EventHasApplicantException();
         }
         if (request.getTitle() != null) {
             event.updateTitle(request.getTitle());
@@ -236,9 +237,9 @@ public class EventService {
     @Transactional
     public void deleteEvent(Integer eventId) {
         Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이벤트를 찾을 수 없습니다"));
+                .orElseThrow(() -> new EventNotFoundException(eventId));
         if (eventApplyRepository.existsByEvent(event)) {
-            throw new IllegalStateException("참여자가 존재하는 이벤트를 삭제할 수 없습니다");
+            throw new EventHasApplicantException();
         }
         eventRepository.delete(event);
     }

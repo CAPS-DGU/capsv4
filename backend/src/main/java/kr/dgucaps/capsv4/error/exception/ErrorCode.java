@@ -30,9 +30,15 @@ public enum ErrorCode {
     STUDY_NOT_APPLICATION_PERIOD(400, "S002", "Study Not Application Period"),
     STUDY_APPLICATION_CLOSED(400, "S003", "Study Application Closed"),
     STUDY_ALREADY_APPLIED(400, "S004", "Study Already Applied"),
-    STUDY_APPLICATION_ALREADY_PROCESSED(400, "S005", "Study Application already Processed"),
+    STUDY_APPLICATION_ALREADY_PROCESSED(400, "S005", "Study Application Already Processed"),
     STUDY_NOT_AUTHOR(400, "S006", "Study Not Author"),
     STUDY_NOT_APPLICANT(400, "S007", "Study Not Applicant"),
+
+    // Event
+    EVENT_ALREADY_APPLIED(400, "E001", "Event Already Applied"),
+    EVENT_CLOSED(400, "E002", "Event Closed"),
+    EVENT_NOT_APPLICATION_PERIOD(400, "E003", "Event Not Application Period"),
+    EVENT_HAS_APPLICANT(400, "E004", "Event Has Applicant"),
 
 //    // Member
 //    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
