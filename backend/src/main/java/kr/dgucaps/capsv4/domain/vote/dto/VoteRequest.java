@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.dto.request;
+package kr.dgucaps.capsv4.domain.vote.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

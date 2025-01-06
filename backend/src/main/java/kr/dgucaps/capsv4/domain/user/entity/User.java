@@ -12,6 +12,7 @@ import kr.dgucaps.capsv4.domain.notification.entity.Notification;
 import kr.dgucaps.capsv4.domain.study.entity.Study;
 import kr.dgucaps.capsv4.domain.study.entity.StudyApply;
 import kr.dgucaps.capsv4.domain.study.entity.StudyTutee;
+import kr.dgucaps.capsv4.domain.vote.entity.VoteUser;
 import kr.dgucaps.capsv4.entity.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

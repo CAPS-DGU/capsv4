@@ -1,6 +1,6 @@
-package kr.dgucaps.capsv4.dto.response;
+package kr.dgucaps.capsv4.domain.vote.dto;
 
-import kr.dgucaps.capsv4.entity.VoteStatus;
+import kr.dgucaps.capsv4.domain.vote.entity.VoteStatus;
 import lombok.Builder;
 import lombok.Data;
 

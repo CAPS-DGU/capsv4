@@ -1,4 +1,4 @@
-package kr.dgucaps.capsv4.entity.ids;
+package kr.dgucaps.capsv4.domain.vote.entity.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

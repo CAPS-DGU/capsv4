@@ -40,6 +40,12 @@ public enum ErrorCode {
     EVENT_NOT_APPLICATION_PERIOD(400, "E003", "Event Not Application Period"),
     EVENT_HAS_APPLICANT(400, "E004", "Event Has Applicant"),
 
+    //Vote
+    VOTE_NOT_PERIOD(400, "V001", "Vote Not Period"),
+    VOTE_NOT_OPEN(400, "V002", "Vote Not Open"),
+    VOTE_ALREADY_COMPLETED(400, "V003", "Vote Already Completed"),
+    VOTE_NOT_ENDED(400, "V004", "Vote Not Ended"),
+
 //    // Member
 //    EMAIL_DUPLICATION(400, "M001", "Email is Duplication"),
 //    LOGIN_INPUT_INVALID(400, "M002", "Login input is invalid"),

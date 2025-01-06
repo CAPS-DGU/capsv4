@@ -1,8 +1,8 @@
-package kr.dgucaps.capsv4.entity;
+package kr.dgucaps.capsv4.domain.vote.entity;
 
 import jakarta.persistence.*;
 import kr.dgucaps.capsv4.domain.user.entity.User;
-import kr.dgucaps.capsv4.entity.ids.VoteUserId;
+import kr.dgucaps.capsv4.domain.vote.entity.ids.VoteUserId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

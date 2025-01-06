@@ -1,7 +1,7 @@
-package kr.dgucaps.capsv4.repository;
+package kr.dgucaps.capsv4.domain.vote.repository;
 
-import kr.dgucaps.capsv4.entity.Vote;
-import kr.dgucaps.capsv4.entity.VoteStatus;
+import kr.dgucaps.capsv4.domain.vote.entity.Vote;
+import kr.dgucaps.capsv4.domain.vote.entity.VoteStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

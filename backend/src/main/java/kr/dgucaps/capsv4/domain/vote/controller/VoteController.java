@@ -1,11 +1,11 @@
-package kr.dgucaps.capsv4.controller;
+package kr.dgucaps.capsv4.domain.vote.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import kr.dgucaps.capsv4.dto.request.VoteRequest;
+import kr.dgucaps.capsv4.domain.vote.dto.VoteRequest;
 import kr.dgucaps.capsv4.dto.response.common.DataResponse;
-import kr.dgucaps.capsv4.service.VoteService;
+import kr.dgucaps.capsv4.domain.vote.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

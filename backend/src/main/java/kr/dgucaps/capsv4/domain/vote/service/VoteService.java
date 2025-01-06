@@ -1,16 +1,20 @@
-package kr.dgucaps.capsv4.service;
+package kr.dgucaps.capsv4.domain.vote.service;
 
 import kr.dgucaps.capsv4.domain.user.entity.User;
+import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
-import kr.dgucaps.capsv4.dto.request.VoteRequest;
-import kr.dgucaps.capsv4.dto.response.GetVoteResponse;
-import kr.dgucaps.capsv4.dto.response.GetVoteResultResponse;
-import kr.dgucaps.capsv4.entity.*;
-import kr.dgucaps.capsv4.entity.ids.VoteUserId;
-import kr.dgucaps.capsv4.repository.*;
+import kr.dgucaps.capsv4.domain.vote.entity.*;
+import kr.dgucaps.capsv4.domain.vote.dto.VoteRequest;
+import kr.dgucaps.capsv4.domain.vote.dto.GetVoteResponse;
+import kr.dgucaps.capsv4.domain.vote.dto.GetVoteResultResponse;
+import kr.dgucaps.capsv4.domain.vote.entity.ids.VoteUserId;
+import kr.dgucaps.capsv4.domain.vote.exception.*;
+import kr.dgucaps.capsv4.domain.vote.repository.VoteChoiceRepository;
+import kr.dgucaps.capsv4.domain.vote.repository.VoteRepository;
+import kr.dgucaps.capsv4.domain.vote.repository.VoteResultRepository;
+import kr.dgucaps.capsv4.domain.vote.repository.VoteUserRepository;
 import kr.dgucaps.capsv4.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +35,7 @@ public class VoteService {
 
     public GetVoteResponse getVote() {
         Vote vote = voteRepository.findByStatus(VoteStatus.OPENED)
-                .orElseThrow(() -> new IllegalArgumentException("투표가 존재하지 않습니다."));
+                .orElseThrow(VoteNotFoundException::new);
         LocalDateTime now = LocalDateTime.now();
         Object totalVotes = now.isBefore(vote.getEndDate()) ? null : voteResultRepository.countByVote(vote);
         return GetVoteResponse.builder()
@@ -56,18 +60,18 @@ public class VoteService {
     @Transactional
     public void vote(VoteRequest request) {
         Vote vote = voteRepository.findById(request.getVoteId())
-                .orElseThrow(() -> new IllegalArgumentException("투표가 존재하지 않습니다."));
+                .orElseThrow(VoteNotFoundException::new);
         User user = userRepository.findByUserId(SecurityUtil.getCurrentUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("해당 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFoundException(SecurityUtil.getCurrentUserName()));
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(vote.getStartDate()) || now.isAfter(vote.getEndDate())) {
-            throw new IllegalStateException("투표 가능 시간이 아닙니다");
+            throw new VoteNotPeriodException();
         }
         if (vote.getStatus() != VoteStatus.OPENED) {
-            throw new IllegalStateException("투표가 불가능합니다.");
+            throw new VoteNotOpen();
         }
         if (voteUserRepository.existsByVoteAndUser(vote, user)) {
-            throw new IllegalStateException("이미 투표를 완료한 사용자입니다.");
+            throw new VoteAlreadyCompleted();
         }
         VoteUser voteUser = VoteUser.builder()
                 .id(VoteUserId.builder()
@@ -81,26 +85,26 @@ public class VoteService {
                 .build();
         voteUserRepository.save(voteUser);
         VoteChoice voteChoice = voteChoiceRepository.findById(request.getChoiceId())
-                .orElseThrow(() -> new IllegalArgumentException("선택지가 존재하지 않습니다."));
+                .orElseThrow(() -> new VoteChoiceNotFoundException(request.getChoiceId()));
         VoteResult voteResult = VoteResult.builder()
                 .vote(vote)
                 .voteChoice(voteChoice)
                 .build();
         if (!voteUserRepository.existsByVoteAndUser(vote, user)) {
-            throw new IllegalStateException("투표 기록이 존재하지 않으므로 결과를 저장할 수 없습니다.");
+            throw new VoteUserNotFoundException(vote.getId(), user.getId());
         }
         voteResultRepository.save(voteResult);
     }
 
     public GetVoteResultResponse getVoteResult(Integer voteId) {
         Vote vote = voteRepository.findById(voteId)
-                .orElseThrow(() -> new IllegalArgumentException("투표가 존재하지 않습니다."));
+                .orElseThrow(VoteNotFoundException::new);
         if (vote.getStatus() != VoteStatus.OPENED) {
-            throw new IllegalStateException("투표가 공개되지 않았습니다.");
+            throw new VoteNotOpen();
         }
         LocalDateTime now = LocalDateTime.now();
         if (now.isBefore(vote.getEndDate())) {
-            throw new IllegalStateException("투표가 아직 종료되지 않았습니다.");
+            throw new VoteNotEnded();
         }
         int totalVotes = voteResultRepository.countByVote(vote);
         List<GetVoteResultResponse.Result> results = voteChoiceRepository.findByVote(vote).stream()
