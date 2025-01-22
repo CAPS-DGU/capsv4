@@ -32,4 +32,13 @@ public class Notification {
 
     @Column(name = "noti_link")
     private String link;
+
+    @Builder
+    public Notification(User user, String type, String link) {
+        this.user = user;
+        this.isRead = false;
+        this.type = type;
+        this.datetime = LocalDateTime.now();
+        this.link = link;
+    }
 }

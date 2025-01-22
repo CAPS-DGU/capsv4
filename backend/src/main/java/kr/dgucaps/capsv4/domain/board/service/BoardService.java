@@ -22,6 +22,7 @@ import kr.dgucaps.capsv4.domain.board.dto.GetBoardListResponse;
 import kr.dgucaps.capsv4.domain.board.dto.GetBoardResponse;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.global.security.SecurityUtil;
+import kr.dgucaps.capsv4.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +47,7 @@ public class BoardService {
     private final UploadFileRepository uploadFileRepository;
     private final BoardLikeRepository boardLikeRepository;
     private final BoardModifyRepository boardModifyRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public void createBoard(CreateBoardRequest request) throws IOException {
@@ -74,6 +76,10 @@ public class BoardService {
                 .board(board)
                 .user(user)
                 .build());
+
+        User boardOwner = board.getUser();
+        String notificationLink = "/board/" + board.getId();
+        notificationService.createNotification(boardOwner, "2", notificationLink);
     }
 
     public List<GetBoardListResponse> getBoardListByCategory(GetBoardListParameter parameter) {
