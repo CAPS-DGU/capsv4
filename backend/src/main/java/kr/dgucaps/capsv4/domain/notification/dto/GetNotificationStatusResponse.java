@@ -9,6 +9,6 @@ public class GetNotificationStatusResponse {
 
     private Boolean hasNotification;
 
-    private Integer notificationCount;
+    private Long notificationCount;
     
 }
