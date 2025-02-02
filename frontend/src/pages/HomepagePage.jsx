@@ -43,16 +43,16 @@ const IntroducePage = () => {
             }
         };
         fetchData();
-            // If no title, show intro data
-            setWikiData(wikiIntroData);
-            setLoading(false);  // Stop loading
+        // If no title, show intro data
+        setWikiData(wikiIntroData);
+        setLoading(false);  // Stop loading
     }, [wiki_title]);
     if (loading) return <div>Loading...</div>;  // Show loading state
     // console.log(error);
     return (
 
         <div>
-            <Template data={wikiData} /> 
+            <Template data={wikiData} />
         </div >
     );
 };
