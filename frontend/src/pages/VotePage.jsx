@@ -14,26 +14,27 @@ export default Element = () => {
   const [isVoted, setIsVoted] = useState(false);
   const [Error, setError] = useState(null);
   const [totalVotes, setTotalVotes] = useState(null);
-  useEffect(() => {
-    const voteSubmit = async () => {
-      let requestBody = {
-        voteId: 1,
-        choiceId: 999999,
-      }
-      try {
-        await axios.post('/api/vote', requestBody, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
-        setIsVoted(true);
-      } catch (error) {
-        setError(error.response)
-      }
-    }
-    voteSubmit();
-  }, [])
+  // useEffect(() => {
+  //   const checkVoteSubmit = async () => {
+  //     let requestBody = {
+  //       voteId: 1,
+  //       choiceId: 999999,
+  //       clientIp: '111.111.111.111',
+  //     }
+  //     try {
+  //       await axios.post('/api/vote', requestBody, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': `Bearer ${accessToken}`
+  //         }
+  //       });
+  //       setIsVoted(true);
+  //     } catch (error) {
+  //       setError(error.response)
+  //     }
+  //   }
+  //   checkVoteSubmit();
+  // }, [])
   useEffect(() => {
     const total = async () => {
       try {
@@ -51,9 +52,12 @@ export default Element = () => {
     total();
   }, [])
   const voteSubmit = async () => {
+    const ipResponse = await fetch('https://api64.ipify.org?format=json');
+    const ipData = await ipResponse.json();
     let requestBody = {
       voteId: 1,
       choiceId: selectedCard + 2,
+      clientIp: ipData.ip,
     }
     try {
       await axios.post('/api/vote', requestBody, {
@@ -63,8 +67,10 @@ export default Element = () => {
         }
       });
       setIsVoted(true);
+      setError(null);
     } catch (error) {
-      setError(error)
+      setError(error.response)
+      setIsVoted(false); // 실패한 경우 성공 상태를 false로 유지
     }
   }
 
@@ -73,6 +79,11 @@ export default Element = () => {
   };
 
   const handleOpenModal = () => {
+    if (selectedCard === null) {
+      alert("투표 항목을 선택해주세요!");
+      return;
+    }
+    setError(null);
     setIsModalOpen(true); // Modal 열기
   };
 
@@ -82,7 +93,6 @@ export default Element = () => {
   const Modal = ({ isOpen, onClose }) => {
 
     const handleVoted = () => {
-      setIsVoted(true); // 투표완료시 모달 출력 위한 함수
       voteSubmit();
     };
     const CheckVote = ({ onClose }) => {
@@ -161,8 +171,7 @@ export default Element = () => {
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
         <div className="bg-white p-8 rounded-lg shadow-lg w-[30rem] text-center">
           <h2 className="text-2xl font-bold !text-[#BDBDBD]">알림</h2>
-          {isVoted ? <VoteFin onClose={onClose} /> : accessToken === null ? <VoteLoginFail onClose={onClose} /> : Error === null ? < CheckVote halnder={handleVoted} onClose={onClose} /> : <VoteWas onClose={onClose} />}
-
+          {Error ? <VoteWas onClose={onClose} /> : isVoted ? <VoteFin onClose={onClose} /> : accessToken === null ? <VoteLoginFail onClose={onClose} /> : Error === null ? < CheckVote halnder={handleVoted} onClose={onClose} /> : {}}
         </div>
       </div>
     );
