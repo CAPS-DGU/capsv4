@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PostView from '../components/BoardView/PostView';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const examplePosts = [{
   id: 0,
@@ -62,6 +63,7 @@ const ViewPage = () => {
   const accessToken = localStorage.getItem("accessToken");
   const { view_id } = useParams();
   const [post, setPost] = useState(examplePosts[2]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,8 +77,10 @@ const ViewPage = () => {
         });
         console.log(response.data);
         setPost(response.data.data);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
+        alert('게시글을 불러오는 데 실패했습니다.');
       }
     };
     if (view_id >= 0) {
@@ -86,7 +90,7 @@ const ViewPage = () => {
 
   return (
     <div>
-      <PostView post={post} />
+      {isLoading ? <LoadingSpinner /> : <PostView post={post} />}
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React from 'react';
+import { toRelativeTime } from '../../utils/Time';
 
 function PostItem({ id, title, author, time, hit, comments }) {
+
   return (
     <li className="grid grid-cols-7 items-center border-b border-gray-200 py-2 text-sm">
       <div className="text-center text-gray-500">{"자유"}</div>
@@ -13,7 +15,7 @@ function PostItem({ id, title, author, time, hit, comments }) {
         )}
       </div>
       <div className="text-center text-gray-500">{author.grade}기 {author.name}</div>
-      <div className="text-center text-gray-500">{time}</div>
+      <div className="text-center text-gray-500">{toRelativeTime(time)}</div>
       <div className="text-center text-gray-500">{hit}</div>
     </li >
   );
