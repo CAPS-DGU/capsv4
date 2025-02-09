@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BoardList from '../components/BoardList/List';
 import Search from '../components/BoardList/Search';
+import { board_categories } from '../constants/Board';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 // board별 구분 필요
@@ -17,17 +18,17 @@ const board_list = ["전체 게시판", "자유 게시판", "공모전 및 대�
 // 12 전시회 회의록
 // (구) 게시글 → 별도 api 사용
 
-const board_category = {
-  0: "전체 게시판",
-  1: "공지사항",
-  2: "주저리",
-  3: "건의사항",
-  4: "자료실",
-  5: "공모전 및 대회",
-  10: "회의록",
-  11: "장부",
-  12: "전시회 회의록"
-}
+// const board_category = {
+//   0: "전체 게시판",
+//   1: "공지사항",
+//   2: "주저리",
+//   3: "건의사항",
+//   4: "자료실",
+//   5: "공모전 및 대회",
+//   10: "회의록",
+//   11: "장부",
+//   12: "전시회 회의록"
+// }
 
 const BoardPage = () => {
   let accessToken = localStorage.getItem("accessToken");
@@ -62,7 +63,8 @@ const BoardPage = () => {
   return (
     <div className='flex flex-col items-center'>
       <div className='w-full max-w-4xl'>
-        <h1 className="text-2xl m-4 text-gray-500 text-center">{board_id ? board_category[board_id] : board_category[0]}</h1>
+        <h1 className="text-2xl m-4 text-gray-500 text-center">
+          {board_id ? board_categories[board_id] : board_categories[0]}</h1>
         <BoardList posts={posts} />
         <Search />
       </div>
