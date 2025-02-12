@@ -5,6 +5,7 @@ import kr.dgucaps.capsv4.domain.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
@@ -32,4 +33,13 @@ public class Notification {
 
     @Column(name = "noti_link")
     private String link;
+
+    @Builder
+    public Notification(User user, String type, String link) {
+        this.user = user;
+        this.isRead = false;
+        this.type = type;
+        this.datetime = LocalDateTime.now();
+        this.link = link;
+    }
 }

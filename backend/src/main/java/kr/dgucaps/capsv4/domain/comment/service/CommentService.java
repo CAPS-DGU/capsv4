@@ -12,6 +12,7 @@ import kr.dgucaps.capsv4.domain.board.repository.BoardRepository;
 import kr.dgucaps.capsv4.domain.user.exception.UserNotFoundException;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.global.security.SecurityUtil;
+import kr.dgucaps.capsv4.domain.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     public void createComment(CreateCommentRequest request) {
@@ -32,6 +34,10 @@ public class CommentService {
         Board board = boardRepository.findById(request.getBoardId())
                 .orElseThrow(() -> new BoardNotFoundException(request.getBoardId()));
         commentRepository.save(request.toEntity(board, user));
+
+        User boardOwner = board.getUser();
+        String notificationLink = "/board/" + board.getId();
+        notificationService.createNotification(boardOwner, "1", notificationLink);
     }
 
     @Transactional
