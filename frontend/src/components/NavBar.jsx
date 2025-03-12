@@ -121,21 +121,21 @@ function Navbar() {
                         )}
                     </div> */}
 
-                    <div className="relative" onMouseEnter={closeDropdown}>
+                    {/* <div className="relative" onMouseEnter={closeDropdown}>
                         <a href="/vote" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
                             VOTE
                         </a>
                     </div>
-                    {/* <div className="relative" onMouseEnter={closeDropdown}>
+                    <div className="relative" onMouseEnter={closeDropdown}>
                         <a href="/gallery" className="text-white hover:text-gray-400" onMouseEnter={closeDropdown} >
                             GALLERY
                         </a>
-                    </div>
+                    </div> */}
                     <div className="relative">
                         <a href="/wiki" className="text-white hover:text-gray-400">
                             WIKI
                         </a>
-                    </div> */}
+                    </div>
 
                     {/*로그인*/}
                     <div className="relative">
@@ -223,21 +223,21 @@ function Navbar() {
                             )}
                         </div> */}
                     {/* Other mobile menu items... */}
-                    <div className="relative" onMouseEnter={closeDropdown}>
+                    {/* <div className="relative" onMouseEnter={closeDropdown}>
                         <a href="/vote" className="text-white hover:text-gray-400">
                             VOTE
                         </a>
                     </div>
-                    {/* <div classNa    me="relative" onMouseEnter={closeDropdown}>
-                            <a href="#" className="text-white hover:text-gray-400">
-                                GALLERY
-                            </a>
-                        </div>
-                        <div className="relative">
-                            <a href="#" className="text-white hover:text-gray-400">
-                                WIKI
-                            </a>
-                        </div> */}
+                    <div classNa    me="relative" onMouseEnter={closeDropdown}>
+                        <a href="#" className="text-white hover:text-gray-400">
+                            GALLERY
+                        </a>
+                    </div> */}
+                    <div className="relative">
+                        <a href="#" className="text-white hover:text-gray-400">
+                            WIKI
+                        </a>
+                    </div>
                     <div className="relative">
                         {isLoggedIn ? (
                             <a href="/mypage" className="text-white hover:text-gray-400">
