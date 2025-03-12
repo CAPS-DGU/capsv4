@@ -57,7 +57,7 @@ function Navbar() {
             <div className="container mx-auto">
                 {/* Logo */}
                 <div className="flex justify-center">
-                    <a href="/vote" className="block">
+                    <a href="/wiki" className="block">
                         <img src="/new-club-logo-white-small.png" alt="Logo" className="h-12 mx-auto" />
                     </a>
                 </div>
