@@ -75,7 +75,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     htmlContent = htmlContent.replace(/\{\{(.+?)\}\}/g, (_, commentText) => {
       const commentIndex = commentList.length + 1;
       commentList.push(commentText.trim());
-      return `<sup class="text-blue-500 hover:underline cursor-pointer" id="comment-ref-${commentIndex}">[${commentIndex}]</sup>`;
+      return `<sup class="text-blue-500 hover:underline cursor-pointer" id="comment-ref-${commentIndex}"><a href="#comment-${commentIndex}" class="text-blue-500 hover:underline cursor-pointer">[${commentIndex}]</a></sup>`;
     });
 
     htmlContent = htmlContent.replace(/^\* (.+)$/gm, '<li class="text-lg text-gray-600">$1</li>');
