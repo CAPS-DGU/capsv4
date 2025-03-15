@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.domain.wiki.dto.CreateOrModifyWikiRequest;
 import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiResponse;
+import kr.dgucaps.capsv4.domain.wiki.dto.GetRecentWikiResponse;
 import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.wiki.service.WikiService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,5 +59,12 @@ public class WikiController {
     @Operation(summary = "랜덤 위키", description = "무작위 title을 응답합니다")
     public ResponseEntity<DataResponse> getRandomWiki() {
         return ResponseEntity.ok(DataResponse.builder().message("랜덤 위키 조회 성공").data(wikiService.getRandomWiki()).build());
+    }
+
+    @GetMapping("/wiki/recent")
+    @Operation(summary = "최근 수정 위키")
+    public ResponseEntity<DataResponse> getRecentWiki() {
+        List<GetRecentWikiResponse> recentWiki = wikiService.getRecentWiki();
+        return ResponseEntity.ok(DataResponse.builder().message("최근 수정 위키 조회 성공").data(recentWiki).build());
     }
 }
