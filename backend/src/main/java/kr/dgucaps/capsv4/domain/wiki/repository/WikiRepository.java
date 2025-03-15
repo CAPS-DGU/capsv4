@@ -22,4 +22,6 @@ public interface WikiRepository extends JpaRepository<Wiki, Integer> {
     String findRandomTitle();
 
     boolean existsByTitleAndIsDeletedFalse(String title);
+
+    List<Wiki> findFirst10ByOrderByDateTimeDesc();
 }

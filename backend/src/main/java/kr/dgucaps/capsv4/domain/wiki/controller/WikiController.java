@@ -57,4 +57,11 @@ public class WikiController {
     public ResponseEntity<DataResponse> getRandomWiki() {
         return ResponseEntity.ok(DataResponse.builder().message("랜덤 위키 조회 성공").data(wikiService.getRandomWiki()).build());
     }
+
+    @GetMapping("/wiki/recent")
+    @Operation(summary = "최근 수정 위키")
+    public ResponseEntity<DataResponse> getRecentWiki() {
+        List<GetRecentWikiResponse> recentWiki = wikiService.getRecentWiki();
+        return ResponseEntity.ok(DataResponse.builder().message("최근 수정 위키 조회 성공").data(recentWiki).build());
+    }
 }

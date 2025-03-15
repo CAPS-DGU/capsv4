@@ -5,6 +5,7 @@ import kr.dgucaps.capsv4.domain.wiki.dto.CreateOrModifyWikiRequest;
 import kr.dgucaps.capsv4.domain.wiki.dto.GetRandomWikiResponse;
 import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiHistoryResponse;
 import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiResponse;
+import kr.dgucaps.capsv4.domain.wiki.dto.GetRecentWikiResponse;
 import kr.dgucaps.capsv4.domain.user.entity.User;
 import kr.dgucaps.capsv4.domain.wiki.entity.Wiki;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
@@ -98,5 +99,12 @@ public class WikiService {
         return GetRandomWikiResponse.builder()
                 .title(title)
                 .build();
+    }
+
+    public List<GetRecentWikiResponse> getRecentWiki(){
+        List<Wiki> recentWikiList = wikiRepository.findFirst10ByOrderByDateTimeDesc();
+        return recentWikiList.stream()
+                .map(wiki -> GetRecentWikiResponse.title(recentWiki.getTitle()))
+                ).collect(Collectors.toList());
     }
 }
