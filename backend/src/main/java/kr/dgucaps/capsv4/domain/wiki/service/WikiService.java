@@ -104,7 +104,7 @@ public class WikiService {
     public List<GetRecentWikiResponse> getRecentWiki(){
         List<Wiki> recentWikiList = wikiRepository.findFirst10ByOrderByDateTimeDesc();
         return recentWikiList.stream()
-                .map(wiki -> GetRecentWikiResponse.title(recentWiki.getTitle()))
+                .map(wiki -> GetRecentWikiResponse.title(wiki.getTitle())
                 ).collect(Collectors.toList());
     }
 }

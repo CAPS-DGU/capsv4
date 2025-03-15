@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.dgucaps.capsv4.domain.wiki.dto.CreateOrModifyWikiRequest;
 import kr.dgucaps.capsv4.domain.wiki.dto.GetWikiResponse;
+import kr.dgucaps.capsv4.domain.wiki.dto.GetRecentWikiResponse;
 import kr.dgucaps.capsv4.global.DataResponse;
 import kr.dgucaps.capsv4.domain.wiki.service.WikiService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
