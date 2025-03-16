@@ -100,7 +100,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
         const targetPage = text.replace("#", "");
         setTimeout(() => {
           navigate(`/wiki/${targetPage}`);
-        }, 2000);
+        }, 500);
       }
     };
 
@@ -128,6 +128,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
       </>}
     </div>
   );
+
 
   const escapeScriptTags = (str) => {
     return str.replace(/(<script\b[^>]*>|<\/script>)/gi, match => {
