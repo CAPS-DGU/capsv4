@@ -4,6 +4,7 @@ import WikiSearch from '../components/WIKI/WikiSearch';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 import LoadingSpinner from '../components/LoadingSpinner';
+import WikiRecent from '../components/WIKI/WikiRecent';
 
 const wikiIntroData = {
   "title": "대문",
@@ -59,6 +60,7 @@ const IntroducePage = () => {
 
     <div>
       <WikiSearch></WikiSearch>
+      <WikiRecent />
       {wikiData && !error ? <Template data={wikiData} /> : <Template data={NotFoundData} notFoundFlag={true} />}
     </div >
   );
