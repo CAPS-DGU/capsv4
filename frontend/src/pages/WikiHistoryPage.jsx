@@ -63,10 +63,9 @@ const WikiHistoryPage = () => {
 
       {wikiData && !error ? (wikiData.map((wiki, index) => {
         return (
-          <div>
-            <Template key={index} data={wiki} notFoundFlag={true} history={wiki.time} />
+          <div key={index}>
             {index < wikiData.length - 1 &&
-              <ReactDiffViewer oldValue={wikiData[index + 1].content} newValue={wiki.content} splitView={true} />
+              <Template key={index} data={wiki} notFoundFlag={true} history={wiki.time} prevData={wikiData[index + 1]} />
             }
           </div>)
       })) : (handleRedirect())}
