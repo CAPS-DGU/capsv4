@@ -9,15 +9,48 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    // localStorage에서 로그인 상태 확인
-    const token = localStorage.getItem('accessToken');
-    const name = localStorage.getItem('profilename');
+        // localStorage에서 로그인 상태 확인
+        const token = localStorage.getItem('accessToken');
+        const name = localStorage.getItem('profilename');
 
-    if (token && name) {
-      setIsLoggedIn(true);
-      setProfileName(name);
-    } else {
-      setIsLoggedIn(false); // 토큰이 없으면 로그인 상태를 false로 설정
+        if (token && name) {
+            setIsLoggedIn(true);
+            setProfileName(name);
+        } else {
+            setIsLoggedIn(false); // 토큰이 없으면 로그인 상태를 false로 설정
+        }
+    }, [location]);  // location을 의존성 배열에 추가
+    const toggleDropdown = (index) => {
+        setDropdownOpen(dropdownOpen === index ? null : index);
+    };
+    const Logout = () => {
+        localStorage.clear();
+        setIsLoggedIn(false); // 로그인 상태를 false로 업데이트
+        window.location.reload(); // 페이지를 새로고침
+    };
+    const closeDropdown = () => {
+        setDropdownOpen(null);
+    };
+
+    const loginSession = () => {
+        const prev_redirect = localStorage.getItem('redirectAfterLogin');
+
+        if (!prev_redirect) {
+            const redirectUrl = window.location.pathname; // 현재 URL 저장
+            console.log(redirectUrl);
+            redirectUrl === '/login' ? localStorage.setItem('redirectAfterLogin', '/event') : localStorage.setItem('redirectAfterLogin', redirectUrl); // 로컬 스토리지에 저장
+        }
+    }
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!mobileMenuOpen);
+    };
+
+    const toggleMobileDropdown = (index) => {
+        setMobileDropdownOpen(mobileDropdownOpen === index ? null : index);
+    };
+    const login = () => {
+        navigate('/login', { state: { from: location } });
+
     }
     return (
         <nav className="p-4 bg-black" >
