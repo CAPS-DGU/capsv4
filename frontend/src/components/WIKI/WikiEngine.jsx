@@ -75,7 +75,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     htmlContent = htmlContent.replace(/\{\{(.+?)\}\}/g, (_, commentText) => {
       const commentIndex = commentList.length + 1;
       commentList.push(commentText.trim());
-      return `<sup class="text-blue-500 hover:underline cursor-pointer" id="comment-ref-${commentIndex}">[${commentIndex}]</sup>`;
+      return `<sup class="text-blue-500 hover:underline cursor-pointer" id="comment-ref-${commentIndex}"><a href="#comment-${commentIndex}" class="text-blue-500 hover:underline cursor-pointer">[${commentIndex}]</a></sup>`;
     });
 
     htmlContent = htmlContent.replace(/^\* (.+)$/gm, '<li class="text-lg text-gray-600">$1</li>');
@@ -129,6 +129,14 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     </div>
   );
 
+
+  const escapeScriptTags = (str) => {
+    return str.replace(/(<script\b[^>]*>|<\/script>)/gi, match => {
+      return match.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    });
+  }
+
+
   return (
     <div className="max-w-3xl p-6 mx-auto bg-white rounded-md shadow-md">
       <div className="flex items-center justify-between mb-5">
@@ -160,7 +168,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
                 >
                   {section.number + "." + " "}
                 </a>
-                <span dangerouslySetInnerHTML={{ __html: section.subtitle }}></span>
+                <span dangerouslySetInnerHTML={{ __html: escapeScriptTags(section.subtitle) }}></span>
               </li>
             ))}
           </ul>
@@ -179,7 +187,7 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
       )}
 
       {isContentVisible && (
-        <div className="wiki-content" dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
+        <div className="wiki-content" dangerouslySetInnerHTML={{ __html: escapeScriptTags(htmlContent) }}></div>
       )}
 
       {comments.length > 0 && isContentVisible && (
@@ -190,7 +198,8 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
               <li key={index} id={`comment-${index + 1}`} className="mb-2 list-none">
                 <a href={`#comment-ref-${index + 1}`} className="text-blue-500 hover:underline">
                   [{index + 1}]
-                </a> {comment}
+                </a>{" "}
+                <span dangerouslySetInnerHTML={{ __html: escapeScriptTags(comment) }}></span>
               </li>
             ))}
           </ol>
