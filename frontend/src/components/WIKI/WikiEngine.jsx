@@ -1,11 +1,14 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactDiffViewer from 'react-diff-viewer-continued';
+import { toRelativeTime } from '../../utils/Time';
 
-const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
+const WikiContent = ({ DocTitle, content, notFoundFlag, history, prevContent }) => {
   const [toc, setToc] = useState([]);
   const [comments, setComments] = useState([]);
   const [activeSection, setActiveSection] = useState(null);  // 활성화된 섹션 추적
   const [isContentVisible, setIsContentVisible] = useState(history === undefined ? true : false);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(history === undefined ? true : false);
   const navigate = useNavigate();
   let accessToken = localStorage.getItem("accessToken");
 
@@ -129,7 +132,6 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     </div>
   );
 
-
   const escapeScriptTags = (str) => {
     return str.replace(/(<script\b[^>]*>|<\/script>)/gi, match => {
       return match.replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -141,13 +143,13 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
     <div className="max-w-3xl p-6 mx-auto bg-white rounded-md shadow-md">
       <div className="flex items-center justify-between mb-5">
         <h1 className='text-4xl font-semibold text-gray-700'>
-          {DocTitle} {history ? <span className='inline text-xl text-gray-400'>{history}에 작성되었습니다.</span> : null}
+          {DocTitle} {history ? <span className='inline text-xl text-gray-400'>{(isHistoryVisible || isContentVisible) ? history : toRelativeTime(history)}에 작성되었습니다.</span> : null}
         </h1>
         {notFoundFlag ? null : editButton}
       </div>
 
       {/* 목차 */}
-      {tocList.length > 0 && (
+      {tocList.length > 0 && (!history || isContentVisible) && (
         <div className="w-full p-4 mb-6 bg-gray-100 rounded-md">
           <h2 className="mb-4 text-xl font-semibold text-gray-700">목차</h2>
           <ul className="pl-6 text-lg text-gray-600 list-decimal">
@@ -183,11 +185,21 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history }) => {
           >
             {isContentVisible ? "본문 숨기기" : "본문 보기"}
           </button>
+          <button
+            onClick={() => setIsHistoryVisible(!isHistoryVisible)}
+            className="ml-4 px-4 py-2 text-white bg-gray-600 rounded-md shadow-md hover:bg-gray-700"
+          >
+            {isHistoryVisible ? "변경사항 숨기기" : "변경사항 보기"}
+          </button>
         </div>
       )}
 
       {isContentVisible && (
         <div className="wiki-content" dangerouslySetInnerHTML={{ __html: escapeScriptTags(htmlContent) }}></div>
+      )}
+
+      {isHistoryVisible && prevContent && (
+        <ReactDiffViewer oldValue={prevContent} newValue={content} splitView={true} />
       )}
 
       {comments.length > 0 && isContentVisible && (
