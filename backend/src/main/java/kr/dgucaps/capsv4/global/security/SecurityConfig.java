@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorization ->
                         authorization
-                                .requestMatchers(HttpMethod.POST, "/user", "/user/login", "/user/findUserId").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/user", "/user/login", "/user/findUserId", "/token/renewal").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/user/{userId}/validate", "/board", "/study", "/wiki", "/wiki/random", "/wiki/recent","/ranking/**", "/event", "/vote").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers( "/","/swagger-ui/**", "/v3/api-docs/**").permitAll()
