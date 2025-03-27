@@ -23,5 +23,5 @@ public interface WikiRepository extends JpaRepository<Wiki, Integer> {
 
     boolean existsByTitleAndIsDeletedFalse(String title);
 
-    List<Wiki> findFirst10ByOrderByDateTimeDesc();
+    List<Wiki> findFirst10ByIsDeletedFalseOrderByDateTimeDesc();
 }
