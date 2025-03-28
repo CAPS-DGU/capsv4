@@ -3,8 +3,7 @@ import WikiEditor from '../components/WIKI/WikiEditor';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
-import useTokenManager from '../components/LoginSession/TokenManager'; // TokenManager 불러오기
+import { apiPostWithToken } from '../utils/Api';
 
 const wikiData = {
   "title": "CAPS",
@@ -90,14 +89,14 @@ const WikiEditPage = () => {
       const response = await apiPostWithToken(`/api/wiki`, { "title": content.title, "content": newContent });
 
       console.log(response.status);
-      if (response.status === 200) {
+      if (response.status === 201) {
 
         alert("내용이 저장되었습니다.");
         window.location.href = `/wiki/${wiki_title}`;
       }
     }
     catch (e) {
-
+      // console.log(e);
       alert('잘못된 접근입니다.');
       window.location.href = '/wiki/' + content.title;
     }
