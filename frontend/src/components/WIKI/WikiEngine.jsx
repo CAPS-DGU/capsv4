@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ReactDiffViewer from 'react-diff-viewer-continued';
 import { toRelativeTime } from '../../utils/Time';
 
-const WikiContent = ({ DocTitle, content, notFoundFlag, history, prevContent }) => {
+const WikiContent = ({ author, DocTitle, content, notFoundFlag, history, prevContent }) => {
   const [toc, setToc] = useState([]);
   const [comments, setComments] = useState([]);
   const [activeSection, setActiveSection] = useState(null);  // 활성화된 섹션 추적
@@ -143,7 +143,10 @@ const WikiContent = ({ DocTitle, content, notFoundFlag, history, prevContent }) 
     <div className="max-w-3xl p-6 mx-auto bg-white rounded-md shadow-md">
       <div className="flex items-center justify-between mb-5">
         <h1 className='text-4xl font-semibold text-gray-700'>
-          {DocTitle} {history ? <span className='inline text-xl text-gray-400'>{(isHistoryVisible || isContentVisible) ? history : toRelativeTime(history)}에 작성되었습니다.</span> : null}
+          {DocTitle} {history ?
+            <span className='inline text-xl text-gray-400'>
+              {(isHistoryVisible || isContentVisible) ? history : toRelativeTime(history)}에 {author.grade}기 {author.name}이(가) 작성했습니다.
+            </span> : null}
         </h1>
         {notFoundFlag ? null : editButton}
       </div>
