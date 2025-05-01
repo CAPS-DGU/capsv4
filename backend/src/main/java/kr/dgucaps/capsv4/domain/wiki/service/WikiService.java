@@ -11,9 +11,11 @@ import kr.dgucaps.capsv4.domain.wiki.entity.Wiki;
 import kr.dgucaps.capsv4.domain.user.repository.UserRepository;
 import kr.dgucaps.capsv4.domain.wiki.repository.WikiRepository;
 import kr.dgucaps.capsv4.global.security.SecurityUtil;
+import kr.dgucaps.capsv4.domain.wiki.util.WikiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -106,5 +108,15 @@ public class WikiService {
         return recentWikiList.stream()
                 .map(wiki -> GetRecentWikiResponse.title(wiki.getTitle())
                 ).collect(Collectors.toList());
+    }
+
+    public List<String> autocomplete(String keyword) {
+        PageRequest pageRequest = PageRequest.of(0, 50);
+        List<String> candidates = wikiRepository.findTitlesByKeyword(keyword, pageRequest);
+
+        return candidates.stream()
+                .filter(title -> WikiUtils.matchesInitial(keyword, title))
+                .limit(5)
+                .collect(Collectors.toList());
     }
 }

@@ -67,4 +67,11 @@ public class WikiController {
         List<GetRecentWikiResponse> recentWiki = wikiService.getRecentWiki();
         return ResponseEntity.ok(DataResponse.builder().message("최근 수정 위키 조회 성공").data(recentWiki).build());
     }
+
+    @GetMapping("/wiki/autocomplete")
+    @Operation(summary = "위키 검색어 자동완성")
+    public ResponseEntity<DataResponse> autocomplete(@RequestParam("keyword") String keyword) {
+        List<String> suggestions = wikiService.autocomplete(keyword);
+        return ResponseEntity.ok(DataResponse.builder().message("자동완성 결과").data(suggestions).build());
+    }
 }
